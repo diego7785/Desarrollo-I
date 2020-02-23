@@ -1,5 +1,3 @@
-package sample;
-
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXPasswordField;
@@ -43,6 +41,7 @@ public class Controller {
     @FXML
     public void log_in(ActionEvent event) throws Exception {
 
+        System.out.println("oaerkaerokae");
 
         if(tf_user.getText().equals("user")  && tf_pass.getText().equals("pass")){
 
