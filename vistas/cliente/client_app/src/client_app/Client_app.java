@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package client_app;
+package client_app.src.client_app;
 
 import javafx.application.Application;
 import javafx.collections.FXCollections;
