@@ -12,4 +12,24 @@ public class DBConnect {
             System.out.println(err.getMessage());
         }
     }
+
+    // Store an user on Users table (i think we should make a java class for each table. those class should contain the functions
+    // to store, load, and update the information)
+    public String SaveUsersOnTable(int id, String name, int role, int status) {
+        if id == null {
+            return "Missing id";
+        }
+
+        if name == "" {
+            return "Missing name";
+        }
+
+        if role == null {
+            return "Missing role";
+        }
+
+        if status == null {
+            return "Missing status";
+        }
+    }
 }
