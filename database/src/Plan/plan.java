@@ -14,7 +14,7 @@ public class plan {
     }
 
     // Store a plan on Plan table
-    public String SaveRoleOnTable(int id, int cost, int minutes, int dataPlan, int messages, String description) {
+    public String SavePlanOnTable(int id, int cost, int minutes, int dataPlan, int messages, String description) {
         if (id == 0) {
             return "Missing id";
         }
@@ -59,5 +59,30 @@ public class plan {
         }
 
         return "success";
+    }
+
+    // Load the plan information
+    public String LoadPlanInformation(int id) {
+        if (id == 0) {
+            return "missing id";
+        }
+
+        try {
+            prepare = con.prepareStatement("SELECT * FROM " + tableName + " WHERE id = ?");
+            prepare.setInt(1, id);
+
+            result = prepare.executeQuery();
+            if (!result.next()) {
+                return "load information failed";
+            }
+
+            String message = "id: " + result.getString("id") + "cost: " + result.getString("cost") + "minutes: " +
+                    result.getString("minutes") + "dataPlan: " + result.getString("dataPlan") + "messages: " +
+                    result.getString("messages") + "description: " + result.getString("description");
+
+            return  message;
+        } catch (SQLException e) {
+            return "connection failed";
+        }
     }
 }
