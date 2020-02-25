@@ -45,4 +45,26 @@ public class role {
 
         return "success";
     }
+
+    // Load the role information
+    public String LoadRoleInformation(int id) {
+        if (id == 0) {
+            return "missing id";
+        }
+
+        try {
+            prepare = con.prepareStatement("SELECT * FROM " + tableName + " WHERE id = ?");
+            prepare.setInt(1, id);
+
+            result = prepare.executeQuery();
+            if (!result.next()) {
+                return "load information failed";
+            }
+
+            String message = "id: " + result.getString("id") + "name: " + result.getString("name") + "description: " + result.getString("description");
+            return  message;
+        } catch (SQLException e) {
+            return "connection failed";
+        }
+    }
 }
