@@ -1,5 +1,7 @@
 package Users;
 
+import com.sun.tools.javac.Main;
+
 import java.sql.*;
 
 public class users {
@@ -7,17 +9,9 @@ public class users {
     ResultSet result;
     Connection con;
 
-    private String tableName;
-    String host;
-    String userName;
-    private String userPassword;
+    private String tableName = "Users";
 
-    public users() throws SQLException {
-        tableName = "Users";
-        host = "jdbc:mysql://localhost:3306/Desarrollo";
-        userName = "root";
-        userPassword = "Johan219";
-
+    public users(String host, String userName, String userPassword) throws SQLException {
         con = DriverManager.getConnection(host, userName, userPassword);
     }
 
@@ -80,5 +74,4 @@ public class users {
             return "connection failed";
         }
     }
-
 }
