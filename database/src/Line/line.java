@@ -46,7 +46,7 @@ public class line {
         return "success";
     }
 
-    // Load the line information
+    // Load the line information from mysql
     public String LoadLineInformation(int id) {
         if (id == 0) {
             return "missing id";
