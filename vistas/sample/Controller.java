@@ -2,12 +2,15 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -19,6 +22,9 @@ import javafx.stage.StageStyle;
 import java.awt.*;
 
 public class Controller {
+
+    ObservableList<String> id_types = FXCollections.observableArrayList("C.C","T.I","Pasaporte","C.E");
+    ObservableList<String> client_types = FXCollections.observableArrayList("Natural", "Corporativo");
 
     @FXML
     private JFXButton btn_login;
@@ -156,6 +162,10 @@ public class Controller {
     private AnchorPane pane_gen_rep_interno;
     @FXML
     private AnchorPane pane_pagar_interno;
+    @FXML
+    private  JFXComboBox gest_usr_editar_id_cb_buscar12;
+    @FXML
+    private ComboBox pepe;
 
 
 
@@ -193,12 +203,15 @@ public class Controller {
 
     @FXML
 
-   /* public  void initialize()
+    public void initialize()
     {
-        pagar_tipo_cliente_ComboBox.getItems().addAll("1","2","holi");
+        //System.out.print( pepe.getLayoutY());
+
+
+       // gest_usr_editar_id_cb_buscar12.setItems(id_types);
     }
 
-    @FXML*/
+    @FXML
     public void cambiar_pestana(MouseEvent event) throws Exception{
 
         if(event.getSource().equals(realizar_venta)){
@@ -211,7 +224,7 @@ public class Controller {
             pane_gest_usr_editar.setVisible(false);
             pane_gest_usr_cambiar_estado.setVisible(false);
             pane_gest_usr_listar.setVisible(false);
-            titulo_label.setText("   Agregar cliente");
+            titulo_label.setText("  Agregar cliente");
             titulo_label.setLayoutX(46);
         }
         if(event.getSource().equals(generar_reporte)){

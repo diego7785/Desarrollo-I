@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXPasswordField?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #202642;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller">
+   <JFXTextField fx:id="tf_user" layoutX="199.0" layoutY="148.0" style="-fx-text-fill: #4059a9;">
+      <font>
+         <Font size="18.0" />
+      </font>
+   </JFXTextField>
+   <Label layoutX="199.0" layoutY="121.0" text="Usuario:" textFill="WHITE">
+      <font>
+         <Font size="18.0" />
+      </font>
+   </Label>
+   <Label layoutX="199.0" layoutY="200.0" text="Contraseña:" textFill="WHITE">
+      <font>
+         <Font size="18.0" />
+      </font>
+   </Label>
+   <JFXPasswordField fx:id="tf_pass" layoutX="199.0" layoutY="221.0" style="-fx-text-fill: #4059a9;">
+      <font>
+         <Font size="18.0" />
+      </font>
+   </JFXPasswordField>
+   <JFXButton fx:id="btn_login" buttonType="RAISED" layoutX="253.0" layoutY="310.0" onAction="#log_in" prefWidth="94.0" ripplerFill="WHITE" text="Ingresar" textFill="WHITE" />
+</AnchorPane>
