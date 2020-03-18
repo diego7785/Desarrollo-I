@@ -10,14 +10,20 @@ import javafx.scene.control.Label;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.net.URL;
+import java.util.Calendar;
+import java.util.ResourceBundle;
 
 public class ControllerClientViewGraphicQuery {
     public Label labelInformation;
     public Button buttonOk;
     public Label labelError;
 
+
+
     public void handleButtonOk(ActionEvent actionEvent) {
         try{
+
             Parent queryView = FXMLLoader.load(getClass().getResource("clientView.fxml"));
 
             Scene queryScene = new Scene(queryView);

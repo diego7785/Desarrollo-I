@@ -16,7 +16,7 @@ public class CreateBill {
         FileOutputStream file = new FileOutputStream("bill.pdf");
         Document doc = new Document();
         PdfWriter writer = PdfWriter.getInstance(doc, file);
-        Image logotype = Image.getInstance("src/assets/images/logotype.png");
+        Image logotype = Image.getInstance("functionalities/administrador/Bill/src/assets/images/logotype.png");
         doc.open();
         logotype.setAlignment(Element.ALIGN_LEFT);
         logotype.scaleAbsolute(70, 70);
@@ -122,23 +122,23 @@ public class CreateBill {
         pb.setColorFill(BaseColor.BLACK);
         //Aquí van los gráficos
         this.Graphic("Consumo mensual minutos", 1);
-        Image graphic = Image.getInstance("src/assets/images/consumoMinutos.png");
+        Image graphic = Image.getInstance("functionalities/administrador/Bill/src/assets/images/consumoMinutos.png");
         graphic.setAlignment(Element.ALIGN_LEFT);
         graphic.scaleAbsolute(200, 150);
         doc.add(graphic);
         this.Graphic("Consumo mensual internet", 2);
-        graphic = Image.getInstance("src/assets/images/consumoInternet.png");
+        graphic = Image.getInstance("functionalities/administrador/Bill/src/assets/images/consumoInternet.png");
         graphic.setAbsolutePosition(310, 227);
         graphic.scaleAbsolute(200, 150);
         doc.add(graphic);
         this.Graphic("Consumo mensual mensajes", 3);
-        graphic = Image.getInstance("src/assets/images/consumoMensajes.png");
+        graphic = Image.getInstance("functionalities/administrador/Bill/src/assets/images/consumoMensajes.png");
         graphic.setAlignment(Element.ALIGN_LEFT);
         graphic.scaleAbsolute(200, 150);
         doc.add(graphic);
         //Investigar el uso de código de barras o qr
         this.QRCode(123456789);
-        graphic = Image.getInstance("src/assets/images/QrCode.png");
+        graphic = Image.getInstance("functionalities/administrador/Bill/src/assets/images/QrCode.png");
         graphic.setAbsolutePosition(310, 77);
         graphic.scaleAbsolute(200, 150);
         doc.add(graphic);
@@ -223,7 +223,7 @@ public class CreateBill {
         code128Image.scaleAbsolute(400, 85);
         doc.add(code128Image);
         this.QRCode(123456789);
-        graphic = Image.getInstance("src/assets/images/QrCode.png");
+        graphic = Image.getInstance("functionalities/administrador/Bill/src/assets/images/QrCode.png");
         graphic.setAbsolutePosition(460, 492);
         graphic.scaleAbsolute(100, 85);
         doc.add(graphic);
@@ -257,7 +257,7 @@ public class CreateBill {
 
     public void QRCode(int numeroPagos) {
         try {
-            CreateQr qr = new CreateQr(String.valueOf(numeroPagos), 350, 350, "src/assets/images/QrCode.png");
+            CreateQr qr = new CreateQr(String.valueOf(numeroPagos), 350, 350, "functionalities/administrador/Bill/src/assets/images/QrCode.png");
         } catch (WriterException e) {
             System.out.println("Could not generate QR Code, WriterException :: " + e.getMessage());
         } catch (IOException e) {

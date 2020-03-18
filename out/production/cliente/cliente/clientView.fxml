@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXComboBox?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane id="AnchorPane" prefHeight="567.0" prefWidth="439.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cliente.ControllerClientView">
+    <children>
+        <Label fx:id="label" layoutX="47.0" layoutY="313.0" minHeight="16" minWidth="69" text="Ingrese número de celular" textFill="#36296e" />
+        <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="32.0" layoutY="82.0" pickOnBounds="true" preserveRatio="true">
+            <image>
+                <Image url="@../assets/images/logotype.png" />
+            </image>
+        </ImageView>
+        <Label layoutX="174.0" layoutY="59.0" prefHeight="98.0" prefWidth="193.0" text="Telefonía " textFill="#36296e">
+            <font>
+                <Font name="Century Gothic" size="40.0" />
+            </font>
+        </Label>
+        <Label layoutX="245.0" layoutY="126.0" text="Raja" textFill="#36296e">
+            <font>
+                <Font name="Century Gothic" size="69.0" />
+            </font>
+        </Label>
+        <MenuBar prefHeight="25.0" prefWidth="439.0">
+            <Menu mnemonicParsing="false" text="File">
+                <items>
+                    <MenuItem fx:id="menuClose" mnemonicParsing="false" onAction="#handleMenuClose" text="Close" />
+                </items>
+            </Menu>
+            <Menu mnemonicParsing="false" text="Edit">
+                <items>
+                    <MenuItem mnemonicParsing="false" text="Delete" />
+                </items>
+            </Menu>
+            <Menu mnemonicParsing="false" text="Help">
+                <items>
+                    <MenuItem mnemonicParsing="false" text="About" />
+                </items>
+            </Menu>
+        </MenuBar>
+        <Label layoutX="47.0" layoutY="261.0" text="Consulta por mes" textFill="#36296e">
+            <font>
+                <Font size="20.0" />
+            </font>
+        </Label>
+        <Label layoutX="47.0" layoutY="354.0" text="Seleccione el mes" textFill="#36296e" />
+      <JFXButton fx:id="btnSearchText" buttonType="RAISED" layoutX="175.0" layoutY="420.0" onAction="#handleButtonSearchText" prefHeight="17.0" prefWidth="193.0" ripplerFill="#29546e" style="-fx-background-color: #36296e;" text="Consultar (Resultado en texto)" textFill="WHITE" />
+      <JFXButton fx:id="btnSearchGraphic" buttonType="RAISED" layoutX="175.0" layoutY="467.0" onAction="#handleButtonSearchGraphic" prefHeight="17.0" prefWidth="193.0" ripplerFill="#29546e" style="-fx-background-color: #36296e;" text="Consultar (Resultado en gráfico)" textFill="WHITE" />
+      <JFXTextField fx:id="textFieldNumber" focusColor="#29546e" layoutX="202.0" layoutY="309.0" prefHeight="25.0" prefWidth="150.0" unFocusColor="#36296e" />
+      <JFXComboBox fx:id="monthPickerComboBox" focusColor="#29546e" layoutX="202.0" layoutY="350.0" prefHeight="25.0" prefWidth="150.0" unFocusColor="#36296e" />
+      <Label fx:id="labelError" layoutX="10.0" layoutY="501.0" prefHeight="52.0" prefWidth="416.0" textFill="RED" />
+    </children>
+</AnchorPane>

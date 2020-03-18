@@ -1,3 +1,5 @@
+package functionalities;
+
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.ChartUtilities;
@@ -12,28 +14,32 @@ import java.io.File;
 import java.io.IOException;
 
 public class CreateGraphic {
-
-    public CreateGraphic(String chartTitle, int IdTipo) {
+    private boolean ready = false;
+    public CreateGraphic(String chartTitle, int IdTipo, int cantMeses) {
 
         // Creamos el conjunto de datos con las votaciones
-        DefaultCategoryDataset dataset = createDataset();
+        DefaultCategoryDataset dataset = createDataset(cantMeses);
 
         JFreeChart chart = createChart(dataset, chartTitle, IdTipo);
         // Ponemos el gráfico en un panel
         ChartPanel chartPanel = new ChartPanel(chart);
         // Dejamos el tamaño por defecto
         chartPanel.setPreferredSize(new java.awt.Dimension(500, 270));
-
+        ready=true;
     }
 
-    private DefaultCategoryDataset createDataset() {
+    public boolean getReady(){
+        return ready;
+    }
+
+    private DefaultCategoryDataset createDataset(int cantMeses) {
         //ESTO DEBE OBTENER LOS DATOS DE LA BASE DE DATOS
         DefaultCategoryDataset result = new DefaultCategoryDataset();
-
-        result.setValue(154, "Enero", "");
-        result.setValue(169, "Febrero", "");
-        result.setValue(10, "Marzo", "");
-
+        String months[]={"Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio",
+                "Agosto","Septiembre","Octubre","Noviembre","Diciembre"};
+        for(int i = 0; i<cantMeses; i++){
+            result.setValue(154*i, months[i], "");
+        }
         return result;
 
     }
@@ -60,7 +66,7 @@ public class CreateGraphic {
         xAxis.setCategoryLabelPositions(CategoryLabelPositions.UP_45); // Inclinamos 45 grados las etiquetas del eje X
         plot.setBackgroundAlpha(0.5f);
         try {
-            ChartUtilities.saveChartAsPNG(new File("functionalities/administrador/Bill/src/assets/images/consumo" + tipo + ".png"), chart, 400, 300);
+            ChartUtilities.saveChartAsPNG(new File("vistas/cliente/Cliente/src/assets/images/consumo" + tipo + ".png"), chart, 400, 300);
         } catch (IOException e) {
             System.out.println("Can't generate bill");
         }
@@ -68,3 +74,4 @@ public class CreateGraphic {
 
     }
 }
+

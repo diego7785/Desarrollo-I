@@ -14,6 +14,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.Calendar;
 import java.util.ResourceBundle;
+import functionalities.CreateGraphic;
 
 public class ControllerClientView implements Initializable {
 
@@ -88,14 +89,18 @@ public class ControllerClientView implements Initializable {
             if(selectedMonthNumber>cal.get(Calendar.MONTH)){
                 throw new InvalidMonth();
             }
+            CreateGraphic chart = new CreateGraphic("Consumo mensual minutos", 1, selectedMonthNumber+1);
+            chart = new CreateGraphic("Consumo mensual internet", 2, selectedMonthNumber+1);
+            chart = new CreateGraphic("Consumo mensual mensajes", 3, selectedMonthNumber+1);
             System.out.println("Consultando por gráfico");
-            Parent queryView = FXMLLoader.load(getClass().getResource("clientViewGraphicQuery.fxml"));
+                Parent queryView = FXMLLoader.load(getClass().getResource("clientViewGraphicQuery.fxml"));
 
-            Scene queryScene = new Scene(queryView);
-            Stage window = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
-            window.setTitle("Consulta consumo por gráfico");
-            window.setScene(queryScene);
-            window.show();
+                Scene queryScene = new Scene(queryView);
+                Stage window = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+                window.setTitle("Consulta consumo por gráfico");
+                window.setScene(queryScene);
+                window.show();
+
         } catch(EmptyFields e){
             labelError.setText("El campo número de celular no debe quedar vacío");
         } catch(NotNumber e){
