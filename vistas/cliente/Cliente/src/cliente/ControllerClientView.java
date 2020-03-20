@@ -15,6 +15,9 @@ import java.net.URL;
 import java.util.Calendar;
 import java.util.ResourceBundle;
 import functionalities.CreateGraphic;
+import org.jfree.chart.ChartPanel;
+
+import javax.swing.JFrame;
 
 public class ControllerClientView implements Initializable {
 
@@ -89,17 +92,14 @@ public class ControllerClientView implements Initializable {
             if(selectedMonthNumber>cal.get(Calendar.MONTH)){
                 throw new InvalidMonth();
             }
-            CreateGraphic chart = new CreateGraphic("Consumo mensual minutos", 1, selectedMonthNumber+1);
-            chart = new CreateGraphic("Consumo mensual internet", 2, selectedMonthNumber+1);
-            chart = new CreateGraphic("Consumo mensual mensajes", 3, selectedMonthNumber+1);
-            System.out.println("Consultando por gráfico");
-                Parent queryView = FXMLLoader.load(getClass().getResource("clientViewGraphicQuery.fxml"));
 
-                Scene queryScene = new Scene(queryView);
-                Stage window = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
-                window.setTitle("Consulta consumo por gráfico");
-                window.setScene(queryScene);
-                window.show();
+            CreateGraphic chart = new CreateGraphic();
+            ChartPanel panel = chart.Createchart(selectedMonthNumber+1);
+            JFrame Ventana = new JFrame("JFreeChart");
+            Ventana.getContentPane().add(panel);
+            Ventana.pack();
+            Ventana.setVisible(true);
+            Ventana.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
         } catch(EmptyFields e){
             labelError.setText("El campo número de celular no debe quedar vacío");
@@ -109,8 +109,6 @@ public class ControllerClientView implements Initializable {
             labelError.setText("No hay registros del mes que escogió \nPor favor intente con un mes anterior");
         } catch(InvalidNumber e){
             labelError.setText("El número no es válido");
-        } catch (IOException e) {
-            labelError.setText("No se puede acceder a la consulta");
         }
     }
 
