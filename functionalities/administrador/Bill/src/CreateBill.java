@@ -6,12 +6,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 
 public class CreateBill {
-    public static void main(String[] args) {
-        CreateBill obj = new CreateBill();
-        obj.WriteBill();
-    }
-
-    public void WriteBill() {
+    public void WriteBill(int celular, int documento) {
         try {
         FileOutputStream file = new FileOutputStream("bill.pdf");
         Document doc = new Document();
@@ -33,8 +28,8 @@ public class CreateBill {
                 + "..............................................................................");
         doc.add(new Paragraph("Cliente: xxxxxxxxxxxx"));
         doc.add(new Paragraph("Dirección: xxxxxxxxxxxx"));
-        doc.add(new Paragraph("Nit o cédula: xxxxxxxxxxxx"));
-        doc.add(new Paragraph("Celular: xxxxxxxxxxxx                 Cliente No: xxxxx"));
+        doc.add(new Paragraph("Nit o cédula: "+documento));
+        doc.add(new Paragraph("Celular: " + celular + "                   Cliente No: xxxxx"));
         doc.add(new Paragraph("Fecha expedición: xxxxxxxxxxxx"));
         doc.add(new Paragraph("Factura de venta No: xxxxxxxxxxxx"));
         pb.setFontAndSize(bf, 7);

@@ -7,6 +7,7 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -19,12 +20,19 @@ import javafx.stage.PopupWindow;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
+import javax.swing.*;
 import java.awt.*;
+import java.net.URL;
+import java.util.ResourceBundle;
 
-public class Controller {
+public class Controller implements Initializable {
+
 
     ObservableList<String> id_types = FXCollections.observableArrayList("C.C","T.I","Pasaporte","C.E");
     ObservableList<String> client_types = FXCollections.observableArrayList("Natural", "Corporativo");
+
+    ObservableList<String> tipoCliente = FXCollections.observableArrayList( "Natural", "Corporativo");
+    ObservableList<String> tipoDocumento= FXCollections.observableArrayList( "Cédula", "Nit");
 
     @FXML
     private JFXButton btn_login;
@@ -79,7 +87,9 @@ public class Controller {
     @FXML
     private Label gen_fact_linea_label;
     @FXML
-    private JFXComboBox gen_fact_clientes_comboBox;
+    private ComboBox gen_fact_clientes_comboBox;
+    @FXML
+    private ComboBox gen_fact_clientes_comboBox1;
     @FXML
     private JFXTextField  gen_fact_id_TextField;
     @FXML
@@ -118,6 +128,8 @@ public class Controller {
     private ImageView gest_usr_agregar_retroceder_Image;
     @FXML
     private JFXButton gest_usr_editar_btn_buscar;
+    @FXML
+    private JFXButton gen_fact_generar_button;
     @FXML
     private AnchorPane pane_edit_campos;
     @FXML
@@ -167,8 +179,13 @@ public class Controller {
     @FXML
     private ComboBox pepe;
 
-
-
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        gen_fact_clientes_comboBox = new JFXComboBox();
+        gen_fact_clientes_comboBox1 = new JFXComboBox();
+        gen_fact_clientes_comboBox.getItems().addAll(tipoCliente);
+        gen_fact_clientes_comboBox1.getItems().addAll(tipoDocumento);
+    }
 
     @FXML
     public void log_in(ActionEvent event) throws Exception {
@@ -199,16 +216,6 @@ public class Controller {
     public void registro(ActionEvent event) throws Exception{
         String nombre = tf_nombre.getText();
 
-    }
-
-    @FXML
-
-    public void initialize()
-    {
-        //System.out.print( pepe.getLayoutY());
-
-
-       // gest_usr_editar_id_cb_buscar12.setItems(id_types);
     }
 
     @FXML
@@ -416,6 +423,7 @@ public class Controller {
             pagar_linea_label.setVisible(true);
             pagar_linea_TextField.setVisible(true);
             pago_mensaje_label.setText("Pago por línea significa que vas a cancelar el valor de un determinado plan");
+            pago_mensaje_label.setText("Pago por línea significa que vas a cancelar el valor de un determinado plan");
             pane_pagar_interno.setVisible(true);
         }
     }
@@ -448,7 +456,11 @@ public class Controller {
         }
     }
 
+    public void handleGen_fact_generar_button(ActionEvent actionEvent){
+        CreateBill bill = new CreateBill();
+        int documento = Integer.parseInt(gen_fact_id_TextField.getText());
+        int numero = Integer.parseInt(gen_fact_linea_TextField.getText());
 
-
-
+        bill.WriteBill(numero, documento);
+    }
 }

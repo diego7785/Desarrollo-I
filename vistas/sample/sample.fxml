@@ -310,7 +310,7 @@
       </AnchorPane>
       <AnchorPane fx:id="pane_generar_facturas" layoutX="10.0" layoutY="102.0" onMouseClicked="#cambiar_pestana" prefHeight="509.0" prefWidth="900.0" style="-fx-background-color: #202642;" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
          <children>
-            <JFXButton fx:id="gen_fact_generar_button" layoutX="389.0" layoutY="430.0" prefHeight="48.0" prefWidth="123.0" text="Generar " textFill="WHITE">
+            <JFXButton fx:id="gen_fact_generar_button" layoutX="389.0" layoutY="430.0" prefHeight="48.0" prefWidth="123.0" text="Generar " textFill="WHITE" onAction="#handleGen_fact_generar_button">
                <font>
                   <Font size="18.0" />
                </font>

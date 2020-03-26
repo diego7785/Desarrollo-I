@@ -2,6 +2,7 @@ package cliente;
 
 import Excepciones.*;
 import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
@@ -21,13 +22,20 @@ import javax.swing.JFrame;
 
 public class ControllerClientView implements Initializable {
 
-    public Button btnSearchText;
-    public Label label;
-    public Button btnSearchGraphic;
-    public TextField textFieldNumber;
-    public Label labelError;
-    public MenuItem menuClose;
-    public ComboBox monthPickerComboBox;
+    @FXML
+    private Button btnSearchText;
+    @FXML
+    private Label label;
+    @FXML
+    private Button btnSearchGraphic;
+    @FXML
+    private TextField textFieldNumber;
+    @FXML
+    private Label labelError;
+    @FXML
+    private MenuItem menuClose;
+    @FXML
+    private ComboBox monthPickerComboBox;
 
     private final Calendar cal = Calendar.getInstance();
     private final String months[]={"Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio",
