@@ -7,13 +7,12 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
+
+<?import javafx.scene.control.TextArea?>
 <AnchorPane prefHeight="537.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cliente.ControllerClientViewTextQuery">
     <children>
-        <Label fx:id="labelInformation" layoutX="13.0" layoutY="132.0" prefHeight="354.0" prefWidth="575.0" text="Aquí va la información">
-            <font>
-                <Font name="Century Gothic" size="12.0" />
-            </font>
-        </Label>
+        <TextArea fx:id="textAreaConsumo" layoutX="15.0" layoutY="170.0" prefHeight="310.0" prefWidth="565.0">
+        </TextArea>
         <ImageView fitHeight="118.0" fitWidth="148.0" layoutX="23.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
             <image>
                 <Image url="@../assets/images/logotype.png" />
