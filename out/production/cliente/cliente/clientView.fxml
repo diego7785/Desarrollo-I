@@ -12,20 +12,22 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.ToggleGroup?>
 <AnchorPane id="AnchorPane" prefHeight="567.0" prefWidth="439.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cliente.ControllerClientView">
     <children>
-        <Label fx:id="label" layoutX="47.0" layoutY="313.0" minHeight="16" minWidth="69" text="Ingrese número de celular" textFill="#36296e" />
-        <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="32.0" layoutY="82.0" pickOnBounds="true" preserveRatio="true">
+        <Label fx:id="label" layoutX="47.0" layoutY="278.0" minHeight="16" minWidth="69" text="Ingrese número de celular" textFill="#36296e" />
+        <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="32.0" layoutY="72.0" pickOnBounds="true" preserveRatio="true">
             <image>
                 <Image url="@../assets/images/logotype.png" />
             </image>
         </ImageView>
-        <Label layoutX="174.0" layoutY="59.0" prefHeight="98.0" prefWidth="193.0" text="Telefonía " textFill="#36296e">
+        <Label layoutX="174.0" layoutY="49.0" prefHeight="98.0" prefWidth="193.0" text="Telefonía " textFill="#36296e">
             <font>
                 <Font name="Century Gothic" size="40.0" />
             </font>
         </Label>
-        <Label layoutX="245.0" layoutY="126.0" text="Raja" textFill="#36296e">
+        <Label layoutX="245.0" layoutY="106.0" text="Raja" textFill="#36296e">
             <font>
                 <Font name="Century Gothic" size="69.0" />
             </font>
@@ -47,16 +49,26 @@
                 </items>
             </Menu>
         </MenuBar>
-        <Label layoutX="47.0" layoutY="261.0" text="Consulta por mes" textFill="#36296e">
+        <Label layoutX="47.0" layoutY="236.0" text="Consulta consumo" textFill="#36296e">
             <font>
                 <Font size="20.0" />
             </font>
         </Label>
-        <Label layoutX="47.0" layoutY="354.0" text="Seleccione el mes" textFill="#36296e" />
-      <JFXButton fx:id="btnSearchText" buttonType="RAISED" layoutX="175.0" layoutY="420.0" onAction="#handleButtonSearchText" prefHeight="17.0" prefWidth="193.0" ripplerFill="#29546e" style="-fx-background-color: #36296e;" text="Consultar (Resultado en texto)" textFill="WHITE" />
-      <JFXButton fx:id="btnSearchGraphic" buttonType="RAISED" layoutX="175.0" layoutY="467.0" onAction="#handleButtonSearchGraphic" prefHeight="17.0" prefWidth="193.0" ripplerFill="#29546e" style="-fx-background-color: #36296e;" text="Consultar (Resultado en gráfico)" textFill="WHITE" />
-      <JFXTextField fx:id="textFieldNumber" focusColor="#29546e" layoutX="202.0" layoutY="309.0" prefHeight="25.0" prefWidth="150.0" unFocusColor="#36296e" />
-      <JFXComboBox fx:id="monthPickerComboBox" focusColor="#29546e" layoutX="202.0" layoutY="350.0" prefHeight="25.0" prefWidth="150.0" unFocusColor="#36296e" />
-      <Label fx:id="labelError" layoutX="10.0" layoutY="501.0" prefHeight="52.0" prefWidth="416.0" textFill="RED" />
+        <Label layoutX="47.0" layoutY="315.0" text="Seleccione el tipo de consulta" textFill="#36296e"></Label>
+        <RadioButton fx:id="mesEspecifico" text="Consulta por mes" layoutX="35.0" layoutY="350.0">
+            <toggleGroup>
+                <ToggleGroup fx:id="group1" />
+            </toggleGroup>
+        </RadioButton>
+        <RadioButton fx:id="rangoMeses" text="Consulta por rango de meses" toggleGroup="$group1" layoutX="215.0" layoutY="350.0"/>
+        <Label fx:id="labelSeleccioneMes" layoutX="47.0" layoutY="389.0" text="Seleccione un mes" textFill="#36296e" />
+        <Label fx:id="labelSeleccioneRango" layoutX="47.0" layoutY="389.0" text="Seleccione un rango de meses para la consulta:" textFill="#36296e" />
+      <JFXButton fx:id="btnSearchText" buttonType="RAISED" layoutX="55.0" layoutY="477.0" onAction="#handleButtonSearchText" prefHeight="17.0" prefWidth="153.0" ripplerFill="#29546e" style="-fx-background-color: #36296e;" text="Consultar (texto)" textFill="WHITE" />
+      <JFXButton fx:id="btnSearchGraphic" buttonType="RAISED" layoutX="235.0" layoutY="477.0" onAction="#handleButtonSearchGraphic" prefHeight="17.0" prefWidth="153.0" ripplerFill="#29546e" style="-fx-background-color: #36296e;" text="Consultar (gráfico)" textFill="WHITE" />
+      <JFXTextField fx:id="textFieldNumber" focusColor="#29546e" layoutX="220.0" layoutY="265.0" prefHeight="25.0" prefWidth="150.0" unFocusColor="#36296e" />
+      <JFXComboBox fx:id="monthPickerComboBox" focusColor="#29546e" layoutX="220.0" layoutY="385.0" prefHeight="25.0" prefWidth="150.0" unFocusColor="#36296e" />
+        <JFXComboBox fx:id="monthPickerComboBox1" focusColor="#29546e" layoutX="55.0" layoutY="415.0" prefHeight="25.0" prefWidth="150.0" unFocusColor="#36296e" />
+        <JFXComboBox fx:id="monthPickerComboBox2" focusColor="#29546e" layoutX="235.0" layoutY="415.0" prefHeight="25.0" prefWidth="150.0" unFocusColor="#36296e" />
+        <Label fx:id="labelError" layoutX="10.0" layoutY="501.0" prefHeight="52.0" prefWidth="416.0" textFill="RED" />
     </children>
 </AnchorPane>
