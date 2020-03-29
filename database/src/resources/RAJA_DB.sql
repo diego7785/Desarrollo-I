@@ -14,7 +14,6 @@ DROP TABLE IF EXISTS DB_version;
 DROP SEQUENCE IF EXISTS secuencia1;
 CREATE SEQUENCE secuencia1;
 
-
 -- ESTA TABLA ES PARA LLEVAR EL CONTROL DE QUE SE ESTÁ UTILIZANDO LA VERSIÓN
 -- ADECUADA CON LA APLICACIÓN Y EVITAR CONFLICTOS ENTRE ELLAS.
 CREATE TABLE DB_version (
@@ -23,14 +22,12 @@ CREATE TABLE DB_version (
 );
 INSERT INTO DB_version VALUES(4);
 
-
 CREATE TABLE Roles (
 	id INT,
 	name VARCHAR(25) NOT NULL,
 	description VARCHAR(200),
 	CONSTRAINT pk_role PRIMARY KEY (id)
 );
-
 CREATE TABLE Users (
 	id INT NOT NULL,
 	name VARCHAR(50) NOT NULL,
@@ -40,7 +37,6 @@ CREATE TABLE Users (
 	CONSTRAINT pk_user PRIMARY KEY (id),
 	CONSTRAINT fk_userrole FOREIGN KEY (roleID) REFERENCES Roles(id) ON UPDATE CASCADE ON DELETE RESTRICT
 );
-
 CREATE TABLE Customer (
 	id INT NOT NULL,
 	name VARCHAR(50) NOT NULL,
@@ -50,7 +46,6 @@ CREATE TABLE Customer (
 	email VARCHAR(40),
 	CONSTRAINT pk_customer PRIMARY KEY (id)
 );
-
 CREATE TABLE Plan (
 	id INT,
 	cost INT NOT NULL,
@@ -66,7 +61,6 @@ CREATE TABLE Plan (
 	description VARCHAR(200),
 	CONSTRAINT pk_plan PRIMARY KEY (id)
 );
-
 CREATE TABLE Lines (
 	number VARCHAR(10),
 	customerID INT,
@@ -78,7 +72,6 @@ CREATE TABLE Lines (
 	CONSTRAINT fk_lineplan FOREIGN KEY (planID) REFERENCES Plan(id) ON UPDATE CASCADE ON DELETE RESTRICT,
 	CONSTRAINT fk_lineuser FOREIGN KEY (userID) REFERENCES Users(id) ON UPDATE CASCADE ON DELETE RESTRICT
 );
-
 CREATE TABLE Bill (
 	id INT DEFAULT NEXTVAL('secuencia1'),
 	data_consuption DECIMAL(7,2) NOT NULL,
@@ -101,19 +94,15 @@ CREATE TABLE Bill (
 	CONSTRAINT fk_billuser FOREIGN KEY (userID) REFERENCES Users(id) ON UPDATE CASCADE ON DELETE RESTRICT
 );
 
--- ****************VISTAS*********************
-
-
+-- **************************VISTAS**********************************
+-- ******************************************************************
 -- ******************PROCEDIMIENTOS ALMACENADOS**********************
-
-
-
+-- ******************************************************************
 -- *******************INSERTS PERMANENTES*******************
 INSERT INTO Roles VALUES
 (1, 'Administrador','Descripcion del administrador'),
 (2, 'Gerente','Descripcion del gerente'),
 (3, 'Operador','Descripcion del operador');
-
 
 INSERT INTO Plan VALUES
 (1,30900,250,1024,100,250,500,250,0,0,0,'...'),
@@ -122,7 +111,7 @@ INSERT INTO Plan VALUES
 (4,65000,1000,20480,-1,-1,-1,-1,-1,0,0,'...'),
 (5,100000,-1,30720,-1,0,0,0,0,-1,-1,'...');
 -- NOTA: EL -1 REPRESENTA ILIMITADO EN EL PLAN
-
+-- ******************************************************************
 -- ******************INSERTS DE PRUEBAS**********************
 INSERT INTO Users (id,name,roleID,password) VALUES
 (123,'Luis',3,'candamil'),
@@ -148,21 +137,4 @@ INSERT INTO Customer(id, name, type, address, city)  VALUES(1006106575, 'Pablo E
 INSERT INTO Lines VALUES('3217219953', 1006106575, 5, 456, true);
 INSERT INTO Bill VALUES(3, 25000,8000, 4000,7000,400,10060,2048, 60, 500, 'Davivienda', 100000, '3217219953', '2020/03/30',123,'1006106575321721995320200330');
 
-
 INSERT INTO Bill VALUES(4, 110, 210, 60, 160, 410, 170, 0, 0, 0, 'Bancolombia', 30900, '3219234114', '2020/02/28',123,'1007151952321923411420200228');
-
-
-
-	
--- **********************************************************
--- **********************************************************
-
--- *****************QUERY'S DEL SISTEMA**********************
-
-SELECT Users.name AS nombre, Roles.name, Users.status FROM Users 
-INNER JOIN Roles 
-ON Roles.id = Users.roleID;
--- NOTA: Tener en cuenta que si el usuario desea ver más
--- informacion, se deben agregar los atributos deseados
--- al query.
-

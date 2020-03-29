@@ -1,12 +1,9 @@
 package resources;
-
 import java.util.Vector;
 import DB_Connection.DBConnection;
 
 public class EnsayoConsultas {
-
     public static void main (String args[]){
-
         // Se crea la instancia del manager:
         DBConnection aQuery = new DBConnection("","","","","","");
 
@@ -19,7 +16,6 @@ public class EnsayoConsultas {
         // o "QueryResult" cuando la consulta arrojó al menos un registro.
         String tipo_resultado = (String) objeto[0];
         System.out.println("\n El tipo de resultado que arrojo la consulta fue un " + tipo_resultado + "\n");
-
 
         // Luego, en la posicion 1 el objeto contendrá el resultado en un vector
         // específicamente el vector contiene arreglos de Strings (Vector<String[]>).
@@ -65,14 +61,10 @@ public class EnsayoConsultas {
             }
         }
 
-
-
         // Si el resultado es un error, el vector tendría UNA SOLA POSICIÓN
         // con un arreglo de Strings con DOS posiciones.
         // EJEMPLO: Vector<String[]> miError =  (Vector<String[]>) objeto[1];
         // El vector miError, como dije anteriormente, solo tendría una posicion
         // para acceder a ella
-
     }
-
 }
