@@ -15,7 +15,7 @@
 
 <!--suppress JavaFxUnusedImports -->
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="601.0" prefWidth="900.0" style="-fx-background-color: #4d4d4d;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="601.0" prefWidth="900.0" style="-fx-background-color: #4d4d4d;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller">
    <children>
       <AnchorPane prefHeight="60.0" prefWidth="900.0" style="-fx-background-color: #202642;">
          <children>
@@ -52,7 +52,7 @@
                      </image>
                   </ImageView>
                   <Separator prefWidth="200.0" visible="false" />
-                  <ImageView fx:id="salir" fitHeight="48.0" fitWidth="48.0" onMouseClicked="#cambiar_pestana" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="salir" fitHeight="48.0" fitWidth="48.0" onMouseClicked="#log_out" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@images/salir.png" />
                      </image>
@@ -62,7 +62,7 @@
             </HBox>
          </children>
       </AnchorPane>
-      <AnchorPane fx:id="pane_ventas" layoutY="95.0" onMouseClicked="#cambiar_pestana" prefHeight="509.0" prefWidth="900.0" style="-fx-background-color: #202642;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+      <AnchorPane fx:id="pane_ventas" layoutY="95.0" onMouseClicked="#cambiar_pestana" prefHeight="509.0" prefWidth="900.0" style="-fx-background-color: #202642;" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
          <children>
             <Label layoutX="357.0" layoutY="14.0" text="¿Quién hizo la compra?" textFill="WHITE">
                <font>
@@ -266,12 +266,12 @@
                   <Font size="18.0" />
                </font>
             </Label>
-            <ImageView fx:id="gest_usr_editar" fitHeight="73.0" fitWidth="70.0" layoutX="509.0" layoutY="111.0" onMouseClicked="#cambiar_pestana" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="gest_usr_editar" fitHeight="73.0" fitWidth="70.0" layoutX="509.0" layoutY="111.0" onMouseClicked="#user_gest" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@images/editar_usuario.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="gest_usr_añadir" fitHeight="67.0" fitWidth="67.0" layoutX="322.0" layoutY="112.0" onMouseClicked="#cambiar_pestana" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="gest_usr_añadir" fitHeight="67.0" fitWidth="67.0" layoutX="322.0" layoutY="112.0" onMouseClicked="#user_gest" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@images/añadir_usuario.png" />
                </image>
@@ -286,12 +286,12 @@
                   <Font size="18.0" />
                </font>
             </Label>
-            <ImageView fx:id="gest_usr_cambiar_estado" fitHeight="67.0" fitWidth="67.0" layoutX="322.0" layoutY="275.0" onMouseClicked="#cambiar_pestana" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="gest_usr_cambiar_estado" fitHeight="67.0" fitWidth="67.0" layoutX="322.0" layoutY="275.0" onMouseClicked="#user_gest" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@images/desactivar_usuario.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="gest_usr_listar" fitHeight="67.0" fitWidth="67.0" layoutX="519.0" layoutY="275.0" onMouseClicked="#cambiar_pestana" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="gest_usr_listar" fitHeight="67.0" fitWidth="67.0" layoutX="519.0" layoutY="275.0" onMouseClicked="#user_gest" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@images/listar_usuarios.png" />
                </image>
@@ -310,7 +310,7 @@
       </AnchorPane>
       <AnchorPane fx:id="pane_generar_facturas" layoutX="10.0" layoutY="102.0" onMouseClicked="#cambiar_pestana" prefHeight="509.0" prefWidth="900.0" style="-fx-background-color: #202642;" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
          <children>
-            <JFXButton fx:id="gen_fact_generar_button" layoutX="389.0" layoutY="430.0" prefHeight="48.0" prefWidth="123.0" text="Generar " textFill="WHITE" onAction="#handleGen_fact_generar_button">
+            <JFXButton fx:id="gen_fact_generar_button" layoutX="389.0" layoutY="430.0" onAction="#handleGen_fact_generar_button" prefHeight="48.0" prefWidth="123.0" text="Generar " textFill="WHITE">
                <font>
                   <Font size="18.0" />
                </font>
@@ -512,7 +512,7 @@
             <JFXComboBox fx:id="gest_usr_agreg_genero_ComboBox" layoutX="388.0" layoutY="321.0" prefHeight="25.0" prefWidth="227.0" />
             <JFXComboBox fx:id="gest_usr_agreg_estado_civil_ComboBox" layoutX="388.0" layoutY="357.0" prefHeight="25.0" prefWidth="227.0" />
             <JFXTextField fx:id="gest_usr_agreg_email_TextField" layoutX="394.0" layoutY="394.0" prefHeight="25.0" prefWidth="227.0" />
-            <ImageView fx:id="gest_usr_agregar_retroceder_Image" fitHeight="35.0" fitWidth="48.0" layoutX="8.0" layoutY="-2.0" onMouseClicked="#cambiar_pestana" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="gest_usr_agregar_retroceder_Image" fitHeight="35.0" fitWidth="48.0" layoutX="8.0" layoutY="-2.0" onMouseClicked="#user_gest" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@images/retroceder.png" />
                </image>
@@ -535,7 +535,7 @@
                </font>
             </Label>
             <JFXComboBox fx:id="gest_usr_editar_id_cb_buscar12" layoutX="336.0" layoutY="42.0" prefHeight="25.0" prefWidth="168.0" />
-            <ImageView fx:id="gest_usr_editar_retroceder_Image" fitHeight="35.0" fitWidth="41.0" layoutX="23.0" layoutY="-3.0" onMouseClicked="#cambiar_pestana" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="gest_usr_editar_retroceder_Image" fitHeight="35.0" fitWidth="41.0" layoutX="23.0" layoutY="-3.0" onMouseClicked="#user_gest" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@images/retroceder.png" />
                </image>
@@ -625,7 +625,7 @@
                </font>
             </Label>
             <JFXComboBox fx:id="gest_usr_editar_id_cb_buscar1" layoutX="336.0" layoutY="42.0" prefHeight="25.0" prefWidth="168.0" />
-            <ImageView fx:id="gest_usr_cambiar_estado_retroceder_Image" fitHeight="35.0" fitWidth="41.0" layoutX="23.0" layoutY="-3.0" onMouseClicked="#cambiar_pestana" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="gest_usr_cambiar_estado_retroceder_Image" fitHeight="35.0" fitWidth="41.0" layoutX="23.0" layoutY="-3.0" onMouseClicked="#user_gest" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@images/retroceder.png" />
                </image>
@@ -690,7 +690,7 @@
                   <Font size="18.0" />
                </font>
             </Label>
-            <ImageView fx:id="gest_usr_listar_retroceder_Image" fitHeight="35.0" fitWidth="41.0" layoutX="23.0" layoutY="-3.0" onMouseClicked="#cambiar_pestana" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="gest_usr_listar_retroceder_Image" fitHeight="35.0" fitWidth="41.0" layoutX="23.0" layoutY="-3.0" onMouseClicked="#user_gest" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@images/retroceder.png" />
                </image>
