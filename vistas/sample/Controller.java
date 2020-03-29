@@ -183,7 +183,9 @@ public class Controller implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         gen_fact_clientes_comboBox = new JFXComboBox();
         gen_fact_clientes_comboBox1 = new JFXComboBox();
+        gen_fact_clientes_comboBox.getItems().removeAll(gen_fact_clientes_comboBox.getItems());
         gen_fact_clientes_comboBox.getItems().addAll(tipoCliente);
+        gen_fact_clientes_comboBox1.getItems().removeAll( gen_fact_clientes_comboBox1.getItems());
         gen_fact_clientes_comboBox1.getItems().addAll(tipoDocumento);
     }
 

@@ -11,5 +11,6 @@
     <orderEntry type="library" name="javase-3.3.0" level="project" />
     <orderEntry type="library" name="jfreechart-1.0.19" level="project" />
     <orderEntry type="module" module-name="functionalities" />
+    <orderEntry type="library" name="postgresql-42.2.11" level="project" />
   </component>
 </module>
