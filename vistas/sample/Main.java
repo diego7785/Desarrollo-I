@@ -8,12 +8,9 @@ import javafx.stage.StageStyle;
 
 
 public class Main extends Application {
-
     @Override
     public void start(Stage primaryStage) throws Exception{
-
         //--module-path ${PATH_TO_FX} --add-modules javafx.controls,javafx.fxml
-
 
         Parent root = FXMLLoader.load(getClass().getResource("Login.fxml"));
         Parent logged =FXMLLoader.load(getClass().getResource("sample.fxml"));
@@ -23,12 +20,8 @@ public class Main extends Application {
 
         primaryStage.setTitle("Log In");
 
-
         primaryStage.setScene(login);
         primaryStage.show();
-
-
-
     }
 
 
