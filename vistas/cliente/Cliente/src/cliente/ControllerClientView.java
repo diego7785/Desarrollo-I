@@ -57,6 +57,7 @@ public class ControllerClientView implements Initializable {
     private final String months[]={"Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio",
             "Agosto","Septiembre","Octubre","Noviembre","Diciembre"};
     private RadioButton selected;
+    private DBConnection connection = new DBConnection("", "", "", "", "", "");
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -116,7 +117,6 @@ public class ControllerClientView implements Initializable {
                 if (selectedMonthNumber > cal.get(Calendar.MONTH)) {
                     throw new InvalidMonth();
                 }
-                DBConnection connection = new DBConnection("", "", "", "", "", "");
                 Object[] resultO = connection.read_DB("SELECT * FROM Bill WHERE linenumber = '"+number+"' AND EXTRACT(YEAR FROM date) = "+cal.get(Calendar.YEAR)+" AND EXTRACT(MONTH FROM date) = "+(selectedMonthNumber+1)+";");
                 if (resultO[0].equals("Error")) {
                     throw new QueryError();
@@ -139,7 +139,6 @@ public class ControllerClientView implements Initializable {
             } else if (selected.getText().equals("Consulta por rango de meses")) {
                 int initialMonth = monthPickerComboBox1.getSelectionModel().getSelectedIndex();
                 int finalMonth = monthPickerComboBox2.getSelectionModel().getSelectedIndex();
-                DBConnection connection = new DBConnection("", "", "", "", "", "");
                 if (initialMonth == finalMonth){
                     throw new UseAnotherQuery();
                 } else if(initialMonth == 1){
@@ -241,7 +240,6 @@ public class ControllerClientView implements Initializable {
                 if (selectedMonthNumber > cal.get(Calendar.MONTH)) {
                     throw new InvalidMonth();
                 }
-                DBConnection connection = new DBConnection("", "", "", "", "", "");
                 Object[] resultO = connection.read_DB("SELECT * FROM Bill WHERE linenumber = '"+number+"' AND EXTRACT(YEAR FROM date) = "+cal.get(Calendar.YEAR)+" AND EXTRACT(MONTH FROM date) = "+(selectedMonthNumber+1)+";");
                 if (resultO[0].equals("Error")) {
                     throw new QueryError();
@@ -260,7 +258,6 @@ public class ControllerClientView implements Initializable {
             } else if (selected.getText().equals("Consulta por rango de meses")) {
                 int initialMonth = monthPickerComboBox1.getSelectionModel().getSelectedIndex();
                 int finalMonth = monthPickerComboBox2.getSelectionModel().getSelectedIndex();
-                DBConnection connection = new DBConnection("", "", "", "", "", "");
                 if (initialMonth == finalMonth){
                     throw new UseAnotherQuery();
                 } else if(initialMonth == 1){
