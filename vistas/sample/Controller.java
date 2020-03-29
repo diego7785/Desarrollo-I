@@ -1,3 +1,4 @@
+import DB_Connection.DBConnection;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXPasswordField;
@@ -23,7 +24,9 @@ import javafx.stage.StageStyle;
 import javax.swing.*;
 import java.awt.*;
 import java.net.URL;
+import java.util.Calendar;
 import java.util.ResourceBundle;
+import java.util.Vector;
 
 public class Controller implements Initializable {
 
@@ -31,8 +34,8 @@ public class Controller implements Initializable {
     ObservableList<String> id_types = FXCollections.observableArrayList("C.C","T.I","Pasaporte","C.E");
     ObservableList<String> client_types = FXCollections.observableArrayList("Natural", "Corporativo");
 
-    ObservableList<String> tipoCliente = FXCollections.observableArrayList( "Natural", "Corporativo");
-    ObservableList<String> tipoDocumento= FXCollections.observableArrayList( "Cédula", "Nit");
+    String tipoCliente[] = {"Natural", "Corporativo"};
+    String tipoDocumento[]= {"Cédula", "Nit"};
 
     @FXML
     private JFXButton btn_login;
@@ -178,15 +181,17 @@ public class Controller implements Initializable {
     private  JFXComboBox gest_usr_editar_id_cb_buscar12;
     @FXML
     private ComboBox pepe;
+    private DBConnection connection = new DBConnection("","","","","","");
+    private final Calendar cal = Calendar.getInstance();
+    private final String months[]={"Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio",
+                "Agosto","Septiembre","Octubre","Noviembre","Diciembre"};
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        gen_fact_clientes_comboBox = new JFXComboBox();
-        gen_fact_clientes_comboBox1 = new JFXComboBox();
-        gen_fact_clientes_comboBox.getItems().removeAll(gen_fact_clientes_comboBox.getItems());
-        gen_fact_clientes_comboBox.getItems().addAll(tipoCliente);
-        gen_fact_clientes_comboBox1.getItems().removeAll( gen_fact_clientes_comboBox1.getItems());
-        gen_fact_clientes_comboBox1.getItems().addAll(tipoDocumento);
+        gen_fact_clientes_comboBox = new ComboBox();
+        gen_fact_clientes_comboBox1 = new ComboBox();
+        gen_fact_clientes_comboBox.getItems().addAll((Object[]) tipoCliente);
+        gen_fact_clientes_comboBox1.getItems().addAll((Object[]) tipoDocumento);
     }
 
     @FXML
@@ -459,10 +464,15 @@ public class Controller implements Initializable {
     }
 
     public void handleGen_fact_generar_button(ActionEvent actionEvent){
-        CreateBill bill = new CreateBill();
-        int documento = Integer.parseInt(gen_fact_id_TextField.getText());
-        int numero = Integer.parseInt(gen_fact_linea_TextField.getText());
-
-        bill.WriteBill(numero, documento);
+       int document = Integer.parseInt(gen_fact_id_TextField.getText());
+       String number = gen_fact_linea_TextField.getText();
+       Object[] infoHeaderBill = connection.read_DB("SELECT * FROM Customer, Lines WHERE id = "+document+" AND number = '"+number+"';");
+       Object[] infoConsume = connection.read_DB("SELECT * FROM Bill WHERE linenumber = '"+number+"' AND EXTRACT(YEAR FROM date) = "+cal.get(Calendar.YEAR)+" AND EXTRACT(MONTH FROM date) = "+(cal.get(Calendar.MONTH)+1)+";");
+       Vector<String[]> resultHeaderBill = (Vector) infoHeaderBill[1];
+       Vector<String[]> resultConsume = (Vector) infoConsume[1];
+       String actualDate = cal.get(Calendar.YEAR) + "/" + months[cal.get(Calendar.MONTH)];
+       String cutDate = cal.get(Calendar.YEAR) + "/" + months[cal.get(Calendar.MONTH)+1]+"/05";
+       CreateBill bill = new CreateBill();
+       bill.WriteBill(resultHeaderBill, resultConsume,actualDate, cutDate, months[Integer.parseInt(resultConsume.get(0)[13].substring(5,7))-1]);
     }
 }
