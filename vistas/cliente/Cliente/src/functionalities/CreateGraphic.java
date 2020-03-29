@@ -1,59 +1,72 @@
-package functionalities;
+    package functionalities;
 
-import org.jfree.chart.ChartFactory;
-import org.jfree.chart.ChartPanel;
-import org.jfree.chart.JFreeChart;
-import org.jfree.chart.plot.PlotOrientation;
-import org.jfree.data.category.DefaultCategoryDataset;
+    import org.jfree.chart.ChartFactory;
+    import org.jfree.chart.ChartPanel;
+    import org.jfree.chart.JFreeChart;
+    import org.jfree.chart.plot.PlotOrientation;
+    import org.jfree.data.category.DefaultCategoryDataset;
 
-import java.util.Arrays;
-import java.util.StringTokenizer;
+    import java.util.Vector;
 
-public class CreateGraphic {
 
-    private String[] consulta;
-    private int plan;
-    private String name;
-    public CreateGraphic(String consulta, String infoPlan) {
-        StringTokenizer tokens=new StringTokenizer(infoPlan, ",");
-        int nDatos=tokens.countTokens();
-        this.consulta = new String[nDatos];
-        int i=0;
-        while(tokens.hasMoreTokens()){
-            this.consulta[i]= (tokens.nextToken());
-            i++;
-        }
-        plan = Integer.parseInt(this.consulta[0].substring(1,2));
-        name = this.consulta[1].substring(0,this.consulta[1].length()-1);
+    public class CreateGraphic {
 
-        tokens=new StringTokenizer(consulta, ",");
-        nDatos=tokens.countTokens();
-        this.consulta = new String[nDatos];
-        i=0;
-        while(tokens.hasMoreTokens()){
-            this.consulta[i]= (tokens.nextToken());
-            i++;
+        public  ChartPanel Createchart(Vector<String[]> queryV, String[] infoPlan, int tipo) {
+            int plan = Integer.parseInt(infoPlan[0]);
+            String months[]={"Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio",
+                    "Agosto","Septiembre","Octubre","Noviembre","Diciembre"};
+            if(tipo == 1){
+                String[] query = queryV.get(0);
+                int month = Integer.parseInt(query[13].substring(5,7));
+                DefaultCategoryDataset Datos = new DefaultCategoryDataset();
+                Datos.setValue(Float.parseFloat(query[1]),"Datos",months[month-1]);
+                Datos.setValue(Float.parseFloat(query[2]),"Minutos",months[month-1]);
+                Datos.setValue(Float.parseFloat(query[3]),"Mensajes",months[month-1]);
+                Datos.setValue(Float.parseFloat(query[4]),"Datos de Whatsapp",months[month-1]);
+                Datos.setValue(Float.parseFloat(query[5]),"Minutos de Whatsapp",months[month-1]);
+                Datos.setValue(Float.parseFloat(query[6]),"Datos de Facebook",months[month-1]);
+
+                if(plan == 4){
+                    Datos.setValue(Float.parseFloat(query[7]),"Datos de Waze",months[month-1]);
+                } else if(plan == 5){
+                    Datos.setValue(Float.parseFloat(query[8]),"Minutos internacionales",months[month-1]);
+                    Datos.setValue(Float.parseFloat(query[9]), "Datos para compartir", months[month-1]);
+                }
+
+                JFreeChart Graphic = ChartFactory.createBarChart("Consumo mensual Linea: "+ query[12]+ " Cliente: "+infoPlan[1]+"\nPlan tipo: "+plan+" Mes: "+months[month-1],
+                        "Tipo consumo", "Consumo", Datos,
+                        PlotOrientation.HORIZONTAL, true, true, false);
+                ChartPanel Panel = new ChartPanel(Graphic);
+                return Panel;
+            } else {
+                DefaultCategoryDataset Datos = new DefaultCategoryDataset();
+                String monthsShow = "";
+                String line="";
+                for(int j=0; j<queryV.size(); j++){
+                    String[] query = queryV.get(j);
+                    line = query[12];
+                    int month = Integer.parseInt(query[13].substring(5,7));
+                    monthsShow += months[month-1]+" ";
+                    Datos.setValue(Float.parseFloat(query[1]), "Datos", months[month-1]);
+                    Datos.setValue(Float.parseFloat(query[2]), "Minutos", months[month-1]);
+                    Datos.setValue(Float.parseFloat(query[3]), "Mensajes", months[month-1]);
+                    Datos.setValue(Float.parseFloat(query[4]), "Datos de Whatsapp", months[month-1]);
+                    Datos.setValue(Float.parseFloat(query[5]), "Minutos de Whatsapp", months[month-1]);
+                    Datos.setValue(Float.parseFloat(query[6]), "Datos de Facebook", months[month-1]);
+                    if (plan == 4) {
+                        Datos.setValue(Float.parseFloat(query[7]), "Datos de Waze", months[month-1]);
+                    } else if (plan == 5) {
+                        Datos.setValue(Float.parseFloat(query[8]), "Minutos internacionales", months[month-1]);
+                        Datos.setValue(Float.parseFloat(query[9]), "Datos para compartir", months[month-1]);
+                    }
+                }
+
+                JFreeChart Graphic = ChartFactory.createBarChart("Consumo mensual Linea: " + line + " Cliente: " + infoPlan[1] + "\nPlan tipo: " + plan + " Mes: " + monthsShow,
+                        "Tipo consumo", "Consumo", Datos,
+                        PlotOrientation.HORIZONTAL, true, true, false);
+                ChartPanel Panel = new ChartPanel(Graphic);
+                return Panel;
+            }
         }
     }
-
-    public  ChartPanel Createchart(int month) {
-        DefaultCategoryDataset Datos = new DefaultCategoryDataset();
-        String months[]={"Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio",
-                "Agosto","Septiembre","Octubre","Noviembre","Diciembre"};
-            for(int j=0; j<month; j++){
-                Datos.setValue(Float.parseFloat(consulta[1]),"Datos",months[j]);
-                Datos.setValue(Float.parseFloat(consulta[2]),"Minutos",months[j]);
-                Datos.setValue(Float.parseFloat(consulta[3]),"Mensajes",months[j]);
-                Datos.setValue(Float.parseFloat(consulta[4]),"Datos de Whatsapp",months[j]);
-                Datos.setValue(Float.parseFloat(consulta[5]),"Minutos de Whatsapp",months[j]);
-                Datos.setValue(Float.parseFloat(consulta[6]),"Datos de Facebook",months[j]);
-
-        }
-        JFreeChart Grafica = ChartFactory.createBarChart("Consumo mensual Linea: "+ consulta[12]+ " Cliente: "+name+"\nPlan tipo: "+plan,
-                "Tipo consumo", "Consumo", Datos,
-                PlotOrientation.HORIZONTAL, true, true, false);
-        ChartPanel Panel = new ChartPanel(Grafica);
-        return Panel;
-    }
-}
 

@@ -26,7 +26,7 @@ import java.util.Vector;
 import functionalities.CreateGraphic;
 import org.jfree.chart.ChartPanel;
 
-import javax.swing.JFrame;
+import javax.swing.*;
 
 public class ControllerClientView implements Initializable {
 
@@ -106,37 +106,102 @@ public class ControllerClientView implements Initializable {
                 throw new EmptyFields();
             } if (!isNumeric(number)){
                 throw new NotNumber();
-            } if(number.length()< 10 || number.length() > 10 || Integer.parseInt(number)<0){
+            } if(number.length()< 10 || number.length() > 10 || Long.parseLong(number)<0){
                 throw new InvalidNumber();
             } if(group1.getSelectedToggle() == null){
                 throw new NotRBSelected();
             }
-            if(selected.getText().equals("Consulta por mes")){
-                int selectedMonthNumber = getMonthNumber((String)monthPickerComboBox.getValue());
-                if(selectedMonthNumber>cal.get(Calendar.MONTH)){
+            if(selected.getText().equals("Consulta por mes")) {
+                int selectedMonthNumber = monthPickerComboBox.getSelectionModel().getSelectedIndex();
+                if (selectedMonthNumber > cal.get(Calendar.MONTH)) {
                     throw new InvalidMonth();
                 }
-                DBConnection conexion = new DBConnection("","","","","","");
-                Vector<String[]>  result = (Vector) conexion.read_DB("SELECT * FROM Bill WHERE linenumber =" + number)[1];
-                Vector<String[]> infoPlan = (Vector) conexion.read_DB("SELECT planid, name FROM Lines, Customer WHERE number="+number+" AND customerid=id")[1];
+                DBConnection connection = new DBConnection("", "", "", "", "", "");
+                Object[] resultO = connection.read_DB("SELECT * FROM Bill WHERE linenumber = '"+number+"' AND EXTRACT(YEAR FROM date) = "+cal.get(Calendar.YEAR)+" AND EXTRACT(MONTH FROM date) = "+(selectedMonthNumber+1)+";");
+                if (resultO[0].equals("Error")) {
+                    throw new QueryError();
+                } else {
 
-                System.out.println("Consultando por texto");
+                    Vector<String[]> result = (Vector) resultO[1];
+                    Vector<String[]> infoPlan = (Vector) connection.read_DB("SELECT planid, name FROM Lines, Customer WHERE number= '" + number + "' AND customerid=id;")[1];
 
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("clientViewTextQuery.fxml"));
-                Parent root = loader.load();
-                ControllerClientViewTextQuery controller = loader.<ControllerClientViewTextQuery>getController();
-                controller.setInfo(Arrays.toString(result.get(0)), Arrays.toString(infoPlan.get(0)));
-                Scene queryScene = new Scene(root);
-                Stage window = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
-                window.setTitle("Consulta consumo por texto");
-                window.setScene(queryScene);
-                window.show();
-            } else if(selected.getText().equals("Consulta por rango de meses")){
-                System.out.println("Jejej esto falta");
-                System.out.println(monthPickerComboBox1.getSelectionModel().getSelectedItem());
-                System.out.println(monthPickerComboBox2.getSelectionModel().getSelectedItem());
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("clientViewTextQuery.fxml"));
+                    Parent root = loader.load();
+                    ControllerClientViewTextQuery controller = loader.<ControllerClientViewTextQuery>getController();
+                    controller.setInfo(result, infoPlan.get(0),1);
+                    Scene queryScene = new Scene(root);
+                    Stage window = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+                    window.setTitle("Consulta consumo por texto");
+                    window.setScene(queryScene);
+                    window.show();
+
+                }
+            } else if (selected.getText().equals("Consulta por rango de meses")) {
+                int initialMonth = monthPickerComboBox1.getSelectionModel().getSelectedIndex();
+                int finalMonth = monthPickerComboBox2.getSelectionModel().getSelectedIndex();
+                DBConnection connection = new DBConnection("", "", "", "", "", "");
+                if (initialMonth == finalMonth){
+                    throw new UseAnotherQuery();
+                } else if(initialMonth == 1){
+                    Object[] resultO = connection.read_DB("SELECT * FROM Bill WHERE linenumber = '"+number+"' AND date BETWEEN '"+cal.get(Calendar.YEAR)+"/02/28' AND '"+cal.get(Calendar.YEAR)+"/"+(finalMonth+1)+"/30';");
+                    if (resultO[0].equals("Error")) {
+                        throw new QueryError();
+                    }
+                    if(finalMonth>cal.get(Calendar.MONTH)){
+                        throw new QueryError();
+                    }
+                    Vector<String[]> result = (Vector) resultO[1];
+                    Vector<String[]> infoPlan = (Vector) connection.read_DB("SELECT planid, name FROM Lines, Customer WHERE number= '" + number + "' AND customerid=id;")[1];
+
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("clientViewTextQuery.fxml"));
+                    Parent root = loader.load();
+                    ControllerClientViewTextQuery controller = loader.<ControllerClientViewTextQuery>getController();
+                    controller.setInfo(result, infoPlan.get(0),2);
+                    Scene queryScene = new Scene(root);
+                    Stage window = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+                    window.setTitle("Consulta consumo por texto");
+                    window.setScene(queryScene);
+                    window.show();
+
+                } else if(finalMonth == 1){
+                    Object[] resultO = connection.read_DB("SELECT * FROM Bill WHERE linenumber = '"+number+"' AND date BETWEEN '"+cal.get(Calendar.YEAR)+"/"+(initialMonth+1)+"/30' AND '"+cal.get(Calendar.YEAR)+"/02/28';");
+                    if (resultO[0].equals("Error")) {
+                        throw new QueryError();
+                    }
+                    Vector<String[]> result = (Vector) resultO[1];
+                    Vector<String[]> infoPlan = (Vector) connection.read_DB("SELECT planid, name FROM Lines, Customer WHERE number= '" + number + "' AND customerid=id;")[1];
+
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("clientViewTextQuery.fxml"));
+                    Parent root = loader.load();
+                    ControllerClientViewTextQuery controller = loader.<ControllerClientViewTextQuery>getController();
+                    controller.setInfo(result, infoPlan.get(0),2);
+                    Scene queryScene = new Scene(root);
+                    Stage window = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+                    window.setTitle("Consulta consumo por texto");
+                    window.setScene(queryScene);
+                    window.show();
+                } else{
+                    Object[] resultO = connection.read_DB("SELECT * FROM Bill WHERE linenumber = '"+number+"' AND date BETWEEN '"+cal.get(Calendar.YEAR)+"/"+(initialMonth+1)+"/30' AND '"+cal.get(Calendar.YEAR)+"/"+(finalMonth+1)+"/30';");
+                    if (resultO[0].equals("Error")) {
+                        throw new QueryError();
+                    }
+                    if(finalMonth>cal.get(Calendar.MONTH)){
+                        throw new QueryError();
+                    }
+                    Vector<String[]> result = (Vector) resultO[1];
+                    Vector<String[]> infoPlan = (Vector) connection.read_DB("SELECT planid, name FROM Lines, Customer WHERE number= '" + number + "' AND customerid=id;")[1];
+
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("clientViewTextQuery.fxml"));
+                    Parent root = loader.load();
+                    ControllerClientViewTextQuery controller = loader.<ControllerClientViewTextQuery>getController();
+                    controller.setInfo(result, infoPlan.get(0),2);
+                    Scene queryScene = new Scene(root);
+                    Stage window = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+                    window.setTitle("Consulta consumo por texto");
+                    window.setScene(queryScene);
+                    window.show();
+                }
             }
-
 
         } catch(EmptyFields e){
             labelError.setText("El campo número de celular no debe quedar vacío");
@@ -148,6 +213,10 @@ public class ControllerClientView implements Initializable {
             labelError.setText("El número no es válido");
         } catch(NotRBSelected e){
             labelError.setText("Por favor seleccione algún tipo de consulta");
+        } catch(QueryError e){
+            labelError.setText("La consulta no arrojó resultados");
+        } catch(UseAnotherQuery e){
+            labelError.setText("Rango de meses iguales \nPor favor utilice la consulta por mes");
         } catch (IOException e) {
             labelError.setText("No se puede acceder a la consulta ");
         }
@@ -161,33 +230,92 @@ public class ControllerClientView implements Initializable {
                 throw new EmptyFields();
             } if (!isNumeric(number)){
                 throw new NotNumber();
-            } if(number.length()< 10 || number.length() > 10 || Integer.parseInt(number)<0){
+            } if(number.length()< 10 || number.length() > 10 || Long.parseLong(number)<0){
                 throw new InvalidNumber();
             } if(group1.getSelectedToggle() == null){
                 throw new NotRBSelected();
             }
 
-            if(selected.getText().equals("Consulta por mes")){
-                int selectedMonthNumber = getMonthNumber((String)monthPickerComboBox.getValue());
-                if(selectedMonthNumber>cal.get(Calendar.MONTH)){
+            if(selected.getText().equals("Consulta por mes")) {
+                int selectedMonthNumber = monthPickerComboBox.getSelectionModel().getSelectedIndex();
+                if (selectedMonthNumber > cal.get(Calendar.MONTH)) {
                     throw new InvalidMonth();
                 }
+                DBConnection connection = new DBConnection("", "", "", "", "", "");
+                Object[] resultO = connection.read_DB("SELECT * FROM Bill WHERE linenumber = '"+number+"' AND EXTRACT(YEAR FROM date) = "+cal.get(Calendar.YEAR)+" AND EXTRACT(MONTH FROM date) = "+(selectedMonthNumber+1)+";");
+                if (resultO[0].equals("Error")) {
+                    throw new QueryError();
+                } else {
+                    Vector<String[]> result = (Vector) resultO[1];
+                    Vector<String[]> infoPlan = (Vector) connection.read_DB("SELECT planid, name FROM Lines, Customer WHERE number= '" + number + "' AND customerid=id;")[1];
 
-                DBConnection conexion = new DBConnection("","","","","","");
-                Vector<String[]>  result = (Vector) conexion.read_DB("SELECT * FROM Bill WHERE linenumber =" + number)[1];
-                Vector<String[]> infoPlan = (Vector) conexion.read_DB("SELECT planid, name FROM Lines, Customer WHERE number="+number+" AND customerid=id")[1];
+                    CreateGraphic chart = new CreateGraphic();
+                    ChartPanel panel = chart.Createchart(result, infoPlan.get(0), 1);
+                    JFrame Window = new JFrame("Consulta consumo por gráfico");
+                    Window.getContentPane().add(panel);
+                    Window.pack();
+                    Window.setVisible(true);
+                    Window.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                }
+            } else if (selected.getText().equals("Consulta por rango de meses")) {
+                int initialMonth = monthPickerComboBox1.getSelectionModel().getSelectedIndex();
+                int finalMonth = monthPickerComboBox2.getSelectionModel().getSelectedIndex();
+                DBConnection connection = new DBConnection("", "", "", "", "", "");
+                if (initialMonth == finalMonth){
+                    throw new UseAnotherQuery();
+                } else if(initialMonth == 1){
+                    Object[] resultO = connection.read_DB("SELECT * FROM Bill WHERE linenumber = '"+number+"' AND date BETWEEN '"+cal.get(Calendar.YEAR)+"/02/28' AND '"+cal.get(Calendar.YEAR)+"/"+(finalMonth+1)+"/30';");
+                    if (resultO[0].equals("Error")) {
+                        throw new QueryError();
+                    }
+                    if(finalMonth>cal.get(Calendar.MONTH)){
+                        throw new QueryError();
+                    }
+                    Vector<String[]> result = (Vector) resultO[1];
+                    Vector<String[]> infoPlan = (Vector) connection.read_DB("SELECT planid, name FROM Lines, Customer WHERE number= '" + number + "' AND customerid=id;")[1];
 
-                CreateGraphic chart = new CreateGraphic(Arrays.toString(result.get(0)), Arrays.toString(infoPlan.get(0)));
-                ChartPanel panel = chart.Createchart(selectedMonthNumber+1);
-                JFrame Ventana = new JFrame("Consulta consumo por gráfico");
-                Ventana.getContentPane().add(panel);
-                Ventana.pack();
-                Ventana.setVisible(true);
-                Ventana.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-            } else if(selected.getText().equals("Consulta por rango de meses")){
-                System.out.println("Jejej esto falta");
-                System.out.println(monthPickerComboBox1.getSelectionModel().getSelectedItem());
-                System.out.println(monthPickerComboBox2.getSelectionModel().getSelectedItem());
+                    CreateGraphic chart = new CreateGraphic();
+                    ChartPanel panel = chart.Createchart(result, infoPlan.get(0), 2);
+                    JFrame Window = new JFrame("Consulta consumo por gráfico");
+                    Window.getContentPane().add(panel);
+                    Window.pack();
+                    Window.setVisible(true);
+                    Window.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+
+                } else if(finalMonth == 1){
+                    Object[] resultO = connection.read_DB("SELECT * FROM Bill WHERE linenumber = '"+number+"' AND date BETWEEN '"+cal.get(Calendar.YEAR)+"/"+(initialMonth+1)+"/30' AND '"+cal.get(Calendar.YEAR)+"/02/28';");
+                    if (resultO[0].equals("Error")) {
+                        throw new QueryError();
+                    }
+                    Vector<String[]> result = (Vector) resultO[1];
+                    Vector<String[]> infoPlan = (Vector) connection.read_DB("SELECT planid, name FROM Lines, Customer WHERE number= '" + number + "' AND customerid=id;")[1];
+
+                    CreateGraphic chart = new CreateGraphic();
+                    ChartPanel panel = chart.Createchart(result, infoPlan.get(0), 2);
+                    JFrame Window = new JFrame("Consulta consumo por gráfico");
+                    Window.getContentPane().add(panel);
+                    Window.pack();
+                    Window.setVisible(true);
+                    Window.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                } else{
+                    Object[] resultO = connection.read_DB("SELECT * FROM Bill WHERE linenumber = '"+number+"' AND date BETWEEN '"+cal.get(Calendar.YEAR)+"/"+(initialMonth+1)+"/30' AND '"+cal.get(Calendar.YEAR)+"/"+(finalMonth+1)+"/30';");
+                    if (resultO[0].equals("Error")) {
+                        throw new QueryError();
+                    }
+                    if(finalMonth>cal.get(Calendar.MONTH)){
+                        throw new QueryError();
+                    }
+                    Vector<String[]> result = (Vector) resultO[1];
+                    Vector<String[]> infoPlan = (Vector) connection.read_DB("SELECT planid, name FROM Lines, Customer WHERE number= '" + number + "' AND customerid=id;")[1];
+
+                    CreateGraphic chart = new CreateGraphic();
+                    ChartPanel panel = chart.Createchart(result, infoPlan.get(0), 2);
+                    JFrame Window = new JFrame("Consulta consumo por gráfico");
+                    Window.getContentPane().add(panel);
+                    Window.pack();
+                    Window.setVisible(true);
+                    Window.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                }
             }
 
         } catch(EmptyFields e){
@@ -198,14 +326,21 @@ public class ControllerClientView implements Initializable {
             labelError.setText("No hay registros del mes que escogió \nPor favor intente con un mes anterior");
         } catch(NotRBSelected e){
             labelError.setText("Por favor seleccione algún tipo de consulta");
+        } catch(QueryError e){
+            labelError.setText("La consulta no arrojó resultados");
         } catch(InvalidNumber e){
             labelError.setText("El número no es válido");
+        } catch(UseAnotherQuery e){
+            labelError.setText("Rango de meses iguales \nPor favor utilice la consulta por mes");
+        } catch (Exception e) {
+            labelError.setText("No se puede acceder a la consulta ");
         }
     }
 
     public void handleMenuClose(ActionEvent actionEvent) {
         System.exit(0);
     }
+
 
     public boolean isNumeric(String cadena){
         try {
@@ -214,17 +349,6 @@ public class ControllerClientView implements Initializable {
         } catch (NumberFormatException nfe){
             return false;
         }
-    }
-
-    public int getMonthNumber(String item){
-        int j=0;
-        for(int i=0; i<months.length; i++){
-            if(months[i].equals(item)){
-                j=i;
-                break;
-            }
-        }
-        return j;
     }
 }
 

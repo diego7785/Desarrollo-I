@@ -13,7 +13,7 @@ import javafx.scene.control.TextArea;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.util.StringTokenizer;
+import java.util.Vector;
 
 
 public class ControllerClientViewTextQuery {
@@ -25,6 +25,8 @@ public class ControllerClientViewTextQuery {
     @FXML
     private Label labelError;
 
+    private final String months[]={"Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio",
+            "Agosto","Septiembre","Octubre","Noviembre","Diciembre"};
 
     @FXML
     public void initialize()
@@ -49,42 +51,60 @@ public class ControllerClientViewTextQuery {
         }
     }
 
-    public void setInfo(String info, String infoPlan){
-        StringTokenizer tokens=new StringTokenizer(infoPlan, ",");
-        int nDatos=tokens.countTokens();
-        String[] consulta = new String[nDatos];
-        int i=0;
-        while(tokens.hasMoreTokens()) {
-            consulta[i] = tokens.nextToken();
-            i++;
-        }
-        int plan = Integer.parseInt(consulta[0].substring(1,2));
-        String name = consulta[1].substring(0,consulta[1].length()-1);
+    public void setInfo(Vector<String[]> infoV, String infoPlan[], int type){
+        if(type == 1){
+            String[] info = infoV.get(0);
+            int monthI = Integer.parseInt(info[13].substring(5,7));
+            String month = months[monthI];
+            int plan = Integer.parseInt(infoPlan[0]);
+            String name = infoPlan[1];
 
-        String text = "Plan tipo: "+plan+"\n"+"Nombre cliente: "+name+"\n";
-        tokens=new StringTokenizer(info, ",");
-        nDatos=tokens.countTokens();
-        consulta = new String[nDatos];
-        i=0;
-        while(tokens.hasMoreTokens()) {
-            consulta[i] = tokens.nextToken();
-            i++;
-        }
-        text += "Linea número: "+consulta[12]+"\n"
-                    + "Consumo de datos: "+consulta[1] + " MB\n"
-                    + "Consumo de minutos: "+consulta[2]+" Minutos\n"
-                    + "Consumo de mensajes: "+consulta[3]+" SMS\n"
-                    + "Consumo de datos de Whatsapp: "+consulta[4]+" MB\n"
-                    + "Consumo de minutos de Whatsapp: "+consulta[5]+" Minutos\n"
-                    + "Consumo de datos de Facebook: "+consulta[6]+" MB\n";
+            String text = "Plan tipo: "+plan+"\n"+"Nombre cliente: "+name+"\n"+"Mes: "+month+"\n";
 
-        if(plan == 4){
-            text += "Consumo de datos de Waze: "+consulta[7] +" MB";
-        } else if(plan == 5){
-            text += "Consumo minutos internacionales: "+consulta[8]+" Minutos\n"
-                    + "Consumo de datos para compartir: "+consulta[9]+" MB";
+            text += "Linea número: "+info[12]+"\n"
+                    + "Consumo de datos: "+info[1] + " MB\n"
+                    + "Consumo de minutos: "+info[2]+" Minutos\n"
+                    + "Consumo de mensajes: "+info[3]+" SMS\n"
+                    + "Consumo de datos de Whatsapp: "+info[4]+" MB\n"
+                    + "Consumo de minutos de Whatsapp: "+info[5]+" Minutos\n"
+                    + "Consumo de datos de Facebook: "+info[6]+" MB\n";
+
+            if(plan == 4){
+                text += "Consumo de datos de Waze: "+info[7] +" MB";
+            } else if(plan == 5){
+                text += "Consumo minutos internacionales: "+info[8]+" Minutos\n"
+                        + "Consumo de datos para compartir: "+info[9]+" MB";
+            }
+            textAreaConsumo.setText(text);
+        } else{
+            String text="";
+            for(int j=0; j<infoV.size(); j++) {
+                String[] info = infoV.get(j);
+                int monthI = Integer.parseInt(info[13].substring(5,7));
+                String month = months[monthI-1];
+                int plan = Integer.parseInt(infoPlan[0]);
+                String name = infoPlan[1];
+
+                text += "Plan tipo: "+plan+"\n"+"Nombre cliente: "+name+"\n"+"Mes: "+month+"\n";
+
+                text += "Linea número: "+info[12]+"\n"
+                        + "Consumo de datos: "+info[1] + " MB\n"
+                        + "Consumo de minutos: "+info[2]+" Minutos\n"
+                        + "Consumo de mensajes: "+info[3]+" SMS\n"
+                        + "Consumo de datos de Whatsapp: "+info[4]+" MB\n"
+                        + "Consumo de minutos de Whatsapp: "+info[5]+" Minutos\n"
+                        + "Consumo de datos de Facebook: "+info[6]+" MB\n";
+
+                if(plan == 4){
+                    text += "Consumo de datos de Waze: "+info[7] +" MB";
+                } else if(plan == 5){
+                    text += "Consumo minutos internacionales: "+info[8]+" Minutos\n"
+                            + "Consumo de datos para compartir: "+info[9]+" MB";
+                }
+                text += "\n";
+            }
+            textAreaConsumo.setText(text);
         }
-        textAreaConsumo.setText(text);
 
     }
 

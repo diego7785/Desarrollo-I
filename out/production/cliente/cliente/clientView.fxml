@@ -38,16 +38,6 @@
                     <MenuItem fx:id="menuClose" mnemonicParsing="false" onAction="#handleMenuClose" text="Close" />
                 </items>
             </Menu>
-            <Menu mnemonicParsing="false" text="Edit">
-                <items>
-                    <MenuItem mnemonicParsing="false" text="Delete" />
-                </items>
-            </Menu>
-            <Menu mnemonicParsing="false" text="Help">
-                <items>
-                    <MenuItem mnemonicParsing="false" text="About" />
-                </items>
-            </Menu>
         </MenuBar>
         <Label layoutX="47.0" layoutY="236.0" text="Consulta consumo" textFill="#36296e">
             <font>
