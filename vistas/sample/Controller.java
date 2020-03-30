@@ -30,11 +30,6 @@ import java.util.Vector;
 
 public class Controller implements Initializable {
 
-    //Class Constructor
-    public Controller()
-    {
-    }
-
     //Database connection
     private DBConnection conection= new DBConnection("", "", "", "", "", "");
 
