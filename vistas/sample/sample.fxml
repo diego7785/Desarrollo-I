@@ -89,7 +89,7 @@
                   <Image url="@images/nuevo.png" />
                </image>
             </ImageView>
-            <AnchorPane fx:id="pane_ventas_antiguo" layoutX="69.0" layoutY="216.0" prefHeight="253.0" prefWidth="473.0" visible="false">
+            <AnchorPane fx:id="pane_ventas_antiguo" layoutX="69.0" layoutY="216.0" prefHeight="279.0" prefWidth="473.0" visible="false">
                <children>
                   <Label layoutX="27.0" layoutY="74.0" text="Tipo de identificación:" textFill="WHITE">
                      <font>
@@ -101,8 +101,8 @@
                         <Font size="18.0" />
                      </font>
                   </Label>
-                  <JFXComboBox fx:id="cb_rol" focusColor="#fa8628" layoutX="228.0" layoutY="26.0" prefHeight="25.0" prefWidth="135.0" />
-                  <JFXComboBox fx:id="cb_rol2" focusColor="#fa8628" layoutX="228.0" layoutY="75.0" prefHeight="25.0" prefWidth="135.0" />
+                  <JFXComboBox fx:id="cb_rol" focusColor="#fa8628" layoutX="228.0" layoutY="26.0" prefHeight="25.0" prefWidth="135.0" style="-fx-text-inner-color: BLACK;" />
+                  <JFXComboBox fx:id="cb_rol2" focusColor="#fa8628" layoutX="228.0" layoutY="75.0" prefHeight="25.0" prefWidth="135.0" style="-fx-text-inner-color: BLACK;" />
                   <Label layoutX="28.0" layoutY="113.0" text="Identificación:" textFill="WHITE">
                      <font>
                         <Font size="18.0" />
@@ -118,12 +118,23 @@
                         <Font size="18.0" />
                      </font>
                   </Label>
-                  <JFXTextField fx:id="tf_nombre" focusColor="#fa8628" layoutX="228.0" layoutY="114.0" />
-                  <JFXTextField fx:id="tf_nombre2" focusColor="#fa8628" layoutX="228.0" layoutY="154.0" />
-                  <JFXComboBox fx:id="cb_rol3" focusColor="#fa8628" layoutX="228.0" layoutY="190.0" prefHeight="25.0" prefWidth="135.0" />
+                  <JFXTextField fx:id="tf_nombre" focusColor="#fa8628" layoutX="228.0" layoutY="114.0" style="-fx-text-inner-color: WHITE;">
+                     <font>
+                        <Font size="18.0" />
+                     </font></JFXTextField>
+                  <JFXTextField fx:id="tf_nombre2" focusColor="#fa8628" layoutX="228.0" layoutY="154.0" style="-fx-text-inner-color: WHITE;">
+                     <font>
+                        <Font size="18.0" />
+                     </font></JFXTextField>
+                  <JFXComboBox fx:id="cb_rol3" focusColor="#fa8628" layoutX="228.0" layoutY="190.0" prefHeight="25.0" prefWidth="135.0" style="-fx-text-inner-color: BLACK;" />
+                  <JFXButton fx:id="btn_reg_antiguo" layoutX="341.0" layoutY="232.0" text="Registrar" textFill="WHITE">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </JFXButton>
                </children>
             </AnchorPane>
-            <AnchorPane fx:id="pane_ventas_nuevo" layoutX="32.0" layoutY="200.0" prefHeight="253.0" prefWidth="698.0" visible="false">
+            <AnchorPane fx:id="pane_ventas_nuevo" layoutX="32.0" layoutY="200.0" prefHeight="299.0" prefWidth="714.0" visible="false">
                <children>
                   <Label layoutX="14.0" layoutY="62.0" text="Tipo de identificación:" textFill="WHITE">
                      <font>
@@ -135,8 +146,8 @@
                         <Font size="18.0" />
                      </font>
                   </Label>
-                  <JFXComboBox fx:id="cb_rol1" focusColor="#fa8628" layoutX="214.0" layoutY="26.0" prefHeight="25.0" prefWidth="135.0" />
-                  <JFXComboBox fx:id="cb_rol21" focusColor="#fa8628" layoutX="214.0" layoutY="63.0" prefHeight="25.0" prefWidth="135.0" />
+                  <JFXComboBox fx:id="cb_rol1" focusColor="#fa8628" layoutX="214.0" layoutY="26.0" prefHeight="25.0" prefWidth="135.0" style="-fx-text-inner-color: BLACK;" />
+                  <JFXComboBox fx:id="cb_rol21" focusColor="#fa8628" layoutX="214.0" layoutY="63.0" prefHeight="25.0" prefWidth="135.0" style="-fx-text-inner-color: BLACK;" />
                   <Label layoutX="14.0" layoutY="101.0" text="Identificación:" textFill="WHITE">
                      <font>
                         <Font size="18.0" />
@@ -152,9 +163,9 @@
                         <Font size="18.0" />
                      </font>
                   </Label>
-                  <JFXTextField fx:id="tf_nombre1" focusColor="#fa8628" layoutX="214.0" layoutY="141.0" />
-                  <JFXTextField fx:id="tf_nombre21" focusColor="#fa8628" layoutX="559.0" layoutY="178.0" />
-                  <JFXComboBox fx:id="cb_rol31" focusColor="#fa8628" layoutX="559.0" layoutY="213.0" prefHeight="25.0" prefWidth="135.0" />
+                  <JFXTextField fx:id="tf_nombre1" focusColor="#fa8628" layoutX="214.0" layoutY="141.0" style="-fx-text-inner-color: WHITE;" />
+                  <JFXTextField fx:id="tf_nombre21" focusColor="#fa8628" layoutX="559.0" layoutY="178.0" style="-fx-text-inner-color: WHITE;" />
+                  <JFXComboBox fx:id="cb_rol31" focusColor="#fa8628" layoutX="559.0" layoutY="213.0" prefHeight="25.0" prefWidth="135.0" style="-fx-text-inner-color: BLACK;" />
                   <Label layoutX="14.0" layoutY="140.0" text="Nombres:" textFill="WHITE">
                      <font>
                         <Font size="18.0" />
@@ -170,10 +181,10 @@
                         <Font size="18.0" />
                      </font>
                   </Label>
-                  <JFXTextField fx:id="tf_nombre11" focusColor="#fa8628" layoutX="214.0" layoutY="213.0" />
-                  <JFXTextField fx:id="tf_nombre12" focusColor="#fa8628" layoutX="214.0" layoutY="177.0" />
-                  <JFXTextField fx:id="tf_nombre13" focusColor="#fa8628" layoutX="214.0" layoutY="102.0" />
-                  <JFXTextField fx:id="tf_nombre14" focusColor="#fa8628" layoutX="559.0" layoutY="141.0" />
+                  <JFXTextField fx:id="tf_nombre11" focusColor="#fa8628" layoutX="214.0" layoutY="213.0" style="-fx-text-inner-color: WHITE;" />
+                  <JFXTextField fx:id="tf_nombre12" focusColor="#fa8628" layoutX="214.0" layoutY="177.0" style="-fx-text-inner-color: WHITE;" />
+                  <JFXTextField fx:id="tf_nombre13" focusColor="#fa8628" layoutX="214.0" layoutY="102.0" style="-fx-text-inner-color: WHITE;" />
+                  <JFXTextField fx:id="tf_nombre14" focusColor="#fa8628" layoutX="559.0" layoutY="141.0" style="-fx-text-inner-color: WHITE;" />
                   <Label layoutX="388.0" layoutY="140.0" text="Correo electrónico:" textFill="WHITE">
                      <font>
                         <Font size="18.0" />
@@ -194,20 +205,20 @@
                         <Font size="18.0" />
                      </font>
                   </Label>
-                  <JFXComboBox fx:id="cb_rol312" focusColor="#fa8628" layoutX="559.0" layoutY="63.0" prefHeight="25.0" prefWidth="135.0" />
-                  <JFXComboBox fx:id="cb_rol311" focusColor="#fa8628" layoutX="559.0" layoutY="102.0" prefHeight="25.0" prefWidth="135.0" />
+                  <JFXComboBox fx:id="cb_rol312" focusColor="#fa8628" layoutX="559.0" layoutY="63.0" prefHeight="25.0" prefWidth="135.0" style="-fx-text-inner-color: BLACK;" />
+                  <JFXComboBox fx:id="cb_rol311" focusColor="#fa8628" layoutX="559.0" layoutY="102.0" prefHeight="25.0" prefWidth="135.0" style="-fx-text-inner-color: BLACK;" />
                   <DatePicker layoutX="569.0" layoutY="26.0" prefHeight="25.0" prefWidth="116.0" />
+                  <JFXButton fx:id="btn_reg_nuevo" layoutX="335.0" layoutY="258.0" text="Registrar" textFill="WHITE">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </JFXButton>
                </children>
             </AnchorPane>
-            <JFXButton layoutX="403.0" layoutY="450.0" text="Registrar" textFill="WHITE">
-               <font>
-                  <Font size="18.0" />
-               </font>
-            </JFXButton>
          </children></AnchorPane>
       <AnchorPane fx:id="pane_generar_reporte" layoutX="10.0" layoutY="105.0" onMouseClicked="#selec_tipo_cliente" prefHeight="509.0" prefWidth="900.0" style="-fx-background-color: #202642;" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
          <children>
-            <Label fx:id="gen_rep_tipo_cliente_label" layoutX="337.0" layoutY="14.0" prefHeight="35.0" prefWidth="227.0" text="Seleccione el tipo de cliente" textFill="WHITE">
+            <Label fx:id="gen_rep_tipo_cliente_label" layoutX="318.0" layoutY="14.0" prefHeight="35.0" prefWidth="265.0" text="Seleccione el tipo de cliente" textFill="WHITE">
                <font>
                   <Font size="18.0" />
                </font>
@@ -222,7 +233,7 @@
                   <Image url="@images/natural.png" />
                </image>
             </ImageView>
-            <Label fx:id="gen_rep_per_nat_label" layoutX="275.0" layoutY="161.0" prefHeight="27.0" prefWidth="125.0" text="Persona natural" textFill="WHITE">
+            <Label fx:id="gen_rep_per_nat_label" layoutX="275.0" layoutY="161.0" prefHeight="27.0" prefWidth="151.0" text="Persona natural" textFill="WHITE">
                <font>
                   <Font size="18.0" />
                </font>
@@ -232,7 +243,7 @@
                   <Font size="18.0" />
                </font>
             </Label>
-            <AnchorPane fx:id="pane_gen_rep_interno" layoutX="121.0" layoutY="242.0" prefHeight="226.0" prefWidth="553.0" visible="false">
+            <AnchorPane fx:id="pane_gen_rep_pnat" layoutX="121.0" layoutY="242.0" prefHeight="226.0" prefWidth="553.0">
                <children>
                   <Label fx:id="gen_rep_tipo_id_label" layoutX="14.0" layoutY="42.0" text="Tipo de documento de identificación:" textFill="WHITE">
                      <font>
@@ -244,24 +255,46 @@
                         <Font size="18.0" />
                      </font>
                   </Label>
-                  <JFXButton fx:id="btn_gen_reporte" layoutX="235.0" layoutY="168.0" prefHeight="48.0" prefWidth="123.0" text="Generar" textFill="WHITE">
+                  <JFXButton fx:id="btn_gen_reporte_pnat" layoutX="235.0" layoutY="168.0" prefHeight="48.0" prefWidth="123.0" text="Generar" textFill="WHITE">
                      <font>
                         <Font size="18.0" />
                      </font>
                   </JFXButton>
-                  <JFXComboBox fx:id="gen_rep_tipo_id_ComboBox" layoutX="329.0" layoutY="44.0" prefHeight="25.0" prefWidth="221.0" />
-                  <JFXTextField fx:id="gen_rep_id_TextField" layoutX="326.0" layoutY="104.0" prefHeight="25.0" prefWidth="227.0" />
+                  <JFXComboBox fx:id="cb_gen_rep_tipo_id_pnat" layoutX="329.0" layoutY="44.0" prefHeight="25.0" prefWidth="221.0" style="-fx-text-inner-color: BLACK;" />
+                  <JFXTextField fx:id="tf_gen_rep_id_pnat" layoutX="326.0" layoutY="104.0" prefHeight="25.0" prefWidth="227.0" style="-fx-text-inner-color: WHITE;">
+                     <font>
+                        <Font size="18.0" />
+                     </font></JFXTextField>
+               </children>
+            </AnchorPane>
+            <AnchorPane fx:id="pane_gen_rep_corp" layoutX="131.0" layoutY="252.0" prefHeight="226.0" prefWidth="553.0" visible="false">
+               <children>
+                  <Label fx:id="gen_rep_id_label1" layoutX="131.0" layoutY="77.0" text="NIT:" textFill="WHITE">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Label>
+                  <JFXButton fx:id="btn_gen_reporte_pnat1" layoutX="221.0" layoutY="164.0" prefHeight="48.0" prefWidth="123.0" text="Generar" textFill="WHITE">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </JFXButton>
+                  <JFXTextField fx:id="tf_gen_rep_nit_corp" layoutX="252.0" layoutY="71.0" prefHeight="25.0" prefWidth="227.0" style="-fx-text-inner-color: WHITE;">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </JFXTextField>
                </children>
             </AnchorPane>
          </children>
       </AnchorPane>
-      <Label fx:id="titulo_label" layoutX="46.0" layoutY="60.0" prefHeight="35.0" prefWidth="145.0" style="-fx-background-color: #202642;" text="  Agregar cliente" textAlignment="CENTER" textFill="WHITE">
+      <Label fx:id="titulo_label" layoutX="24.0" layoutY="60.0" prefHeight="35.0" prefWidth="168.0" style="-fx-background-color: #202642;" text="  Agregar cliente" textAlignment="CENTER" textFill="WHITE">
          <font>
             <Font size="18.0" />
          </font></Label>
       <AnchorPane fx:id="pane_gestionar_usuarios" layoutX="10.0" layoutY="102.0" onMouseClicked="#cambiar_pestana" prefHeight="509.0" prefWidth="900.0" style="-fx-background-color: #202642;" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
          <children>
-            <Label fx:id="gen_rep_tipo_cliente_label1" layoutX="381.0" layoutY="14.0" prefHeight="35.0" prefWidth="151.0" text="¿Qué desea hacer?" textFill="WHITE">
+            <Label fx:id="gen_rep_tipo_cliente_label1" layoutX="375.0" layoutY="14.0" prefHeight="35.0" prefWidth="178.0" text="¿Qué desea hacer?" textFill="WHITE">
                <font>
                   <Font size="18.0" />
                </font>
@@ -276,7 +309,7 @@
                   <Image url="@images/añadir_usuario.png" />
                </image>
             </ImageView>
-            <Label fx:id="gen_rep_per_nat_label1" layoutX="294.0" layoutY="202.0" prefHeight="27.0" prefWidth="123.0" text="Añadir usuario" textFill="WHITE">
+            <Label fx:id="gen_rep_per_nat_label1" layoutX="294.0" layoutY="202.0" prefHeight="27.0" prefWidth="138.0" text="Añadir usuario" textFill="WHITE">
                <font>
                   <Font size="18.0" />
                </font>
@@ -296,12 +329,12 @@
                   <Image url="@images/listar_usuarios.png" />
                </image>
             </ImageView>
-            <Label fx:id="gen_rep_per_nat_label11" layoutX="242.0" layoutY="362.0" prefHeight="27.0" prefWidth="214.0" text="Cambiar estado de usuario" textFill="WHITE">
+            <Label fx:id="gen_rep_per_nat_label11" layoutX="278.0" layoutY="362.0" prefHeight="55.0" prefWidth="155.0" text="Cambiar estado de usuario" textAlignment="CENTER" textFill="WHITE" wrapText="true">
                <font>
                   <Font size="18.0" />
                </font>
             </Label>
-            <Label fx:id="gen_rep_per_nat_label12" layoutX="495.0" layoutY="362.0" prefHeight="27.0" prefWidth="116.0" text="Listar usuarios" textFill="WHITE">
+            <Label fx:id="gen_rep_per_nat_label12" layoutX="484.0" layoutY="362.0" prefHeight="27.0" prefWidth="139.0" text="Listar usuarios" textFill="WHITE">
                <font>
                   <Font size="18.0" />
                </font>
@@ -310,11 +343,6 @@
       </AnchorPane>
       <AnchorPane fx:id="pane_generar_facturas" layoutX="10.0" layoutY="102.0" onMouseClicked="#cambiar_pestana" prefHeight="509.0" prefWidth="900.0" style="-fx-background-color: #202642;" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
          <children>
-            <JFXButton fx:id="gen_fact_generar_button" layoutX="389.0" layoutY="430.0" onAction="#handleGen_fact_generar_button" prefHeight="48.0" prefWidth="123.0" text="Generar " textFill="WHITE">
-               <font>
-                  <Font size="18.0" />
-               </font>
-            </JFXButton>
             <Label fx:id="gen_rep_corp_label21" layoutX="254.0" layoutY="14.0" text="Seleccione el tipo de facturación que desea hacer" textFill="WHITE">
                <font>
                   <Font size="18.0" />
@@ -330,17 +358,17 @@
                   <Image url="@images/colectivo.png" />
                </image>
             </ImageView>
-            <Label fx:id="gen_rep_corp_label22" layoutX="282.0" layoutY="189.0" prefHeight="35.0" prefWidth="79.0" text="Individual" textFill="WHITE" wrapText="true">
+            <Label fx:id="gen_rep_corp_label22" layoutX="282.0" layoutY="189.0" prefHeight="35.0" prefWidth="96.0" text="Individual" textFill="WHITE" wrapText="true">
                <font>
                   <Font size="18.0" />
                </font>
             </Label>
-            <Label fx:id="gen_rep_corp_label2421" layoutX="529.0" layoutY="189.0" prefHeight="35.0" prefWidth="79.0" text="Colectiva" textFill="WHITE" wrapText="true">
+            <Label fx:id="gen_rep_corp_label2421" layoutX="529.0" layoutY="189.0" prefHeight="35.0" prefWidth="88.0" text="Colectiva" textFill="WHITE" wrapText="true">
                <font>
                   <Font size="18.0" />
                </font>
             </Label>
-            <AnchorPane fx:id="pane_gen_fact_individual" layoutX="65.0" layoutY="230.0" prefHeight="200.0" prefWidth="588.0">
+            <AnchorPane fx:id="pane_gen_fact_individual" layoutX="65.0" layoutY="230.0" prefHeight="253.0" prefWidth="611.0" visible="false">
                <children>
                   <Label fx:id="gen_fact_tipo_cliente_label" layoutX="48.0" layoutY="27.0" text="Tipo de cliente:" textFill="WHITE">
                      <font>
@@ -362,19 +390,35 @@
                         <Font size="18.0" />
                      </font>
                   </Label>
-                  <JFXComboBox fx:id="gen_fact_clientes_comboBox" layoutX="384.0" layoutY="28.0" prefHeight="25.0" prefWidth="227.0" />
-                  <JFXComboBox fx:id="gen_fact_clientes_comboBox1" layoutX="384.0" layoutY="63.0" prefHeight="25.0" prefWidth="227.0" />
-                  <JFXTextField fx:id="gen_fact_id_TextField" layoutX="384.0" layoutY="101.0" prefHeight="25.0" prefWidth="227.0" />
-                  <JFXTextField fx:id="gen_fact_linea_TextField" layoutX="384.0" layoutY="141.0" prefHeight="25.0" prefWidth="227.0" />
+                  <JFXComboBox fx:id="gen_fact_clientes_comboBox" layoutX="384.0" layoutY="28.0" prefHeight="25.0" prefWidth="227.0" style="-fx-text-inner-color: BLACK;" />
+                  <JFXComboBox fx:id="gen_fact_clientes_comboBox1" layoutX="384.0" layoutY="63.0" prefHeight="25.0" prefWidth="227.0" style="-fx-text-inner-color: BLACK;" />
+                  <JFXTextField fx:id="gen_fact_id_TextField" layoutX="384.0" layoutY="101.0" prefHeight="25.0" prefWidth="227.0" style="-fx-text-inner-color: WHITE;">
+                     <font>
+                        <Font size="18.0" />
+                     </font></JFXTextField>
+                  <JFXTextField fx:id="gen_fact_linea_TextField" layoutX="384.0" layoutY="141.0" prefHeight="25.0" prefWidth="227.0" style="-fx-text-inner-color: WHITE;">
+                     <font>
+                        <Font size="18.0" />
+                     </font></JFXTextField>
+                  <JFXButton fx:id="btn_gen_fact_ind" layoutX="266.0" layoutY="188.0" onAction="#handleGen_fact_generar_button" prefHeight="48.0" prefWidth="123.0" text="Generar " textFill="WHITE">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </JFXButton>
                </children>
             </AnchorPane>
-            <AnchorPane fx:id="pane_gen_fact_colectiva" layoutX="134.0" layoutY="230.0" prefHeight="200.0" prefWidth="535.0" visible="false">
+            <AnchorPane fx:id="pane_gen_fact_colectiva" layoutX="134.0" layoutY="230.0" prefHeight="253.0" prefWidth="535.0" visible="false">
                <children>
                   <Label fx:id="gen_rep_corp_label212" layoutX="68.0" layoutY="28.0" prefHeight="144.0" prefWidth="400.0" text="Se encuentra a solo un click de generar las facturas de todos los clientes de la empresa. Así todos los clientes conocerán sus responsabilidades y las cancelarán cuanto antes ¡Hágalo ahora!" textAlignment="CENTER" textFill="WHITE" wrapText="true">
                      <font>
                         <Font size="18.0" />
                      </font>
                   </Label>
+                  <JFXButton fx:id="btn_gen_fact_colect" layoutX="226.0" layoutY="175.0" onAction="#handleGen_fact_generar_button" prefHeight="48.0" prefWidth="123.0" text="Generar " textFill="WHITE">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </JFXButton>
                </children>
             </AnchorPane>
          </children>
@@ -396,19 +440,19 @@
                   <Image url="@images/pago_cliente.png" />
                </image>
             </ImageView>
-            <Label fx:id="gen_rep_corp_label221" layoutX="534.0" layoutY="154.0" prefHeight="35.0" prefWidth="59.0" text="Cliente" textFill="WHITE" wrapText="true">
+            <Label fx:id="gen_rep_corp_label221" layoutX="538.0" layoutY="154.0" prefHeight="35.0" prefWidth="70.0" text="Cliente" textFill="WHITE" wrapText="true">
                <font>
                   <Font size="18.0" />
                </font>
             </Label>
-            <Label fx:id="gen_rep_corp_label2211" layoutX="321.0" layoutY="154.0" prefHeight="35.0" prefWidth="48.0" text="Línea" textFill="WHITE" wrapText="true">
+            <Label fx:id="gen_rep_corp_label2211" layoutX="321.0" layoutY="154.0" prefHeight="35.0" prefWidth="60.0" text="Línea" textFill="WHITE" wrapText="true">
                <font>
                   <Font size="18.0" />
                </font>
             </Label>
-            <AnchorPane fx:id="pane_pagar_interno" layoutX="115.0" layoutY="201.0" prefHeight="299.0" prefWidth="686.0" visible="false">
+            <AnchorPane fx:id="pane_pagar_linea" layoutX="79.0" layoutY="197.0" prefHeight="299.0" prefWidth="686.0" visible="false">
                <children>
-                  <Label fx:id="pago_mensaje_label" layoutX="84.0" layoutY="7.0" prefHeight="60.0" prefWidth="453.0" text="Pago por línea significa que vas a cancelar el valor de un determinado plan" textFill="WHITE" wrapText="true">
+                  <Label fx:id="pago_mensaje_label" layoutX="84.0" layoutY="7.0" prefHeight="60.0" prefWidth="453.0" text="Pago por línea significa que vas a cancelar el valor de un determinado plan" textAlignment="CENTER" textFill="WHITE" wrapText="true">
                      <font>
                         <Font size="18.0" />
                      </font>
@@ -418,7 +462,7 @@
                         <Font size="18.0" />
                      </font>
                   </Label>
-                  <JFXComboBox fx:id="pagar_tipo_cliente_ComboBox" layoutX="386.0" layoutY="78.0" prefHeight="25.0" prefWidth="214.0" />
+                  <JFXComboBox fx:id="pagar_tipo_cliente_ComboBox" layoutX="386.0" layoutY="78.0" prefHeight="25.0" prefWidth="214.0" style="-fx-text-inner-color: BLACK;" />
                   <Label fx:id="pagar_tipo_cliente_label2" layoutX="87.0" layoutY="114.0" text="Tipo de Documento de Identificación:" textFill="WHITE">
                      <font>
                         <Font size="18.0" />
@@ -434,10 +478,52 @@
                         <Font size="18.0" />
                      </font>
                   </Label>
-                  <JFXComboBox fx:id="pagar_tipo_cliente_ComboBox1" layoutX="386.0" layoutY="115.0" prefHeight="25.0" prefWidth="214.0" />
-                  <JFXTextField fx:id="pagar_id_TextField" layoutX="386.0" layoutY="152.0" prefHeight="25.0" prefWidth="214.0" />
-                  <JFXTextField fx:id="pagar_linea_TextField" layoutX="386.0" layoutY="194.0" prefHeight="25.0" prefWidth="214.0" />
-                  <JFXButton fx:id="pagar_buttton" layoutX="300.0" layoutY="237.0" prefHeight="48.0" prefWidth="123.0" text="Pagar" textFill="WHITE">
+                  <JFXComboBox fx:id="pagar_tipo_cliente_ComboBox1" layoutX="386.0" layoutY="115.0" prefHeight="25.0" prefWidth="214.0" style="-fx-text-inner-color: BLACK;" />
+                  <JFXTextField fx:id="pagar_id_TextField" layoutX="386.0" layoutY="152.0" prefHeight="25.0" prefWidth="214.0" style="-fx-text-inner-color: WHITE;">
+                     <font>
+                        <Font size="18.0" />
+                     </font></JFXTextField>
+                  <JFXTextField fx:id="pagar_linea_TextField" layoutX="386.0" layoutY="194.0" prefHeight="25.0" prefWidth="214.0" style="-fx-text-inner-color: WHITE;">
+                     <font>
+                        <Font size="18.0" />
+                     </font></JFXTextField>
+                  <JFXButton fx:id="btn_pagar_linea" layoutX="300.0" layoutY="237.0" prefHeight="48.0" prefWidth="123.0" text="Pagar" textFill="WHITE">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </JFXButton>
+               </children>
+            </AnchorPane>
+            <AnchorPane fx:id="pane_pagar_cliente" layoutX="125.0" layoutY="211.0" prefHeight="299.0" prefWidth="686.0" visible="false">
+               <children>
+                  <Label fx:id="pago_mensaje_label1" layoutX="84.0" layoutY="7.0" prefHeight="60.0" prefWidth="480.0" text="Pago por cliente quiere decir que vas a cancelar el valor total de todas las lineas asociadas a un cliente" textAlignment="CENTER" textFill="WHITE" wrapText="true">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="pagar_tipo_cliente_label22" layoutX="84.0" layoutY="77.0" text="Tipo de cliente:" textFill="WHITE">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Label>
+                  <JFXComboBox fx:id="CB_tipo_cliente_pago_cl" layoutX="386.0" layoutY="78.0" prefHeight="25.0" prefWidth="214.0" style="-fx-text-inner-color: BLACK;" />
+                  <Label fx:id="pagar_tipo_cliente_label21" layoutX="87.0" layoutY="114.0" text="Tipo de Documento de Identificación:" textFill="WHITE">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="pagar_id_label2" layoutX="88.0" layoutY="151.0" text="Documento de identificación:" textFill="WHITE">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Label>
+                  <JFXComboBox fx:id="CB_tipo_id_pago_cl" layoutX="386.0" layoutY="115.0" prefHeight="25.0" prefWidth="214.0" style="-fx-text-inner-color: BLACK;" />
+                  <JFXTextField fx:id="tf_id_pago_cl" layoutX="386.0" layoutY="152.0" prefHeight="25.0" prefWidth="214.0" style="-fx-text-inner-color: WHITE;">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </JFXTextField>
+                  <JFXButton fx:id="btn_pagar_cliente" layoutX="300.0" layoutY="237.0" prefHeight="48.0" prefWidth="123.0" text="Pagar" textFill="WHITE">
                      <font>
                         <Font size="18.0" />
                      </font>
@@ -453,8 +539,11 @@
                   <Font size="18.0" />
                </font>
             </Label>
-            <JFXTextField fx:id="gest_usr_agreg_id_TextField" layoutX="387.0" layoutY="80.0" prefHeight="25.0" prefWidth="227.0" />
-            <JFXButton fx:id="gest_usr_agreg_button" layoutX="377.0" layoutY="438.0" prefHeight="48.0" prefWidth="162.0" text="Registrar usuario" textFill="WHITE">
+            <JFXTextField fx:id="gest_usr_agreg_id_TextField" layoutX="387.0" layoutY="80.0" prefHeight="25.0" prefWidth="227.0" style="-fx-text-inner-color: WHITE;">
+               <font>
+                  <Font size="18.0" />
+               </font></JFXTextField>
+            <JFXButton fx:id="gest_usr_agreg_button" layoutX="377.0" layoutY="438.0" prefHeight="48.0" prefWidth="205.0" text="Registrar usuario" textFill="WHITE">
                <font>
                   <Font size="18.0" />
                </font>
@@ -464,7 +553,7 @@
                   <Font size="18.0" />
                </font>
             </Label>
-            <JFXComboBox fx:id="gest_usr_agreg_rol_ComboBox" layoutX="388.0" layoutY="120.0" prefHeight="25.0" prefWidth="227.0" />
+            <JFXComboBox fx:id="gest_usr_agreg_rol_ComboBox" layoutX="388.0" layoutY="120.0" prefHeight="25.0" prefWidth="227.0" style="-fx-text-inner-color: BLACK;" />
             <Label fx:id="pagar_tipo_cliente_label1" layoutX="43.0" layoutY="119.0" text="Rol:" textFill="WHITE">
                <font>
                   <Font size="18.0" />
@@ -475,7 +564,7 @@
                   <Font size="18.0" />
                </font>
             </Label>
-            <JFXComboBox fx:id="gest_usr_agreg_tipo_id_ComboBox" layoutX="388.0" layoutY="42.0" prefHeight="25.0" prefWidth="227.0" />
+            <JFXComboBox fx:id="gest_usr_agreg_tipo_id_ComboBox" layoutX="388.0" layoutY="42.0" prefHeight="25.0" prefWidth="227.0" style="-fx-text-inner-color: BLACK;" />
             <Label fx:id="pagar_id_label11" layoutX="43.0" layoutY="160.0" text="Nombres:" textFill="WHITE">
                <font>
                   <Font size="18.0" />
@@ -491,9 +580,18 @@
                   <Font size="18.0" />
                </font>
             </Label>
-            <JFXTextField fx:id="gest_usr_agreg_nombre_TextField" layoutX="388.0" layoutY="161.0" prefHeight="25.0" prefWidth="227.0" />
-            <JFXTextField fx:id="gest_usr_agreg_apellidoI_TextField" layoutX="388.0" layoutY="200.0" prefHeight="25.0" prefWidth="227.0" />
-            <JFXTextField fx:id="gest_usr_agreg_apellidoII_TextField" layoutX="388.0" layoutY="241.0" prefHeight="25.0" prefWidth="227.0" />
+            <JFXTextField fx:id="gest_usr_agreg_nombre_TextField" layoutX="388.0" layoutY="161.0" prefHeight="25.0" prefWidth="227.0" style="-fx-text-inner-color: WHITE;">
+               <font>
+                  <Font size="18.0" />
+               </font></JFXTextField>
+            <JFXTextField fx:id="gest_usr_agreg_apellidoI_TextField" layoutX="388.0" layoutY="200.0" prefHeight="25.0" prefWidth="227.0" style="-fx-text-inner-color: WHITE;">
+               <font>
+                  <Font size="18.0" />
+               </font></JFXTextField>
+            <JFXTextField fx:id="gest_usr_agreg_apellidoII_TextField" layoutX="388.0" layoutY="241.0" prefHeight="25.0" prefWidth="227.0" style="-fx-text-inner-color: WHITE;">
+               <font>
+                  <Font size="18.0" />
+               </font></JFXTextField>
             <Label fx:id="pagar_linea_label11" layoutX="40.0" layoutY="320.0" text="Género: " textFill="WHITE">
                <font>
                   <Font size="18.0" />
@@ -509,16 +607,19 @@
                   <Font size="18.0" />
                </font>
             </Label>
-            <JFXComboBox fx:id="gest_usr_agreg_genero_ComboBox" layoutX="388.0" layoutY="321.0" prefHeight="25.0" prefWidth="227.0" />
-            <JFXComboBox fx:id="gest_usr_agreg_estado_civil_ComboBox" layoutX="388.0" layoutY="357.0" prefHeight="25.0" prefWidth="227.0" />
-            <JFXTextField fx:id="gest_usr_agreg_email_TextField" layoutX="394.0" layoutY="394.0" prefHeight="25.0" prefWidth="227.0" />
+            <JFXComboBox fx:id="gest_usr_agreg_genero_ComboBox" layoutX="388.0" layoutY="321.0" prefHeight="25.0" prefWidth="227.0" style="-fx-text-inner-color: BLACK;" />
+            <JFXComboBox fx:id="gest_usr_agreg_estado_civil_ComboBox" layoutX="388.0" layoutY="357.0" prefHeight="25.0" prefWidth="227.0" style="-fx-text-inner-color: BLACK;" />
+            <JFXTextField fx:id="gest_usr_agreg_email_TextField" layoutX="394.0" layoutY="394.0" prefHeight="25.0" prefWidth="227.0" style="-fx-text-inner-color: WHITE;">
+               <font>
+                  <Font size="18.0" />
+               </font></JFXTextField>
             <ImageView fx:id="gest_usr_agregar_retroceder_Image" fitHeight="35.0" fitWidth="48.0" layoutX="8.0" layoutY="-2.0" onMouseClicked="#user_gest" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@images/retroceder.png" />
                </image>
             </ImageView>
             <Label fx:id="pagar_linea_label11111" layoutX="44.0" layoutY="7.0" text="Atrás" textFill="WHITE" />
-            <DatePicker fx:id="gest_usr_agreg_fecha_nacimiento_DatePicker" layoutX="440.0" layoutY="285.0" />
+            <DatePicker fx:id="gest_usr_agreg_fecha_nacimiento_DatePicker" layoutX="388.0" layoutY="292.0" />
          </children>
       </AnchorPane>
       <AnchorPane fx:id="pane_gest_usr_editar" layoutX="10.0" layoutY="102.0" onMouseClicked="#cambiar_pestana" prefHeight="509.0" prefWidth="900.0" style="-fx-background-color: #202642;" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
@@ -528,13 +629,16 @@
                   <Font size="18.0" />
                </font>
             </Label>
-            <JFXTextField fx:id="gest_usr_editar_numero_btn_buscar12" layoutX="634.0" layoutY="47.0" prefHeight="25.0" prefWidth="227.0" />
+            <JFXTextField fx:id="gest_usr_editar_numero_btn_buscar12" layoutX="634.0" layoutY="47.0" prefHeight="25.0" prefWidth="227.0" style="-fx-text-inner-color: WHITE;">
+               <font>
+                  <Font size="18.0" />
+               </font></JFXTextField>
             <Label fx:id="pagar_tipo_cliente_label11112" layoutX="25.0" layoutY="41.0" text="Tipo de documento de identificación:" textFill="WHITE">
                <font>
                   <Font size="18.0" />
                </font>
             </Label>
-            <JFXComboBox fx:id="gest_usr_editar_id_cb_buscar12" layoutX="336.0" layoutY="42.0" prefHeight="25.0" prefWidth="168.0" />
+            <JFXComboBox fx:id="gest_usr_editar_id_cb_buscar12" layoutX="336.0" layoutY="42.0" prefHeight="25.0" prefWidth="168.0" style="-fx-text-inner-color: BLACK;" />
             <ImageView fx:id="gest_usr_editar_retroceder_Image" fitHeight="35.0" fitWidth="41.0" layoutX="23.0" layoutY="-3.0" onMouseClicked="#user_gest" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@images/retroceder.png" />
@@ -546,56 +650,73 @@
                   <Font size="18.0" />
                </font>
             </JFXButton>
-            <AnchorPane fx:id="pane_edit_campos" layoutX="23.0" layoutY="139.0" prefHeight="325.0" prefWidth="507.0" visible="false">
+            <AnchorPane fx:id="pane_edit_campos" layoutX="23.0" layoutY="132.0" prefHeight="371.0" prefWidth="604.0" visible="false">
                <children>
-                  <JFXComboBox fx:id="gest_usr_editar_rol_ComboBox12" layoutX="199.0" layoutY="2.0" prefHeight="25.0" prefWidth="227.0" />
-                  <Label fx:id="pagar_tipo_cliente_label21111" layoutX="22.0" layoutY="14.0" text="Rol:" textFill="WHITE">
+                  <JFXComboBox fx:id="gest_usr_editar_rol_ComboBox12" layoutX="199.0" layoutY="13.0" prefHeight="25.0" prefWidth="227.0" style="-fx-text-inner-color: BLACK;" />
+                  <Label fx:id="pagar_tipo_cliente_label21111" layoutX="25.0" layoutY="16.0" text="Rol:" textFill="WHITE">
                      <font>
                         <Font size="18.0" />
                      </font>
                   </Label>
-                  <Label fx:id="pagar_id_label211111" layoutX="22.0" layoutY="41.0" text="Nombres:" textFill="WHITE">
+                  <Label fx:id="pagar_id_label211111" layoutX="23.0" layoutY="59.0" text="Nombres:" textFill="WHITE">
                      <font>
                         <Font size="18.0" />
                      </font>
                   </Label>
-                  <Label fx:id="pagar_id_label2111111" layoutX="22.0" layoutY="75.0" text="Primer apellido:" textFill="WHITE">
+                  <Label fx:id="pagar_id_label2111111" layoutX="22.0" layoutY="99.0" text="Primer apellido:" textFill="WHITE">
                      <font>
                         <Font size="18.0" />
                      </font>
                   </Label>
-                  <Label fx:id="pagar_id_label1111112" layoutX="22.0" layoutY="113.0" text="Segundo apellido:" textFill="WHITE">
+                  <Label fx:id="pagar_id_label1111112" layoutX="23.0" layoutY="137.0" text="Segundo apellido:" textFill="WHITE">
                      <font>
                         <Font size="18.0" />
                      </font>
                   </Label>
-                  <JFXTextField fx:id="gest_usr_cambiar_estadoII2" layoutX="199.0" layoutY="42.0" prefHeight="25.0" prefWidth="227.0" />
-                  <JFXTextField fx:id="gest_usr_editar_nombre_tf12" layoutX="205.0" layoutY="114.0" prefHeight="25.0" prefWidth="227.0" />
-                  <JFXTextField fx:id="gest_usr_editar_apellidoII_tf12" layoutX="199.0" layoutY="76.0" prefHeight="25.0" prefWidth="227.0" />
-                  <Label fx:id="pagar_linea_label22" layoutX="25.0" layoutY="261.0" text="Correo electrónico:" textFill="WHITE">
+                  <JFXTextField fx:id="gest_usr_cambiar_estadoII2" layoutX="199.0" layoutY="43.0" prefHeight="25.0" prefWidth="227.0" style="-fx-text-inner-color: WHITE;">
+                     <font>
+                        <Font size="18.0" />
+                     </font></JFXTextField>
+                  <JFXTextField fx:id="gest_usr_editar_nombre_tf12" layoutX="199.0" layoutY="121.0" prefHeight="25.0" prefWidth="227.0" style="-fx-text-inner-color: WHITE;">
+                     <font>
+                        <Font size="18.0" />
+                     </font></JFXTextField>
+                  <JFXTextField fx:id="gest_usr_editar_apellidoII_tf12" layoutX="199.0" layoutY="83.0" prefHeight="25.0" prefWidth="227.0" style="-fx-text-inner-color: WHITE;">
+                     <font>
+                        <Font size="18.0" />
+                     </font></JFXTextField>
+                  <Label fx:id="pagar_linea_label22" layoutX="25.0" layoutY="299.0" text="Correo electrónico:" textFill="WHITE">
                      <font>
                         <Font size="18.0" />
                      </font>
                   </Label>
-                  <JFXTextField fx:id="gest_usr_editar_correo_tf12" layoutX="205.0" layoutY="262.0" prefHeight="25.0" prefWidth="227.0" />
-                  <Label fx:id="pagar_id_label11111121" layoutX="25.0" layoutY="149.0" text="Fecha de nacimiento:" textFill="WHITE">
+                  <JFXTextField fx:id="gest_usr_editar_correo_tf12" layoutX="211.0" layoutY="282.0" prefHeight="25.0" prefWidth="227.0" style="-fx-text-inner-color: WHITE;">
+                     <font>
+                        <Font size="18.0" />
+                     </font></JFXTextField>
+                  <Label fx:id="pagar_id_label11111121" layoutX="25.0" layoutY="175.0" text="Fecha de nacimiento:" textFill="WHITE">
                      <font>
                         <Font size="18.0" />
                      </font>
                   </Label>
-                  <Label fx:id="pagar_id_label11111122" layoutX="24.0" layoutY="185.0" text="Género:" textFill="WHITE">
+                  <Label fx:id="pagar_id_label11111122" layoutX="21.0" layoutY="214.0" text="Género:" textFill="WHITE">
                      <font>
                         <Font size="18.0" />
                      </font>
                   </Label>
-                  <Label fx:id="pagar_id_label11111123" layoutX="25.0" layoutY="222.0" text="Estado civil:" textFill="WHITE">
+                  <Label fx:id="pagar_id_label11111123" layoutX="25.0" layoutY="261.0" text="Estado civil:" textFill="WHITE">
                      <font>
                         <Font size="18.0" />
                      </font>
                   </Label>
-                  <DatePicker layoutX="265.0" layoutY="150.0" />
-                  <JFXComboBox fx:id="gest_usr_editar_rol_ComboBox121" layoutX="205.0" layoutY="186.0" prefHeight="25.0" prefWidth="227.0" />
-                  <JFXComboBox fx:id="gest_usr_editar_rol_ComboBox122" layoutX="205.0" layoutY="223.0" prefHeight="25.0" prefWidth="227.0" />
+                  <DatePicker layoutX="226.0" layoutY="173.0" />
+                  <JFXComboBox fx:id="gest_usr_editar_rol_ComboBox121" layoutX="205.0" layoutY="211.0" prefHeight="25.0" prefWidth="227.0" style="-fx-text-inner-color: BLACK;" />
+                  <JFXComboBox fx:id="gest_usr_editar_rol_ComboBox122" layoutX="205.0" layoutY="248.0" prefHeight="25.0" prefWidth="227.0" style="-fx-text-inner-color: BLACK;" />
+                  <JFXButton fx:id="gest_usr_editar_btn_buscar112" layoutX="375.0" layoutY="309.0" onAction="#buscar_edit" prefHeight="48.0" prefWidth="221.0" text="Guardar cambios" textFill="WHITE">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </JFXButton>
                </children>
             </AnchorPane>
             <Label fx:id="estado_label2" layoutX="45.0" layoutY="401.0" text="Estado:" textFill="WHITE" visible="false">
@@ -604,11 +725,6 @@
                </font>
             </Label>
             <JFXComboBox fx:id="gest_usr_cambiar_estado_cb2" layoutX="223.0" layoutY="402.0" prefHeight="25.0" prefWidth="227.0" visible="false" />
-            <JFXButton fx:id="gest_usr_editar_btn_buscar112" layoutX="353.0" layoutY="447.0" onAction="#buscar_edit" prefHeight="48.0" prefWidth="168.0" text="Guardar cambios" textFill="WHITE">
-               <font>
-                  <Font size="18.0" />
-               </font>
-            </JFXButton>
          </children>
       </AnchorPane>
       <AnchorPane fx:id="pane_gest_usr_cambiar_estado" layoutX="10.0" layoutY="102.0" onMouseClicked="#cambiar_pestana" prefHeight="509.0" prefWidth="900.0" style="-fx-background-color: #202642;" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
@@ -618,13 +734,16 @@
                   <Font size="18.0" />
                </font>
             </Label>
-            <JFXTextField fx:id="gest_usr_editar_numero_btn_buscar1" layoutX="634.0" layoutY="47.0" prefHeight="25.0" prefWidth="227.0" />
+            <JFXTextField fx:id="gest_usr_editar_numero_btn_buscar1" layoutX="634.0" layoutY="44.0" prefHeight="25.0" prefWidth="227.0" style="-fx-text-inner-color: WHITE;">
+               <font>
+                  <Font size="18.0" />
+               </font></JFXTextField>
             <Label fx:id="pagar_tipo_cliente_label1111" layoutX="25.0" layoutY="41.0" text="Tipo de documento de identificación:" textFill="WHITE">
                <font>
                   <Font size="18.0" />
                </font>
             </Label>
-            <JFXComboBox fx:id="gest_usr_editar_id_cb_buscar1" layoutX="336.0" layoutY="42.0" prefHeight="25.0" prefWidth="168.0" />
+            <JFXComboBox fx:id="gest_usr_editar_id_cb_buscar1" layoutX="366.0" layoutY="39.0" prefHeight="25.0" prefWidth="168.0" style="-fx-text-inner-color: BLACK;" />
             <ImageView fx:id="gest_usr_cambiar_estado_retroceder_Image" fitHeight="35.0" fitWidth="41.0" layoutX="23.0" layoutY="-3.0" onMouseClicked="#user_gest" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@images/retroceder.png" />
@@ -638,49 +757,65 @@
             </JFXButton>
             <AnchorPane fx:id="pane_estado_campos" disable="true" layoutX="23.0" layoutY="139.0" prefHeight="253.0" prefWidth="507.0" visible="false">
                <children>
-                  <JFXComboBox fx:id="gest_usr_editar_rol_ComboBox1" layoutX="199.0" layoutY="27.0" prefHeight="25.0" prefWidth="227.0" />
-                  <Label fx:id="pagar_tipo_cliente_label111" layoutX="25.0" layoutY="26.0" text="Rol:" textFill="WHITE">
+                  <JFXComboBox fx:id="gest_usr_editar_rol_ComboBox1" layoutX="199.0" layoutY="27.0" prefHeight="25.0" prefWidth="227.0" style="-fx-text-inner-color: BLACK;" />
+                  <Label fx:id="pagar_tipo_cliente_label111" layoutX="24.0" layoutY="43.0" text="Rol:" textFill="WHITE">
                      <font>
                         <Font size="18.0" />
                      </font>
                   </Label>
-                  <Label fx:id="pagar_id_label1111" layoutX="22.0" layoutY="75.0" text="Nombres:" textFill="WHITE">
+                  <Label fx:id="pagar_id_label1111" layoutX="22.0" layoutY="93.0" text="Nombres:" textFill="WHITE">
                      <font>
                         <Font size="18.0" />
                      </font>
                   </Label>
-                  <Label fx:id="pagar_id_label11111" layoutX="22.0" layoutY="125.0" text="Primer apellido:" textFill="WHITE">
+                  <Label fx:id="pagar_id_label11111" layoutX="22.0" layoutY="143.0" text="Primer apellido:" textFill="WHITE">
                      <font>
                         <Font size="18.0" />
                      </font>
                   </Label>
-                  <Label fx:id="pagar_id_label111111" layoutX="22.0" layoutY="172.0" text="Segundo apellido:" textFill="WHITE">
+                  <Label fx:id="pagar_id_label111111" layoutX="22.0" layoutY="190.0" text="Segundo apellido:" textFill="WHITE">
                      <font>
                         <Font size="18.0" />
                      </font>
                   </Label>
-                  <JFXTextField fx:id="gest_usr_cambiar_estadoII" layoutX="199.0" layoutY="76.0" prefHeight="25.0" prefWidth="227.0" />
-                  <JFXTextField fx:id="gest_usr_editar_nombre_tf1" layoutX="199.0" layoutY="173.0" prefHeight="25.0" prefWidth="227.0" />
-                  <JFXTextField fx:id="gest_usr_editar_apellidoII_tf1" layoutX="199.0" layoutY="126.0" prefHeight="25.0" prefWidth="227.0" />
-                  <Label fx:id="pagar_linea_label2" layoutX="25.0" layoutY="218.0" text="Correo electrónico:" textFill="WHITE">
+                  <JFXTextField fx:id="gest_usr_cambiar_estadoII" layoutX="199.0" layoutY="76.0" prefHeight="25.0" prefWidth="227.0" style="-fx-text-inner-color: WHITE;">
+                     <font>
+                        <Font size="18.0" />
+                     </font></JFXTextField>
+                  <JFXTextField fx:id="gest_usr_editar_nombre_tf1" layoutX="199.0" layoutY="173.0" prefHeight="25.0" prefWidth="227.0" style="-fx-text-inner-color: WHITE;">
+                     <font>
+                        <Font size="18.0" />
+                     </font></JFXTextField>
+                  <JFXTextField fx:id="gest_usr_editar_apellidoII_tf1" layoutX="199.0" layoutY="126.0" prefHeight="25.0" prefWidth="227.0" style="-fx-text-inner-color: WHITE;">
+                     <font>
+                        <Font size="18.0" />
+                     </font></JFXTextField>
+                  <Label fx:id="pagar_linea_label2" layoutX="24.0" layoutY="229.0" text="Correo electrónico:" textFill="WHITE">
                      <font>
                         <Font size="18.0" />
                      </font>
                   </Label>
-                  <JFXTextField fx:id="gest_usr_editar_correo_tf1" layoutX="199.0" layoutY="219.0" prefHeight="25.0" prefWidth="227.0" />
+                  <JFXTextField fx:id="gest_usr_editar_correo_tf1" layoutX="199.0" layoutY="219.0" prefHeight="25.0" prefWidth="227.0" style="-fx-text-inner-color: WHITE;">
+                     <font>
+                        <Font size="18.0" />
+                     </font></JFXTextField>
                </children>
             </AnchorPane>
-            <Label fx:id="estado_label" layoutX="45.0" layoutY="401.0" text="Estado:" textFill="WHITE" visible="false">
-               <font>
-                  <Font size="18.0" />
-               </font>
-            </Label>
-            <JFXComboBox fx:id="gest_usr_cambiar_estado_cb" layoutX="223.0" layoutY="402.0" prefHeight="25.0" prefWidth="227.0" visible="false" />
-            <JFXButton fx:id="gest_usr_editar_btn_buscar11" layoutX="353.0" layoutY="447.0" onAction="#buscar_edit" prefHeight="48.0" prefWidth="168.0" text="Guardar cambios" textFill="WHITE">
-               <font>
-                  <Font size="18.0" />
-               </font>
-            </JFXButton>
+            <AnchorPane fx:id="pane_estado_est" layoutX="41.0" layoutY="404.0" prefHeight="102.0" prefWidth="438.0" visible="false">
+               <children>
+                  <Label fx:id="estado_label" layoutX="11.0" layoutY="19.0" text="Estado:" textFill="WHITE">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Label>
+                  <JFXComboBox fx:id="gest_usr_cambiar_estado_cb" layoutX="178.0" layoutY="15.0" prefHeight="25.0" prefWidth="227.0" style="-fx-text-inner-color: BLACK;" />
+                  <JFXButton fx:id="gest_usr_editar_btn_buscar11" layoutX="240.0" layoutY="48.0" onAction="#buscar_edit" prefHeight="48.0" prefWidth="188.0" text="Guardar cambios" textFill="WHITE">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </JFXButton>
+               </children>
+            </AnchorPane>
          </children>
       </AnchorPane>
       <AnchorPane fx:id="pane_gest_usr_listar" layoutX="10.0" layoutY="102.0" onMouseClicked="#cambiar_pestana" prefHeight="509.0" prefWidth="900.0" style="-fx-background-color: #202642;" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">

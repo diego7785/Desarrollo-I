@@ -3,6 +3,7 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -33,6 +34,7 @@ public class Controller implements Initializable {
     //Class Constructor
     public Controller()
     {
+
     }
 
     //Database connection
@@ -79,9 +81,9 @@ public class Controller implements Initializable {
     @FXML
     private ImageView gen_rep_corporativo;
     @FXML
-    private JFXTextField gen_rep_id_TextField;
+    private AnchorPane pane_gen_rep_corp;
     @FXML
-    private Label gen_rep_id_label;
+    private AnchorPane pane_gen_rep_pnat;
     @FXML
     private Label titulo_label;
     @FXML
@@ -117,19 +119,9 @@ public class Controller implements Initializable {
     @FXML
     private ImageView pagar_linea;
     @FXML
-    private Label pagar_tipo_cliente_label;
+    AnchorPane pane_pagar_cliente;
     @FXML
-    private Label pagar_id_label;
-    @FXML
-    private Label pagar_linea_label;
-    @FXML
-    private JFXComboBox pagar_tipo_cliente_ComboBox;
-    @FXML
-    private JFXTextField pagar_id_TextField;
-    @FXML
-    private JFXTextField pagar_linea_TextField;
-    @FXML
-    private  Label pago_mensaje_label;
+    AnchorPane pane_pagar_linea;
     @FXML
     private AnchorPane pane_gest_usr_agregar;
     @FXML
@@ -163,6 +155,8 @@ public class Controller implements Initializable {
     @FXML
     private AnchorPane pane_estado_campos;
     @FXML
+    private AnchorPane pane_estado_est;
+    @FXML
     private JFXComboBox gest_usr_cambiar_estado_cb;
     @FXML
     private JFXButton gest_usr_estado_btn_buscar;
@@ -179,17 +173,9 @@ public class Controller implements Initializable {
     @FXML
     private  AnchorPane pane_ventas_nuevo;
     @FXML
-    private JFXComboBox gen_rep_tipo_id_ComboBox;
-    @FXML
-    private  Label gen_rep_tipo_id_label;
-    @FXML
     private AnchorPane pane_gen_fact_individual;
     @FXML
     private AnchorPane pane_gen_fact_colectiva;
-    @FXML
-    private AnchorPane pane_gen_rep_interno;
-    @FXML
-    private AnchorPane pane_pagar_interno;
     @FXML
     private  JFXComboBox gest_usr_editar_id_cb_buscar12;
     @FXML
@@ -197,10 +183,37 @@ public class Controller implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        gen_fact_clientes_comboBox = new JFXComboBox();
-        gen_fact_clientes_comboBox1 = new JFXComboBox();
-        gen_fact_clientes_comboBox.getItems().addAll(tipoCliente);
-        gen_fact_clientes_comboBox1.getItems().addAll(tipoDocumento);
+        Platform.runLater(() ->
+        {
+            if (new_user.get_user_rol() == 1) {
+                realizar_pagos.setVisible(false);
+                generar_factura.setVisible(false);
+                agregar_user.setVisible(false);
+                pane_ventas.setVisible(true);
+                titulo_label.setText("  Agregar cliente");
+                titulo_label.setLayoutX(46);
+
+            } else if (new_user.get_user_rol() == 2) {
+                realizar_venta.setVisible(false);
+                generar_reporte.setVisible(false);
+                generar_factura.setVisible(false);
+                agregar_user.setVisible(false);
+                pane_pagar.setVisible(true);
+                titulo_label.setText("   Realizar pagos");
+                titulo_label.setLayoutX(311);
+            } else {
+                realizar_venta.setVisible(false);
+                generar_reporte.setVisible(false);
+                realizar_pagos.setVisible(false);
+                pane_generar_facturas.setVisible(true);
+                titulo_label.setText(" Generar facturas");
+                titulo_label.setLayoutX(445);
+            }
+            gen_fact_clientes_comboBox = new JFXComboBox();
+            gen_fact_clientes_comboBox1 = new JFXComboBox();
+            gen_fact_clientes_comboBox.getItems().addAll(tipoCliente);
+            gen_fact_clientes_comboBox1.getItems().addAll(tipoDocumento);
+        });
     }
 
     public void set_user_role (int NR)
@@ -215,47 +228,69 @@ public class Controller implements Initializable {
     }
 
     @FXML
-    public void cambiar_pestana(MouseEvent event) throws Exception {
-
-        if (new_user.get_user_rol() == 1) {
+    public void cambiar_pestana(MouseEvent event) throws Exception
+    {
+        if (new_user.get_user_rol() == 1)
+        {
             realizar_pagos.setVisible(false);
             generar_factura.setVisible(false);
             agregar_user.setVisible(false);
-            if (event.getSource().equals(realizar_venta)) {
+            if (event.getSource().equals(realizar_venta))
+            {
                 pane_generar_reporte.setVisible(false);
                 pane_ventas.setVisible(true);
                 titulo_label.setText("  Agregar cliente");
                 titulo_label.setLayoutX(46);
+                pane_ventas_antiguo.setVisible(false);
+                pane_ventas_nuevo.setVisible(false);
             }
-            if (event.getSource().equals(generar_reporte)) {
+            if (event.getSource().equals(generar_reporte))
+            {
                 pane_generar_reporte.setVisible(true);
                 pane_gestionar_usuarios.setVisible(false);
                 titulo_label.setText(" Generar reportes");
                 titulo_label.setLayoutX(173);
+                pane_gen_rep_pnat.setVisible(false);
+                pane_gen_rep_corp.setVisible(false);
             }
-        } else if (new_user.get_user_rol() == 2) {
+        }
+        else if (new_user.get_user_rol() == 2)
+        {
             realizar_venta.setVisible(false);
             generar_reporte.setVisible(false);
             generar_factura.setVisible(false);
             agregar_user.setVisible(false);
 
-            if (event.getSource().equals(realizar_pagos)) {
+            if (event.getSource().equals(realizar_pagos))
+            {
                 pane_pagar.setVisible(true);
                 titulo_label.setText("   Realizar pagos");
                 titulo_label.setLayoutX(311);
+                pane_pagar_linea.setVisible(false);
+                pane_pagar_cliente.setVisible(false);
             }
-        } else {
+        }
+        else
+        {
             realizar_venta.setVisible(false);
             generar_reporte.setVisible(false);
             realizar_pagos.setVisible(false);
 
-            if (event.getSource().equals(generar_factura)) {
+            if (event.getSource().equals(generar_factura))
+            {
                 pane_generar_facturas.setVisible(true);
                 pane_gestionar_usuarios.setVisible(false);
                 titulo_label.setText(" Generar facturas");
                 titulo_label.setLayoutX(445);
+                pane_gen_fact_individual.setVisible(false);
+                pane_gen_fact_colectiva.setVisible(false);
+                pane_gest_usr_agregar.setVisible(false);
+                pane_gest_usr_editar.setVisible(false);
+                pane_gest_usr_cambiar_estado.setVisible(false);
+                pane_gest_usr_listar.setVisible(false);
             }
-            if (event.getSource().equals(agregar_user)) {
+            if (event.getSource().equals(agregar_user))
+            {
                 pane_generar_facturas.setVisible(false);
                 pane_gestionar_usuarios.setVisible(true);
                 titulo_label.setText("Gestión usuarios");
@@ -264,13 +299,11 @@ public class Controller implements Initializable {
         }
     }
 
-   @FXML
+    @FXML
     public void log_out(MouseEvent event)
     {
         if(event.getSource().equals(salir))
         {
-            //titulo_label.setText("  Cerrar sesión");
-            //titulo_label.setLayoutX(722);
             int user_answer = JOptionPane.showConfirmDialog(null, "¿Seguro desea cerrar la sesion?", "¡Alerta!", JOptionPane.YES_NO_OPTION);
             if (user_answer == 0)
             {
@@ -285,11 +318,7 @@ public class Controller implements Initializable {
         if (event.getSource().equals(gest_usr_añadir))
         {
             pane_gestionar_usuarios.setVisible(false);
-            pane_ventas.setVisible(false);
-            pane_generar_reporte.setVisible(false);
             pane_generar_facturas.setVisible(false);
-            pane_generar_facturas.setVisible(false);
-            pane_pagar.setVisible(false);
             pane_gest_usr_agregar.setVisible(true);
             pane_gest_usr_editar.setVisible(false);
             pane_gest_usr_cambiar_estado.setVisible(false);
@@ -300,57 +329,43 @@ public class Controller implements Initializable {
         if (event.getSource().equals(gest_usr_agregar_retroceder_Image) || event.getSource().equals(gest_usr_editar_retroceder_Image) || event.getSource().equals(gest_usr_cambiar_estado_retroceder_Image) || event.getSource().equals(gest_usr_listar_retroceder_Image))
         {
             pane_gestionar_usuarios.setVisible(true);
-            pane_ventas.setVisible(false);
-            pane_generar_reporte.setVisible(false);
             pane_generar_facturas.setVisible(false);
-            pane_generar_facturas.setVisible(false);
-            pane_pagar.setVisible(false);
             pane_gest_usr_agregar.setVisible(false);
             pane_gest_usr_editar.setVisible(false);
             pane_gest_usr_cambiar_estado.setVisible(false);
             pane_gest_usr_listar.setVisible(false);
             titulo_label.setText("Gestión usuarios");
             titulo_label.setLayoutX(580);
-
         }
         if (event.getSource().equals(gest_usr_editar))
         {
             pane_gestionar_usuarios.setVisible(false);
-            pane_ventas.setVisible(false);
-            pane_generar_reporte.setVisible(false);
             pane_generar_facturas.setVisible(false);
-            pane_generar_facturas.setVisible(false);
-            pane_pagar.setVisible(false);
             pane_gest_usr_agregar.setVisible(false);
             pane_gest_usr_editar.setVisible(true);
             pane_gest_usr_cambiar_estado.setVisible(false);
             pane_gest_usr_listar.setVisible(false);
             titulo_label.setText(" Editar usuarios");
             titulo_label.setLayoutX(580);
+            pane_edit_campos.setVisible(false);
         }
         if (event.getSource().equals(gest_usr_cambiar_estado))
         {
             pane_gestionar_usuarios.setVisible(false);
-            pane_ventas.setVisible(false);
-            pane_generar_reporte.setVisible(false);
             pane_generar_facturas.setVisible(false);
-            pane_generar_facturas.setVisible(false);
-            pane_pagar.setVisible(false);
             pane_gest_usr_agregar.setVisible(false);
             pane_gest_usr_editar.setVisible(false);
             pane_gest_usr_cambiar_estado.setVisible(true);
             pane_gest_usr_listar.setVisible(false);
             titulo_label.setText(" Cambiar estado");
             titulo_label.setLayoutX(580);
+            pane_estado_campos.setVisible(false);
+            pane_estado_est.setVisible(false);
         }
         if (event.getSource().equals(gest_usr_listar))
         {
             pane_gestionar_usuarios.setVisible(false);
-            pane_ventas.setVisible(false);
-            pane_generar_reporte.setVisible(false);
             pane_generar_facturas.setVisible(false);
-            pane_generar_facturas.setVisible(false);
-            pane_pagar.setVisible(false);
             pane_gest_usr_agregar.setVisible(false);
             pane_gest_usr_editar.setVisible(false);
             pane_gest_usr_cambiar_estado.setVisible(false);
@@ -358,25 +373,19 @@ public class Controller implements Initializable {
             titulo_label.setText(" Listar usuarios");
             titulo_label.setLayoutX(580);
         }
-
     }
 
     public void selec_tipo_cliente(MouseEvent event)
     {
         if (event.getSource().equals(gen_rep_corporativo))
-
         {
-            pane_gen_rep_interno.setVisible(true);
-            gen_rep_id_label.setText("                                   NIT:");
-            gen_rep_tipo_id_ComboBox.setVisible(false);
-            gen_rep_tipo_id_label.setVisible(false);
+            pane_gen_rep_pnat.setVisible(false);
+            pane_gen_rep_corp.setVisible(true);
         }
         if (event.getSource().equals(gen_rep_persona_nat))
         {
-            pane_gen_rep_interno.setVisible(true);
-            gen_rep_id_label.setText("Documento de Identificación:");
-            gen_rep_tipo_id_ComboBox.setVisible(true);
-            gen_rep_tipo_id_label.setVisible(true);
+            pane_gen_rep_pnat.setVisible(true);
+            pane_gen_rep_corp.setVisible(false);
         }
     }
 
@@ -386,33 +395,25 @@ public class Controller implements Initializable {
         {
             pane_gen_fact_individual.setVisible(false);
             pane_gen_fact_colectiva.setVisible(true);
-
-         }
+        }
         if(event.getSource().equals(gen_fact_individual))
         {
             pane_gen_fact_individual.setVisible(true);
             pane_gen_fact_colectiva.setVisible(false);
-
         }
     }
 
     public void select_tipo_pago(MouseEvent event)
     {
-
         if(event.getSource().equals(pagar_cliente))
         {
-            pagar_linea_label.setVisible(false);
-            pagar_linea_TextField.setVisible(false);
-            pago_mensaje_label.setText("Pago por cliente quiere decir que vas a cancelar el valor total de todas las lineas asociadas a un cliente");
-            pane_pagar_interno.setVisible(true);
+            pane_pagar_linea.setVisible(false);
+            pane_pagar_cliente.setVisible(true);
         }
         if(event.getSource().equals(pagar_linea))
         {
-            pagar_linea_label.setVisible(true);
-            pagar_linea_TextField.setVisible(true);
-            pago_mensaje_label.setText("Pago por línea significa que vas a cancelar el valor de un determinado plan");
-            pago_mensaje_label.setText("Pago por línea significa que vas a cancelar el valor de un determinado plan");
-            pane_pagar_interno.setVisible(true);
+            pane_pagar_linea.setVisible(true);
+            pane_pagar_cliente.setVisible(false);
         }
     }
 
@@ -425,8 +426,9 @@ public class Controller implements Initializable {
     public void buscar_estado(ActionEvent event){
         if(event.getSource().equals(gest_usr_estado_btn_buscar)){
             pane_estado_campos.setVisible(true);
-            estado_label.setVisible(true);
-            gest_usr_cambiar_estado_cb.setVisible(true);
+            pane_estado_est.setVisible(true);
+            //estado_label.setVisible(true);
+            //gest_usr_cambiar_estado_cb.setVisible(true);
         }
     }
 
