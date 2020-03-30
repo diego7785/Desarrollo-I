@@ -452,7 +452,7 @@ public class Controller implements Initializable {
         int documento = Integer.parseInt(gen_fact_id_TextField.getText());
         int numero = Integer.parseInt(gen_fact_linea_TextField.getText());
 
-        bill.WriteBill(numero, documento);
+        //bill.WriteBill(numero, documento);
     }
 
 }
