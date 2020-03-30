@@ -43,7 +43,7 @@ public class login
                 if (password_entered.equals(user_password) && event.getSource().equals(btn_login))
                 {
                     btn_login.getScene().getWindow().hide();
-                    FXMLLoader loader = new FXMLLoader(getClass().getResource("sample.fxml"));
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("mainUI.fxml"));
                     Parent root = (Parent) loader.load();
 
                     Stage primaryStage = new Stage();

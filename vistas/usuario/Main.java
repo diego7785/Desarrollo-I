@@ -3,8 +3,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
-
 
 
 public class Main extends Application {
@@ -13,7 +11,7 @@ public class Main extends Application {
         //--module-path ${PATH_TO_FX} --add-modules javafx.controls,javafx.fxml
 
         Parent root = FXMLLoader.load(getClass().getResource("Login.fxml"));
-        Parent logged =FXMLLoader.load(getClass().getResource("sample.fxml"));
+        Parent logged =FXMLLoader.load(getClass().getResource("mainUI.fxml"));
         //primaryStage.initStyle(StageStyle.TRANSPARENT);
 
         Scene login = new Scene(root);
