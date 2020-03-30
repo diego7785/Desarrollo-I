@@ -1,6 +1,6 @@
 public class User
 {
-    private int user_rol=9;
+    private int user_rol=0;
 
     public int get_user_rol ()
     {
