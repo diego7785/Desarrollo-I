@@ -38,6 +38,7 @@ public class Controller implements Initializable {
 
     //Database connection
     private DBConnection conection= new DBConnection("", "", "", "", "", "");
+    //Class Constructor
 
     //User class object
     User new_user = new User();
@@ -71,6 +72,8 @@ public class Controller implements Initializable {
     private AnchorPane pane_ventas;
     @FXML
     private AnchorPane pane_gestionar_usuarios;
+    @FXML
+    private AnchorPane pane_estado_est;
     @FXML
     private AnchorPane pane_generar_reporte;
     @FXML
@@ -153,8 +156,6 @@ public class Controller implements Initializable {
     private Label estado_label;
     @FXML
     private AnchorPane pane_estado_campos;
-    @FXML
-    private AnchorPane pane_estado_est;
     @FXML
     private JFXComboBox gest_usr_cambiar_estado_cb;
     @FXML
@@ -298,7 +299,7 @@ public class Controller implements Initializable {
         }
     }
 
-   @FXML
+    @FXML
     public void log_out(MouseEvent event)
     {
         if(event.getSource().equals(salir))
@@ -359,6 +360,7 @@ public class Controller implements Initializable {
             titulo_label.setText(" Cambiar estado");
             titulo_label.setLayoutX(580);
             pane_estado_campos.setVisible(false);
+
             pane_estado_est.setVisible(false);
         }
         if (event.getSource().equals(gest_usr_listar))
@@ -394,7 +396,7 @@ public class Controller implements Initializable {
         {
             pane_gen_fact_individual.setVisible(false);
             pane_gen_fact_colectiva.setVisible(true);
-         }
+        }
         if(event.getSource().equals(gen_fact_individual))
         {
             pane_gen_fact_individual.setVisible(true);
@@ -450,7 +452,7 @@ public class Controller implements Initializable {
         int documento = Integer.parseInt(gen_fact_id_TextField.getText());
         int numero = Integer.parseInt(gen_fact_linea_TextField.getText());
 
-        bill.WriteBill(numero, documento);
+        //bill.WriteBill(numero, documento);
     }
 
 }
