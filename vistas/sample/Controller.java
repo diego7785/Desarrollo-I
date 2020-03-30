@@ -34,11 +34,11 @@ public class Controller implements Initializable {
     //Class Constructor
     public Controller()
     {
-
     }
 
     //Database connection
     private DBConnection conection= new DBConnection("", "", "", "", "", "");
+    //Class Constructor
 
     //User class object
     User new_user = new User();
@@ -72,6 +72,8 @@ public class Controller implements Initializable {
     private AnchorPane pane_ventas;
     @FXML
     private AnchorPane pane_gestionar_usuarios;
+    @FXML
+    private AnchorPane pane_estado_est;
     @FXML
     private AnchorPane pane_generar_reporte;
     @FXML
@@ -154,8 +156,6 @@ public class Controller implements Initializable {
     private Label estado_label;
     @FXML
     private AnchorPane pane_estado_campos;
-    @FXML
-    private AnchorPane pane_estado_est;
     @FXML
     private JFXComboBox gest_usr_cambiar_estado_cb;
     @FXML
@@ -360,6 +360,7 @@ public class Controller implements Initializable {
             titulo_label.setText(" Cambiar estado");
             titulo_label.setLayoutX(580);
             pane_estado_campos.setVisible(false);
+
             pane_estado_est.setVisible(false);
         }
         if (event.getSource().equals(gest_usr_listar))

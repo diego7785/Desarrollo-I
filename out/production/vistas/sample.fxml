@@ -362,7 +362,7 @@
                         <Font size="18.0" />
                      </font>
                   </Label>
-                  <JFXComboBox fx:id="gen_fact_clientes_comboBox" layoutX="384.0" layoutY="28.0" prefHeight="25.0" prefWidth="227.0" />
+                  <JFXComboBox fx:id="gen_fact_clientes_comboBox" focusColor="#29546e" layoutX="384.0" layoutY="28.0" prefHeight="25.0" prefWidth="227.0" unFocusColor="#36296e" />
                   <JFXComboBox fx:id="gen_fact_clientes_comboBox1" layoutX="384.0" layoutY="63.0" prefHeight="25.0" prefWidth="227.0" />
                   <JFXTextField fx:id="gen_fact_id_TextField" layoutX="384.0" layoutY="101.0" prefHeight="25.0" prefWidth="227.0" />
                   <JFXTextField fx:id="gen_fact_linea_TextField" layoutX="384.0" layoutY="141.0" prefHeight="25.0" prefWidth="227.0" />

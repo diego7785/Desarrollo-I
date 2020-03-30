@@ -4,11 +4,21 @@ import com.itextpdf.text.pdf.*;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.Vector;
 
 public class CreateBill {
-    public void WriteBill(int celular, int documento) {
+    public void WriteBill(Vector<String[]> resultHeaderBill, Vector<String[]> resultConsume, String actualDate, String cutDate, String month) {
+        String[] header = resultHeaderBill.get(0);
+        String[] consume = resultConsume.get(0);
+        String address = "";
+        if(header[5]==null){
+            address = header[3] + " " + header[4];
+        } else{
+            address = header[5];
+        }
+
         try {
-        FileOutputStream file = new FileOutputStream("bill.pdf");
+        FileOutputStream file = new FileOutputStream("bill"+header[6]+".pdf");
         Document doc = new Document();
         PdfWriter writer = PdfWriter.getInstance(doc, file);
         Image logotype = Image.getInstance("functionalities/administrador/Bill/src/assets/images/logotype.png");
@@ -26,12 +36,12 @@ public class CreateBill {
         pb.setTextMatrix(20, 730);
         pb.showText("......................................................................................."
                 + "..............................................................................");
-        doc.add(new Paragraph("Cliente: xxxxxxxxxxxx"));
-        doc.add(new Paragraph("Dirección: xxxxxxxxxxxx"));
-        doc.add(new Paragraph("Nit o cédula: "+documento));
-        doc.add(new Paragraph("Celular: " + celular + "                   Cliente No: xxxxx"));
-        doc.add(new Paragraph("Fecha expedición: xxxxxxxxxxxx"));
-        doc.add(new Paragraph("Factura de venta No: xxxxxxxxxxxx"));
+        doc.add(new Paragraph("Cliente: "+header[1]));
+        doc.add(new Paragraph("Dirección: "+address));
+        doc.add(new Paragraph("Nit o cédula: "+header[0]));
+        doc.add(new Paragraph("Celular: " + header[6] + "                   Tipo plan: "+header[8]));
+        doc.add(new Paragraph("Fecha expedición: "+actualDate));
+        doc.add(new Paragraph("Factura de venta No: "+consume[0]));
         pb.setFontAndSize(bf, 7);
         pb.setTextMatrix(337, 90);
         pb.showText("Escanee este código para realizar el pago");
@@ -44,7 +54,7 @@ public class CreateBill {
         cell.setBackgroundColor(BaseColor.DARK_GRAY);
         cell.setBorderColor(BaseColor.WHITE);
         tabla.addCell(cell);
-        cell = new PdfPCell(new Phrase("xxxxxxx"));
+        cell = new PdfPCell(new Phrase(month));
         cell.setBackgroundColor(BaseColor.DARK_GRAY);
         cell.setBorderColor(BaseColor.WHITE);
         tabla.addCell(cell);
@@ -55,7 +65,7 @@ public class CreateBill {
         cell.setBackgroundColor(BaseColor.DARK_GRAY);
         cell.setBorderColor(BaseColor.WHITE);
         tabla.addCell(cell);
-        cell = new PdfPCell(new Phrase("xxxxxxx"));
+        cell = new PdfPCell(new Phrase(consume[15]));
         cell.setBackgroundColor(BaseColor.DARK_GRAY);
         cell.setBorderColor(BaseColor.WHITE);
         tabla.addCell(cell);
@@ -70,7 +80,7 @@ public class CreateBill {
         cell.setBackgroundColor(BaseColor.DARK_GRAY);
         cell.setBorderColor(BaseColor.WHITE);
         tabla.addCell(cell);
-        cell = new PdfPCell(new Phrase("xxxxxxx"));
+        cell = new PdfPCell(new Phrase(cutDate));
         cell.setBackgroundColor(BaseColor.DARK_GRAY);
         cell.setBorderColor(BaseColor.WHITE);
         tabla.addCell(cell);
@@ -81,7 +91,7 @@ public class CreateBill {
         cell.setBackgroundColor(BaseColor.DARK_GRAY);
         cell.setBorderColor(BaseColor.WHITE);
         tabla.addCell(cell);
-        cell = new PdfPCell(new Phrase("xxxxxxx"));
+        cell = new PdfPCell(new Phrase(consume[11]));
         cell.setBackgroundColor(BaseColor.DARK_GRAY);
         cell.setBorderColor(BaseColor.WHITE);
         tabla.addCell(cell);
@@ -132,7 +142,7 @@ public class CreateBill {
         graphic.scaleAbsolute(200, 150);
         doc.add(graphic);
         //Investigar el uso de código de barras o qr
-        this.QRCode(123456789);
+        this.QRCode(consume[15]);
         graphic = Image.getInstance("functionalities/administrador/Bill/src/assets/images/QrCode.png");
         graphic.setAbsolutePosition(310, 77);
         graphic.scaleAbsolute(200, 150);
@@ -193,7 +203,7 @@ public class CreateBill {
         doc.add(new Paragraph("Desprenda esta parte para realizar el pago"));
 
         pb.endText();
-        String StringDefault = "123456789";
+        String StringDefault = consume[15];
         doc.addAuthor("Telefonía Raja");
         doc.addCreationDate();
         doc.addProducer();
@@ -217,7 +227,7 @@ public class CreateBill {
         code128Image.setAbsolutePosition(40, 480);
         code128Image.scaleAbsolute(400, 85);
         doc.add(code128Image);
-        this.QRCode(123456789);
+        this.QRCode(consume[15]);
         graphic = Image.getInstance("functionalities/administrador/Bill/src/assets/images/QrCode.png");
         graphic.setAbsolutePosition(460, 492);
         graphic.scaleAbsolute(100, 85);
@@ -228,14 +238,18 @@ public class CreateBill {
         doc.add(Chunk.NEWLINE);
         doc.add(Chunk.NEWLINE);
         doc.add(Chunk.NEWLINE);
-        tabla = new PdfPTable(4);
-        cell = new PdfPCell(new Phrase("Numero cliente"));
+        tabla = new PdfPTable(6);
+        cell = new PdfPCell(new Phrase("Cliente"));
         tabla.addCell(cell);
-        cell = new PdfPCell(new Phrase("xxxxxxxxxxxxx"));
+        cell = new PdfPCell(new Phrase(header[0]));
+        tabla.addCell(cell);
+        cell = new PdfPCell(new Phrase("Linea"));
+        tabla.addCell(cell);
+        cell = new PdfPCell(new Phrase(header[6]));
         tabla.addCell(cell);
         cell = new PdfPCell(new Phrase("Valor"));
         tabla.addCell(cell);
-        cell = new PdfPCell(new Phrase("xxxxxxxxxxxxxx"));
+        cell = new PdfPCell(new Phrase(consume[11]));
         tabla.addCell(cell);
         tabla.setWidthPercentage(98);
         doc.add(tabla);
@@ -250,9 +264,9 @@ public class CreateBill {
         CreateGraphic chart = new CreateGraphic(tipo, Idtipo);
     }
 
-    public void QRCode(int numeroPagos) {
+    public void QRCode(String numeroPagos) {
         try {
-            CreateQr qr = new CreateQr(String.valueOf(numeroPagos), 350, 350, "functionalities/administrador/Bill/src/assets/images/QrCode.png");
+            CreateQr qr = new CreateQr(numeroPagos, 350, 350, "functionalities/administrador/Bill/src/assets/images/QrCode.png");
         } catch (WriterException e) {
             System.out.println("Could not generate QR Code, WriterException :: " + e.getMessage());
         } catch (IOException e) {
