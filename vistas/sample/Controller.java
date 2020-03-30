@@ -30,13 +30,20 @@ import java.util.Vector;
 
 public class Controller implements Initializable {
 
+    //Database connection
+    private DBConnection conection= new DBConnection("", "", "", "", "", "");
 
+    //User class object
+    User new_user = new User();
+
+    //llenado de combobox que nunca funcionó
     ObservableList<String> id_types = FXCollections.observableArrayList("C.C","T.I","Pasaporte","C.E");
     ObservableList<String> client_types = FXCollections.observableArrayList("Natural", "Corporativo");
 
     String tipoCliente[] = {"Natural", "Corporativo"};
     String tipoDocumento[]= {"Cédula", "Nit"};
 
+    //Login interface
     @FXML
     private JFXButton btn_login;
     @FXML
@@ -44,6 +51,7 @@ public class Controller implements Initializable {
     @FXML
     private JFXPasswordField tf_pass;
     @FXML
+    //****
     private JFXComboBox cb_rol;
     @FXML
     private JFXButton btn_reg;
@@ -370,9 +378,6 @@ public class Controller implements Initializable {
             titulo_label.setLayoutX(580);
         }
 
-        if(event.getSource().equals(salir)){
-            System.exit(0);
-        }
     }
 
     public void selec_tipo_cliente(MouseEvent event) {
@@ -462,4 +467,5 @@ public class Controller implements Initializable {
        CreateBill bill = new CreateBill();
        bill.WriteBill(resultHeaderBill, resultConsume,actualDate, cutDate, months[Integer.parseInt(resultConsume.get(0)[13].substring(5,7))-1]);
     }
+
 }
