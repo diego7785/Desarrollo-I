@@ -1,3 +1,4 @@
+import DB_Connection.DBConnection;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXPasswordField;
@@ -23,17 +24,31 @@ import javafx.stage.StageStyle;
 import javax.swing.*;
 import java.awt.*;
 import java.net.URL;
+import java.util.Arrays;
 import java.util.ResourceBundle;
+import java.util.Vector;
 
 public class Controller implements Initializable {
 
+    //Class Constructor
+    public Controller()
+    {
+    }
 
+    //Database connection
+    private DBConnection conection= new DBConnection("", "", "", "", "", "");
+
+    //User class object
+    User new_user = new User();
+
+    //llenado de combobox que nunca funcionó
     ObservableList<String> id_types = FXCollections.observableArrayList("C.C","T.I","Pasaporte","C.E");
     ObservableList<String> client_types = FXCollections.observableArrayList("Natural", "Corporativo");
 
     ObservableList<String> tipoCliente = FXCollections.observableArrayList( "Natural", "Corporativo");
     ObservableList<String> tipoDocumento= FXCollections.observableArrayList( "Cédula", "Nit");
 
+    //Login interface
     @FXML
     private JFXButton btn_login;
     @FXML
@@ -41,6 +56,7 @@ public class Controller implements Initializable {
     @FXML
     private JFXPasswordField tf_pass;
     @FXML
+    //****
     private JFXComboBox cb_rol;
     @FXML
     private JFXButton btn_reg;
@@ -187,29 +203,9 @@ public class Controller implements Initializable {
         gen_fact_clientes_comboBox1.getItems().addAll(tipoDocumento);
     }
 
-    @FXML
-    public void log_in(ActionEvent event) throws Exception {
-
-        System.out.println("oaerkaerokae");
-
-        if(tf_user.getText().equals("user")  && tf_pass.getText().equals("pass")){
-
-            btn_login.getScene().getWindow().hide();
-
-            Stage primaryStage = new Stage();
-
-            Parent root = FXMLLoader.load(getClass().getResource("sample.fxml"));
-            primaryStage.initStyle(StageStyle.TRANSPARENT);
-
-            Scene login = new Scene(root);
-
-            primaryStage.setTitle("");
-
-
-            primaryStage.setScene(login);
-            primaryStage.show();
-        }
-
+    public void set_user_role (int NR)
+    {
+        new_user.set_user_rol(NR);
     }
 
     @FXML
@@ -219,79 +215,73 @@ public class Controller implements Initializable {
     }
 
     @FXML
-    public void cambiar_pestana(MouseEvent event) throws Exception{
+    public void cambiar_pestana(MouseEvent event) throws Exception {
 
-        if(event.getSource().equals(realizar_venta)){
-            pane_gestionar_usuarios.setVisible(false);
-            pane_generar_reporte.setVisible(false);
-            pane_ventas.setVisible(true);
-            pane_generar_facturas.setVisible(false);
-            pane_pagar.setVisible(false);
-            pane_gest_usr_agregar.setVisible(false);
-            pane_gest_usr_editar.setVisible(false);
-            pane_gest_usr_cambiar_estado.setVisible(false);
-            pane_gest_usr_listar.setVisible(false);
-            titulo_label.setText("  Agregar cliente");
-            titulo_label.setLayoutX(46);
+        if (new_user.get_user_rol() == 1) {
+            realizar_pagos.setVisible(false);
+            generar_factura.setVisible(false);
+            agregar_user.setVisible(false);
+            if (event.getSource().equals(realizar_venta)) {
+                pane_generar_reporte.setVisible(false);
+                pane_ventas.setVisible(true);
+                titulo_label.setText("  Agregar cliente");
+                titulo_label.setLayoutX(46);
+            }
+            if (event.getSource().equals(generar_reporte)) {
+                pane_generar_reporte.setVisible(true);
+                pane_gestionar_usuarios.setVisible(false);
+                titulo_label.setText(" Generar reportes");
+                titulo_label.setLayoutX(173);
+            }
+        } else if (new_user.get_user_rol() == 2) {
+            realizar_venta.setVisible(false);
+            generar_reporte.setVisible(false);
+            generar_factura.setVisible(false);
+            agregar_user.setVisible(false);
+
+            if (event.getSource().equals(realizar_pagos)) {
+                pane_pagar.setVisible(true);
+                titulo_label.setText("   Realizar pagos");
+                titulo_label.setLayoutX(311);
+            }
+        } else {
+            realizar_venta.setVisible(false);
+            generar_reporte.setVisible(false);
+            realizar_pagos.setVisible(false);
+
+            if (event.getSource().equals(generar_factura)) {
+                pane_generar_facturas.setVisible(true);
+                pane_gestionar_usuarios.setVisible(false);
+                titulo_label.setText(" Generar facturas");
+                titulo_label.setLayoutX(445);
+            }
+            if (event.getSource().equals(agregar_user)) {
+                pane_generar_facturas.setVisible(false);
+                pane_gestionar_usuarios.setVisible(true);
+                titulo_label.setText("Gestión usuarios");
+                titulo_label.setLayoutX(580);
+            }
         }
-        if(event.getSource().equals(generar_reporte)){
-            pane_generar_reporte.setVisible(true);
-            pane_gestionar_usuarios.setVisible(false);
-            pane_ventas.setVisible(false);
-            pane_generar_facturas.setVisible(false);
-            pane_generar_facturas.setVisible(false);
-            pane_pagar.setVisible(false);
-            pane_gest_usr_agregar.setVisible(false);
-            pane_gest_usr_editar.setVisible(false);
-            pane_gest_usr_cambiar_estado.setVisible(false);
-            pane_gest_usr_listar.setVisible(false);
-            titulo_label.setText(" Generar reportes");
-            titulo_label.setLayoutX(173);
-        }
-        if(event.getSource().equals(realizar_pagos))
+    }
+
+   @FXML
+    public void log_out(MouseEvent event)
+    {
+        if(event.getSource().equals(salir))
         {
-            pane_ventas.setVisible(false);
-            pane_generar_reporte.setVisible(false);
-            pane_gestionar_usuarios.setVisible(false);
-            pane_generar_facturas.setVisible(false);
-            pane_generar_facturas.setVisible(false);
-            pane_pagar.setVisible(true);
-            pane_gest_usr_agregar.setVisible(false);
-            pane_gest_usr_editar.setVisible(false);
-            pane_gest_usr_cambiar_estado.setVisible(false);
-            pane_gest_usr_listar.setVisible(false);
-            titulo_label.setText("   Realizar pagos");
-            titulo_label.setLayoutX(311);
+            //titulo_label.setText("  Cerrar sesión");
+            //titulo_label.setLayoutX(722);
+            int user_answer = JOptionPane.showConfirmDialog(null, "¿Seguro desea cerrar la sesion?", "¡Alerta!", JOptionPane.YES_NO_OPTION);
+            if (user_answer == 0)
+            {
+                System.exit(0);
+            }
         }
-        if(event.getSource().equals(generar_factura))
-        {
-            pane_ventas.setVisible(false);
-            pane_generar_reporte.setVisible(false);
-            pane_generar_facturas.setVisible(true);
-            pane_gestionar_usuarios.setVisible(false);
-            pane_pagar.setVisible(false);
-            pane_gest_usr_agregar.setVisible(false);
-            pane_gest_usr_editar.setVisible(false);
-            pane_gest_usr_cambiar_estado.setVisible(false);
-            pane_gest_usr_listar.setVisible(false);
-            titulo_label.setText(" Generar facturas");
-            titulo_label.setLayoutX(445);
-        }
-        if(event.getSource().equals(agregar_user)){
-            pane_gestionar_usuarios.setVisible(true);
-            pane_ventas.setVisible(false);
-            pane_generar_reporte.setVisible(false);
-            pane_generar_facturas.setVisible(false);
-            pane_generar_facturas.setVisible(false);
-            pane_pagar.setVisible(false);
-            pane_gest_usr_agregar.setVisible(false);
-            pane_gest_usr_editar.setVisible(false);
-            pane_gest_usr_cambiar_estado.setVisible(false);
-            pane_gest_usr_listar.setVisible(false);
-            titulo_label.setText("Gestión usuarios");
-            titulo_label.setLayoutX(580);
-        }
-        //Those are the four Gestión de usuarios' options
+    }
+
+    @FXML
+    public void user_gest(MouseEvent event)
+    {
         if (event.getSource().equals(gest_usr_añadir))
         {
             pane_gestionar_usuarios.setVisible(false);
@@ -369,14 +359,12 @@ public class Controller implements Initializable {
             titulo_label.setLayoutX(580);
         }
 
-        if(event.getSource().equals(salir)){
-            System.exit(0);
-        }
     }
 
     public void selec_tipo_cliente(MouseEvent event)
     {
         if (event.getSource().equals(gen_rep_corporativo))
+
         {
             pane_gen_rep_interno.setVisible(true);
             gen_rep_id_label.setText("                                   NIT:");
@@ -463,4 +451,5 @@ public class Controller implements Initializable {
 
         bill.WriteBill(numero, documento);
     }
+
 }
