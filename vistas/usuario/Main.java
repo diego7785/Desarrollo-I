@@ -3,9 +3,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
-
-
 
 public class Main extends Application {
     @Override
@@ -13,8 +10,7 @@ public class Main extends Application {
         //--module-path ${PATH_TO_FX} --add-modules javafx.controls,javafx.fxml
 
         Parent root = FXMLLoader.load(getClass().getResource("Login.fxml"));
-        Parent logged =FXMLLoader.load(getClass().getResource("sample.fxml"));
-        //primaryStage.initStyle(StageStyle.TRANSPARENT);
+        Parent logged =FXMLLoader.load(getClass().getResource("mainUI.fxml"));
 
         Scene login = new Scene(root);
 
@@ -23,7 +19,6 @@ public class Main extends Application {
         primaryStage.setScene(login);
         primaryStage.show();
     }
-
 
     public static void main(String[] args) {
         launch(args);

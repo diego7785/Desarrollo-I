@@ -425,8 +425,6 @@ public class Controller implements Initializable {
         if(event.getSource().equals(gest_usr_estado_btn_buscar)){
             pane_estado_campos.setVisible(true);
             pane_estado_est.setVisible(true);
-            //estado_label.setVisible(true);
-            //gest_usr_cambiar_estado_cb.setVisible(true);
         }
     }
 
