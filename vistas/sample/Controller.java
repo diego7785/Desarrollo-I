@@ -46,10 +46,6 @@ public class Controller implements Initializable {
     //User class object
     User new_user = new User();
 
-    //llenado de combobox que nunca funcionó
-    ObservableList<String> id_types = FXCollections.observableArrayList("C.C","T.I","Pasaporte","C.E");
-    ObservableList<String> client_types = FXCollections.observableArrayList("Natural", "Corporativo");
-
     ObservableList<String> tipoCliente = FXCollections.observableArrayList( "Natural", "Corporativo");
     ObservableList<String> tipoDocumento= FXCollections.observableArrayList( "Cédula Ciudadanía", "Cédula Extranjería",
             "Pasaporte", "Carné Diplomático");
