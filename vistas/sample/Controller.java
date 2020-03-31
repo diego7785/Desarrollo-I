@@ -26,6 +26,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.net.URL;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.ResourceBundle;
 import java.util.Vector;
 
@@ -37,7 +38,10 @@ public class Controller implements Initializable {
     }
 
     //Database connection
-    private DBConnection conection= new DBConnection("", "", "", "", "", "");
+    private DBConnection connection= new DBConnection("", "", "", "", "", "");
+    private final Calendar cal = Calendar.getInstance();
+    private final String months[]={"Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio",
+            "Agosto","Septiembre","Octubre","Noviembre","Diciembre"};
 
     //User class object
     User new_user = new User();
@@ -446,11 +450,17 @@ public class Controller implements Initializable {
     }
 
     public void handleGen_fact_generar_button(ActionEvent actionEvent){
+        int document = Integer.parseInt(gen_fact_id_TextField.getText());
+        String number = gen_fact_linea_TextField.getText();
+        Object[] infoHeaderBill = connection.read_DB("SELECT * FROM Customer, Lines WHERE id = "+document+" AND number = '"+number+"';");
+        Object[] infoConsume = connection.read_DB("SELECT * FROM Bill WHERE linenumber = '"+number+"' AND EXTRACT(YEAR FROM date) = "+cal.get(Calendar.YEAR)+" AND EXTRACT(MONTH FROM date) = "+(cal.get(Calendar.MONTH)+1)+";");
+        Vector<String[]> resultHeaderBill = (Vector) infoHeaderBill[1];
+        Vector<String[]> resultConsume = (Vector) infoConsume[1];
+        String actualDate = cal.get(Calendar.YEAR) + "/" + months[cal.get(Calendar.MONTH)];
+        String cutDate = cal.get(Calendar.YEAR) + "/" + months[cal.get(Calendar.MONTH)+1]+"/05";
         CreateBill bill = new CreateBill();
-        int documento = Integer.parseInt(gen_fact_id_TextField.getText());
-        int numero = Integer.parseInt(gen_fact_linea_TextField.getText());
 
-        bill.WriteBill(numero, documento);
+        bill.WriteBill(resultHeaderBill, resultConsume,actualDate, cutDate, months[Integer.parseInt(resultConsume.get(0)[13].substring(5,7))-1]);
     }
 
 }
