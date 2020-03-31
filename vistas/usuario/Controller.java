@@ -428,8 +428,6 @@ public class Controller implements Initializable {
         if(event.getSource().equals(gest_usr_estado_btn_buscar)){
             pane_estado_campos.setVisible(true);
             pane_estado_est.setVisible(true);
-            //estado_label.setVisible(true);
-            //gest_usr_cambiar_estado_cb.setVisible(true);
         }
     }
 
@@ -451,8 +449,6 @@ public class Controller implements Initializable {
         CreateBill bill = new CreateBill();
         int documento = Integer.parseInt(gen_fact_id_TextField.getText());
         int numero = Integer.parseInt(gen_fact_linea_TextField.getText());
-
-        //bill.WriteBill(numero, documento);
     }
 
 }
