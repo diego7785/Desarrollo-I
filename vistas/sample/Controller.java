@@ -51,7 +51,8 @@ public class Controller implements Initializable {
     ObservableList<String> client_types = FXCollections.observableArrayList("Natural", "Corporativo");
 
     ObservableList<String> tipoCliente = FXCollections.observableArrayList( "Natural", "Corporativo");
-    ObservableList<String> tipoDocumento= FXCollections.observableArrayList( "Cédula", "Nit");
+    ObservableList<String> tipoDocumento= FXCollections.observableArrayList( "Cédula Ciudadanía", "Cédula Extranjería",
+            "Pasaporte", "Carné Diplomático");
 
     //Login interface
     @FXML
@@ -108,9 +109,9 @@ public class Controller implements Initializable {
     @FXML
     private Label gen_fact_linea_label;
     @FXML
-    private ComboBox gen_fact_clientes_comboBox;
+    private JFXComboBox<String> gen_fact_clientes_comboBox;
     @FXML
-    private ComboBox gen_fact_clientes_comboBox1;
+    private JFXComboBox<String> gen_fact_clientes_comboBox1;
     @FXML
     private JFXTextField  gen_fact_id_TextField;
     @FXML
@@ -212,8 +213,6 @@ public class Controller implements Initializable {
                 titulo_label.setText(" Generar facturas");
                 titulo_label.setLayoutX(445);
             }
-            gen_fact_clientes_comboBox = new JFXComboBox();
-            gen_fact_clientes_comboBox1 = new JFXComboBox();
             gen_fact_clientes_comboBox.getItems().addAll(tipoCliente);
             gen_fact_clientes_comboBox1.getItems().addAll(tipoDocumento);
         });
@@ -450,17 +449,27 @@ public class Controller implements Initializable {
     }
 
     public void handleGen_fact_generar_button(ActionEvent actionEvent){
+        String tipoCliente = gen_fact_clientes_comboBox.getSelectionModel().getSelectedItem();
         int document = Integer.parseInt(gen_fact_id_TextField.getText());
         String number = gen_fact_linea_TextField.getText();
-        Object[] infoHeaderBill = connection.read_DB("SELECT * FROM Customer, Lines WHERE id = "+document+" AND number = '"+number+"';");
-        Object[] infoConsume = connection.read_DB("SELECT * FROM Bill WHERE linenumber = '"+number+"' AND EXTRACT(YEAR FROM date) = "+cal.get(Calendar.YEAR)+" AND EXTRACT(MONTH FROM date) = "+(cal.get(Calendar.MONTH)+1)+";");
-        Vector<String[]> resultHeaderBill = (Vector) infoHeaderBill[1];
-        Vector<String[]> resultConsume = (Vector) infoConsume[1];
+        Object[] info = connection.read_DB("SELECT * FROM Bill, Lines, Customer WHERE number=linenumber AND number='"+number+"' AND customerid=Customer.id AND customerid="+document+" AND EXTRACT(YEAR FROM date) = "+cal.get(Calendar.YEAR)+" AND EXTRACT(MONTH FROM date) = "+(cal.get(Calendar.MONTH)+1)+" AND type = '"+tipoCliente+"';");
+        Vector<String[]> result = (Vector) info[1];
         String actualDate = cal.get(Calendar.YEAR) + "/" + months[cal.get(Calendar.MONTH)];
         String cutDate = cal.get(Calendar.YEAR) + "/" + months[cal.get(Calendar.MONTH)+1]+"/05";
         CreateBill bill = new CreateBill();
 
-        bill.WriteBill(resultHeaderBill, resultConsume,actualDate, cutDate, months[Integer.parseInt(resultConsume.get(0)[13].substring(5,7))-1]);
+        bill.WriteBill(result.get(0),actualDate, cutDate, months[Integer.parseInt(result.get(0)[13].substring(5,7))-1]);
+    }
+
+    public void handleGen_fact_generar_colect_button(ActionEvent actionEvent){
+        Object[] infoHeaderBill = connection.read_DB("SELECT * FROM Bill, Lines, Customer WHERE number=linenumber AND customerid=Customer.id AND EXTRACT(YEAR FROM date) = 2020 AND EXTRACT(MONTH FROM date) = 3;");
+        Vector<String[]> result = (Vector) infoHeaderBill[1];
+        String actualDate = cal.get(Calendar.YEAR) + "/" + months[cal.get(Calendar.MONTH)];
+        String cutDate = cal.get(Calendar.YEAR) + "/" + months[cal.get(Calendar.MONTH)+1]+"/05";
+        for(int i=0; i<result.size(); i++){
+            CreateBill bill = new CreateBill();
+            bill.WriteBill(result.get(i),actualDate, cutDate, months[Integer.parseInt(result.get(0)[13].substring(5,7))-1]);
+        }
     }
 
 }

@@ -8,18 +8,16 @@ import java.io.IOException;
 import java.util.Vector;
 
 public class CreateBill {
-    public void WriteBill(Vector<String[]> resultHeaderBill, Vector<String[]> resultConsume, String actualDate, String cutDate, String month) {
-        String[] header = resultHeaderBill.get(0);
-        String[] consume = resultConsume.get(0);
+    public void WriteBill(String[] info, String actualDate, String cutDate, String month) {
         String address = "";
-        if (header[5] == null) {
-            address = header[3] + " " + header[4];
+        if (info[26] == null) {
+            address = info[24] + " " + info[25];
         } else {
-            address = header[5];
+            address = info[26];
         }
 
         try {
-            FileOutputStream file = new FileOutputStream("bill" + header[6] + ".pdf");
+            FileOutputStream file = new FileOutputStream("bill" + info[12] + ".pdf");
             Document doc = new Document();
             PdfWriter writer = PdfWriter.getInstance(doc, file);
             Image logotype = Image.getInstance("functionalities/administrador/Bill/src/assets/images/logotype.png");
@@ -37,12 +35,12 @@ public class CreateBill {
             pb.setTextMatrix(20, 730);
             pb.showText("......................................................................................."
                     + "..............................................................................");
-            doc.add(new Paragraph("Cliente: " + header[1]));
+            doc.add(new Paragraph("Cliente: " + info[22]));
             doc.add(new Paragraph("Dirección: " + address));
-            doc.add(new Paragraph("Nit o cédula: " + header[0]));
-            doc.add(new Paragraph("Celular: " + header[6] + "                   Tipo plan: " + header[8]));
+            doc.add(new Paragraph("Nit o cédula: " + info[17]));
+            doc.add(new Paragraph("Celular: " + info[16] + "                   Tipo plan: " + info[18]));
             doc.add(new Paragraph("Fecha expedición: " + actualDate));
-            doc.add(new Paragraph("Factura de venta No: " + consume[0]));
+            doc.add(new Paragraph("Factura de venta No: " + info[0]));
             pb.setFontAndSize(bf, 7);
             pb.setTextMatrix(337, 90);
             pb.showText("Escanee este código para realizar el pago");
@@ -66,7 +64,7 @@ public class CreateBill {
             cell.setBackgroundColor(BaseColor.DARK_GRAY);
             cell.setBorderColor(BaseColor.WHITE);
             tabla.addCell(cell);
-            cell = new PdfPCell(new Phrase(consume[15]));
+            cell = new PdfPCell(new Phrase(info[15]));
             cell.setBackgroundColor(BaseColor.DARK_GRAY);
             cell.setBorderColor(BaseColor.WHITE);
             tabla.addCell(cell);
@@ -92,7 +90,7 @@ public class CreateBill {
             cell.setBackgroundColor(BaseColor.DARK_GRAY);
             cell.setBorderColor(BaseColor.WHITE);
             tabla.addCell(cell);
-            cell = new PdfPCell(new Phrase(consume[11]));
+            cell = new PdfPCell(new Phrase(info[11]));
             cell.setBackgroundColor(BaseColor.DARK_GRAY);
             cell.setBorderColor(BaseColor.WHITE);
             tabla.addCell(cell);
@@ -104,7 +102,7 @@ public class CreateBill {
             table = new Paragraph();
             tabla = new PdfPTable(1);
             cell = new PdfPCell(new Phrase("Estimado cliente, le recomendamos estar al tiempo con sus pagos para evitar el pago por mora "
-                    + "o la suspensión del servicio, su servicio es del plan " + header[8] + " cuyo cobro por mora es de " + (Integer.parseInt(consume[11]) * 0.01) + ". Si el pago ya fue realizado "
+                    + "o la suspensión del servicio, su servicio es del plan " + info[18] + " cuyo cobro por mora es de " + (Integer.parseInt(info[11]) * 0.01) + ". Si el pago ya fue realizado "
                     + "haga caso omiso."));
             cell.setBorder(Rectangle.NO_BORDER);
             cell.setBackgroundColor(BaseColor.DARK_GRAY);
@@ -127,8 +125,8 @@ public class CreateBill {
             doc.add(table);
             pb.setColorFill(BaseColor.BLACK);
             //Graphs here
-            int plan = Integer.parseInt(header[8]);
-            this.Graphic(consume, plan);
+            int plan = Integer.parseInt(info[18]);
+            this.Graphic(info, plan);
             Image graphic = Image.getInstance("functionalities/administrador/Bill/src/assets/images/consumoComun.png");
             graphic.setAlignment(Element.ALIGN_LEFT);
             graphic.scaleAbsolute(200, 150);
@@ -155,7 +153,7 @@ public class CreateBill {
             }
 
             //Investigar el uso de código de barras o qr
-            this.QRCode(consume[15]);
+            this.QRCode(info[15]);
             graphic = Image.getInstance("functionalities/administrador/Bill/src/assets/images/QrCode.png");
             graphic.setAbsolutePosition(310, 77);
             graphic.scaleAbsolute(200, 150);
@@ -178,39 +176,39 @@ public class CreateBill {
             tabla = new PdfPTable(4);
             cell = new PdfPCell(new Phrase("Consumo datos"));
             tabla.addCell(cell);
-            cell = new PdfPCell(new Phrase(consume[1]));
+            cell = new PdfPCell(new Phrase(info[1]));
             tabla.addCell(cell);
             cell = new PdfPCell(new Phrase("Consumo minutos"));
             tabla.addCell(cell);
-            cell = new PdfPCell(new Phrase(consume[2]));
+            cell = new PdfPCell(new Phrase(info[2]));
             tabla.addCell(cell);
             cell = new PdfPCell(new Phrase("Consumo mensajes"));
             tabla.addCell(cell);
-            cell = new PdfPCell(new Phrase(consume[3]));
+            cell = new PdfPCell(new Phrase(info[3]));
             tabla.addCell(cell);
             cell = new PdfPCell(new Phrase("Consumo datos Whatsapp"));
             tabla.addCell(cell);
-            cell = new PdfPCell(new Phrase(consume[4]));
+            cell = new PdfPCell(new Phrase(info[4]));
             tabla.addCell(cell);
             cell = new PdfPCell(new Phrase("Consumo datos Facebook"));
             tabla.addCell(cell);
-            cell = new PdfPCell(new Phrase(consume[6]));
+            cell = new PdfPCell(new Phrase(info[6]));
             tabla.addCell(cell);
             cell = new PdfPCell(new Phrase("Consumo minutos Whatsapp"));
             tabla.addCell(cell);
-            cell = new PdfPCell(new Phrase(consume[5]));
+            cell = new PdfPCell(new Phrase(info[5]));
             tabla.addCell(cell);
             cell = new PdfPCell(new Phrase("Consumo datos Waze"));
             tabla.addCell(cell);
-            cell = new PdfPCell(new Phrase(consume[7]));
+            cell = new PdfPCell(new Phrase(info[7]));
             tabla.addCell(cell);
             cell = new PdfPCell(new Phrase("Consumo minutos internacionales"));
             tabla.addCell(cell);
-            cell = new PdfPCell(new Phrase(consume[8]));
+            cell = new PdfPCell(new Phrase(info[8]));
             tabla.addCell(cell);
             cell = new PdfPCell(new Phrase("Consumo datos compartidos"));
             tabla.addCell(cell);
-            cell = new PdfPCell(new Phrase(consume[9]));
+            cell = new PdfPCell(new Phrase(info[9]));
             tabla.addCell(cell);
             cell = new PdfPCell(new Phrase("        "));
             cell.setBorder(Rectangle.NO_BORDER);
@@ -226,7 +224,7 @@ public class CreateBill {
             doc.add(new Paragraph("Desprenda esta parte para realizar el pago"));
 
             pb.endText();
-            String StringDefault = consume[15];
+            String StringDefault = info[15];
             doc.addAuthor("Telefonía Raja");
             doc.addCreationDate();
             doc.addProducer();
@@ -238,7 +236,7 @@ public class CreateBill {
             bf = BaseFont.createFont(BaseFont.HELVETICA, BaseFont.CP1252, BaseFont.NOT_EMBEDDED);
             pb.setFontAndSize(bf, 12);
             pb.beginText();
-            pb.setTextMatrix(460, 500);
+            pb.setTextMatrix(460, 502);
             logotype.scalePercent(10);
             logotype.setAbsolutePosition(515, 504);
             pb.addImage(logotype);
@@ -250,7 +248,7 @@ public class CreateBill {
             code128Image.setAbsolutePosition(40, 420);
             code128Image.scaleAbsolute(400, 85);
             doc.add(code128Image);
-            this.QRCode(consume[15]);
+            this.QRCode(info[15]);
             graphic = Image.getInstance("functionalities/administrador/Bill/src/assets/images/QrCode.png");
             graphic.setAbsolutePosition(460, 432);
             graphic.scaleAbsolute(100, 85);
@@ -264,15 +262,15 @@ public class CreateBill {
             tabla = new PdfPTable(6);
             cell = new PdfPCell(new Phrase("Cliente"));
             tabla.addCell(cell);
-            cell = new PdfPCell(new Phrase(header[0]));
+            cell = new PdfPCell(new Phrase(info[17]));
             tabla.addCell(cell);
             cell = new PdfPCell(new Phrase("Linea"));
             tabla.addCell(cell);
-            cell = new PdfPCell(new Phrase(header[6]));
+            cell = new PdfPCell(new Phrase(info[16]));
             tabla.addCell(cell);
             cell = new PdfPCell(new Phrase("Valor"));
             tabla.addCell(cell);
-            cell = new PdfPCell(new Phrase(consume[11]));
+            cell = new PdfPCell(new Phrase(info[11]));
             tabla.addCell(cell);
             tabla.setWidthPercentage(98);
             doc.add(tabla);
