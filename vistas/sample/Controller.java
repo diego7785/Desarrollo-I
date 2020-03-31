@@ -297,7 +297,7 @@ public class Controller implements Initializable {
         }
     }
 
-   @FXML
+    @FXML
     public void log_out(MouseEvent event)
     {
         if(event.getSource().equals(salir))

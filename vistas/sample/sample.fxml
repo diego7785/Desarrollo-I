@@ -501,7 +501,7 @@
                         <Font size="18.0" />
                      </font>
                   </Label>
-                  <Label fx:id="pagar_tipo_cliente_label2" layoutX="84.0" layoutY="77.0" text="Tipo de cliente:" textFill="WHITE">
+                  <Label fx:id="pagar_tipo_cliente_label22" layoutX="84.0" layoutY="77.0" text="Tipo de cliente:" textFill="WHITE">
                      <font>
                         <Font size="18.0" />
                      </font>
