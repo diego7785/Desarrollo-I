@@ -13,51 +13,70 @@ import java.io.IOException;
 
 public class CreateGraphic {
 
-    public CreateGraphic(String chartTitle, int IdTipo) {
 
-        // Creamos el conjunto de datos con las votaciones
-        DefaultCategoryDataset dataset = createDataset();
+    public CreateGraphic(String[] consume, int idPlan) {
+        DefaultCategoryDataset dataset = createDataset(consume,1,3);
+        JFreeChart chart = createChart(dataset, "Consumo mensual comun", 1);
 
-        JFreeChart chart = createChart(dataset, chartTitle, IdTipo);
-        // Ponemos el gráfico en un panel
+        if(idPlan == 4){
+            dataset = createDataset(consume,4,7);
+            JFreeChart  chart2 = createChart(dataset, "Consumo mensual adicionales", 3);
+            ChartPanel chartPanel = new ChartPanel(chart2);
+            chartPanel.setPreferredSize(new java.awt.Dimension(500, 270));
+        } else if(idPlan == 5){
+            dataset = createDataset(consume,4,7);
+            JFreeChart  chart2 = createChart(dataset, "Consumo mensual adicionales", 3);
+            ChartPanel chartPanel = new ChartPanel(chart2);
+            chartPanel.setPreferredSize(new java.awt.Dimension(500, 270));
+            dataset = createDataset(consume,8,9);
+            JFreeChart  chart3 = createChart(dataset, "Consumo mensual internacional y compartido", 4);
+            chartPanel = new ChartPanel(chart3);
+            chartPanel.setPreferredSize(new java.awt.Dimension(500, 270));
+        } else {
+            dataset = createDataset(consume,4,6);
+            JFreeChart chart1 = createChart(dataset, "Consumo mensual adicionales", 2);
+            ChartPanel chartPanel = new ChartPanel(chart1);
+            chartPanel.setPreferredSize(new java.awt.Dimension(500, 270));
+        }
+        // Put graph on a panel
         ChartPanel chartPanel = new ChartPanel(chart);
-        // Dejamos el tamaño por defecto
         chartPanel.setPreferredSize(new java.awt.Dimension(500, 270));
-
     }
 
-    private DefaultCategoryDataset createDataset() {
-        //ESTO DEBE OBTENER LOS DATOS DE LA BASE DE DATOS
+    private DefaultCategoryDataset createDataset(String[] consume, int start, int end) {
         DefaultCategoryDataset result = new DefaultCategoryDataset();
-
-        result.setValue(154, "Enero", "");
-        result.setValue(169, "Febrero", "");
-        result.setValue(10, "Marzo", "");
+        String[] types = {"Consumo datos (MB)","Consumo minutos","Consumo mensajes","Consumo datos Whatsapp", "Consumo minutos Whatsapp",
+                "Consumo datos Facebook","Consumo datos Waze","Consumo minutos internaciones","Consumo datos compartidos"};
+        for(int i=start; i<= end; i++){
+            result.setValue(Float.parseFloat(consume[i]),types[i-1],"");
+        }
 
         return result;
-
     }
 
     private JFreeChart createChart(DefaultCategoryDataset dataset, String title, int IdTipo) {
         String tipo;
         switch (IdTipo) {
             case 1:
-                tipo = "Minutos";
+                tipo = "Comun";
                 break;
             case 2:
-                tipo = "Internet";
+                tipo = "Adicionales";
+                break;
+            case 3:
+                tipo = "Adicionalesplus";
                 break;
             default:
-                tipo = "Mensajes";
+                tipo = "internacionalycompartido";
                 break;
         }
-        JFreeChart chart = ChartFactory.createBarChart3D(title, "Meses",
-                tipo, dataset, // data
+        JFreeChart chart = ChartFactory.createBarChart3D(title, "Tipo",
+                "Consumo", dataset, // data
                 PlotOrientation.VERTICAL, true, // include legend
                 true, false);
         CategoryPlot plot = (CategoryPlot) chart.getPlot();
         CategoryAxis xAxis = (CategoryAxis) plot.getDomainAxis();
-        xAxis.setCategoryLabelPositions(CategoryLabelPositions.UP_45); // Inclinamos 45 grados las etiquetas del eje X
+        xAxis.setCategoryLabelPositions(CategoryLabelPositions.UP_45);
         plot.setBackgroundAlpha(0.5f);
         try {
             ChartUtilities.saveChartAsPNG(new File("functionalities/administrador/Bill/src/assets/images/consumo" + tipo + ".png"), chart, 400, 300);
