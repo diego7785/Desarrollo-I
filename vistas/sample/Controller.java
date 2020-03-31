@@ -26,6 +26,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.net.URL;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.ResourceBundle;
 import java.util.Vector;
 
@@ -37,18 +38,17 @@ public class Controller implements Initializable {
     }
 
     //Database connection
-    private DBConnection conection= new DBConnection("", "", "", "", "", "");
-    //Class Constructor
+    private DBConnection connection= new DBConnection("", "", "", "", "", "");
+    private final Calendar cal = Calendar.getInstance();
+    private final String months[]={"Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio",
+            "Agosto","Septiembre","Octubre","Noviembre","Diciembre"};
 
     //User class object
     User new_user = new User();
 
-    //llenado de combobox que nunca funcionó
-    ObservableList<String> id_types = FXCollections.observableArrayList("C.C","T.I","Pasaporte","C.E");
-    ObservableList<String> client_types = FXCollections.observableArrayList("Natural", "Corporativo");
-
     ObservableList<String> tipoCliente = FXCollections.observableArrayList( "Natural", "Corporativo");
-    ObservableList<String> tipoDocumento= FXCollections.observableArrayList( "Cédula", "Nit");
+    ObservableList<String> tipoDocumento= FXCollections.observableArrayList( "Cédula Ciudadanía", "Cédula Extranjería",
+            "Pasaporte", "Carné Diplomático");
 
     //Login interface
     @FXML
@@ -72,8 +72,6 @@ public class Controller implements Initializable {
     private AnchorPane pane_ventas;
     @FXML
     private AnchorPane pane_gestionar_usuarios;
-    @FXML
-    private AnchorPane pane_estado_est;
     @FXML
     private AnchorPane pane_generar_reporte;
     @FXML
@@ -107,9 +105,9 @@ public class Controller implements Initializable {
     @FXML
     private Label gen_fact_linea_label;
     @FXML
-    private ComboBox gen_fact_clientes_comboBox;
+    private JFXComboBox<String> gen_fact_clientes_comboBox;
     @FXML
-    private ComboBox gen_fact_clientes_comboBox1;
+    private JFXComboBox<String> gen_fact_clientes_comboBox1;
     @FXML
     private JFXTextField  gen_fact_id_TextField;
     @FXML
@@ -156,6 +154,8 @@ public class Controller implements Initializable {
     private Label estado_label;
     @FXML
     private AnchorPane pane_estado_campos;
+    @FXML
+    private AnchorPane pane_estado_est;
     @FXML
     private JFXComboBox gest_usr_cambiar_estado_cb;
     @FXML
@@ -209,8 +209,6 @@ public class Controller implements Initializable {
                 titulo_label.setText(" Generar facturas");
                 titulo_label.setLayoutX(445);
             }
-            gen_fact_clientes_comboBox = new JFXComboBox();
-            gen_fact_clientes_comboBox1 = new JFXComboBox();
             gen_fact_clientes_comboBox.getItems().addAll(tipoCliente);
             gen_fact_clientes_comboBox1.getItems().addAll(tipoDocumento);
         });
@@ -360,7 +358,6 @@ public class Controller implements Initializable {
             titulo_label.setText(" Cambiar estado");
             titulo_label.setLayoutX(580);
             pane_estado_campos.setVisible(false);
-
             pane_estado_est.setVisible(false);
         }
         if (event.getSource().equals(gest_usr_listar))
@@ -396,7 +393,7 @@ public class Controller implements Initializable {
         {
             pane_gen_fact_individual.setVisible(false);
             pane_gen_fact_colectiva.setVisible(true);
-        }
+         }
         if(event.getSource().equals(gen_fact_individual))
         {
             pane_gen_fact_individual.setVisible(true);
@@ -448,11 +445,27 @@ public class Controller implements Initializable {
     }
 
     public void handleGen_fact_generar_button(ActionEvent actionEvent){
+        String tipoCliente = gen_fact_clientes_comboBox.getSelectionModel().getSelectedItem();
+        int document = Integer.parseInt(gen_fact_id_TextField.getText());
+        String number = gen_fact_linea_TextField.getText();
+        Object[] info = connection.read_DB("SELECT * FROM Bill, Lines, Customer WHERE number=linenumber AND number='"+number+"' AND customerid=Customer.id AND customerid="+document+" AND EXTRACT(YEAR FROM date) = "+cal.get(Calendar.YEAR)+" AND EXTRACT(MONTH FROM date) = "+(cal.get(Calendar.MONTH)+1)+" AND type = '"+tipoCliente+"';");
+        Vector<String[]> result = (Vector) info[1];
+        String actualDate = cal.get(Calendar.YEAR) + "/" + months[cal.get(Calendar.MONTH)];
+        String cutDate = cal.get(Calendar.YEAR) + "/" + months[cal.get(Calendar.MONTH)+1]+"/05";
         CreateBill bill = new CreateBill();
-        int documento = Integer.parseInt(gen_fact_id_TextField.getText());
-        int numero = Integer.parseInt(gen_fact_linea_TextField.getText());
 
-        //bill.WriteBill(numero, documento);
+        bill.WriteBill(result.get(0),actualDate, cutDate, months[Integer.parseInt(result.get(0)[13].substring(5,7))-1]);
+    }
+
+    public void handleGen_fact_generar_colect_button(ActionEvent actionEvent){
+        Object[] infoHeaderBill = connection.read_DB("SELECT * FROM Bill, Lines, Customer WHERE number=linenumber AND customerid=Customer.id AND EXTRACT(YEAR FROM date) = 2020 AND EXTRACT(MONTH FROM date) = 3;");
+        Vector<String[]> result = (Vector) infoHeaderBill[1];
+        String actualDate = cal.get(Calendar.YEAR) + "/" + months[cal.get(Calendar.MONTH)];
+        String cutDate = cal.get(Calendar.YEAR) + "/" + months[cal.get(Calendar.MONTH)+1]+"/05";
+        for(int i=0; i<result.size(); i++){
+            CreateBill bill = new CreateBill();
+            bill.WriteBill(result.get(i),actualDate, cutDate, months[Integer.parseInt(result.get(0)[13].substring(5,7))-1]);
+        }
     }
 
 }
