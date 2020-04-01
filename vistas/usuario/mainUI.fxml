@@ -599,7 +599,7 @@
                         <Font size="18.0" />
                      </font>
                   </Label>
-                  <JFXButton fx:id="btn_pagar_linea" layoutX="300.0" layoutY="237.0" prefHeight="48.0" prefWidth="123.0" text="Pagar" textFill="WHITE">
+                  <JFXButton fx:id="btn_pagar_linea" layoutX="300.0" layoutY="237.0" onAction="#handleGen_pagar_linea" prefHeight="48.0" prefWidth="123.0" text="Pagar" textFill="WHITE">
                      <font>
                         <Font size="18.0" />
                      </font>
@@ -634,7 +634,7 @@
                               <Font size="18.0" />
                            </font>
                         </Label>
-                        <JFXTextField fx:id="pagar_id_TextField" prefHeight="33.0" prefWidth="311.0" style="-fx-text-inner-color: WHITE;" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                        <JFXTextField fx:id="tf_pagar_identificacion" prefHeight="33.0" prefWidth="311.0" style="-fx-text-inner-color: WHITE;" GridPane.columnIndex="1" GridPane.rowIndex="2">
                            <font>
                               <Font size="18.0" />
                            </font>
@@ -644,7 +644,7 @@
                               <Font size="18.0" />
                            </font>
                         </Label>
-                        <JFXTextField fx:id="pagar_linea_TextField" prefHeight="25.0" prefWidth="214.0" style="-fx-text-inner-color: WHITE;" GridPane.columnIndex="1" GridPane.rowIndex="3">
+                        <JFXTextField fx:id="tf_pagar_numero_linea" prefHeight="25.0" prefWidth="214.0" style="-fx-text-inner-color: WHITE;" GridPane.columnIndex="1" GridPane.rowIndex="3">
                            <font>
                               <Font size="18.0" />
                            </font>
@@ -660,7 +660,7 @@
                         <Font size="18.0" />
                      </font>
                   </Label>
-                  <JFXButton fx:id="btn_pagar_cliente" layoutX="263.0" layoutY="237.0" prefHeight="48.0" prefWidth="123.0" text="Pagar" textFill="WHITE">
+                  <JFXButton fx:id="btn_pagar_cliente" layoutX="263.0" layoutY="237.0" onAction="#handleGen_pagar_cliente" prefHeight="48.0" prefWidth="123.0" text="Pagar" textFill="WHITE">
                      <font>
                         <Font size="18.0" />
                      </font>
@@ -694,7 +694,7 @@
                               <Font size="18.0" />
                            </font>
                         </Label>
-                        <JFXTextField fx:id="tf_id_pago_cl" prefHeight="25.0" prefWidth="214.0" style="-fx-text-inner-color: WHITE;" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                        <JFXTextField fx:id="tf_pagar_identificacion_cliente" prefHeight="25.0" prefWidth="214.0" style="-fx-text-inner-color: WHITE;" GridPane.columnIndex="1" GridPane.rowIndex="2">
                            <font>
                               <Font size="18.0" />
                            </font>
