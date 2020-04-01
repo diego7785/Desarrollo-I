@@ -96,7 +96,7 @@
             </ImageView>
             <AnchorPane fx:id="pane_ventas_antiguo" layoutX="16.0" layoutY="216.0" prefHeight="279.0" prefWidth="872.0" visible="false">
                <children>
-                  <JFXButton fx:id="btn_reg_antiguo" layoutX="383.0" layoutY="232.0" text="Registrar" textFill="WHITE">
+                  <JFXButton fx:id="btn_reg_antiguo" layoutX="383.0" layoutY="232.0" text="Registrar" onAction="#handleGen_registrar_compra_ant" textFill="WHITE">
                      <font>
                         <Font size="18.0" />
                      </font>
@@ -131,7 +131,7 @@
                               <Font size="18.0" />
                            </font>
                         </Label>
-                        <JFXTextField fx:id="tf_nombre" focusColor="#fa8628" style="-fx-text-inner-color: WHITE;" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                        <JFXTextField fx:id="tf_nombre_identificacion_ant" focusColor="#fa8628" style="-fx-text-inner-color: WHITE;" GridPane.columnIndex="1" GridPane.rowIndex="2">
                            <font>
                               <Font size="18.0" />
                            </font>
@@ -141,7 +141,7 @@
                               <Font size="18.0" />
                            </font>
                         </Label>
-                        <JFXTextField fx:id="tf_nombre2" focusColor="#fa8628" style="-fx-text-inner-color: WHITE;" GridPane.columnIndex="1" GridPane.rowIndex="3">
+                        <JFXTextField fx:id="tf_nueva_linea_ant" focusColor="#fa8628" style="-fx-text-inner-color: WHITE;" GridPane.columnIndex="1" GridPane.rowIndex="3">
                            <font>
                               <Font size="18.0" />
                            </font>

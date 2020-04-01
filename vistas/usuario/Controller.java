@@ -206,7 +206,9 @@ public class Controller implements Initializable {
     @FXML
     private JFXComboBox <String> cb_ventas_nue_estado_civil;
     @FXML
-    private JFXTextField  tf_nombre_identificacion;
+    private JFXTextField tf_nombre_identificacion;
+    @FXML
+    private JFXTextField tf_nombre_identificacion_ant;
     @FXML
     private JFXTextField tf_correo_electronico;
     @FXML
@@ -217,6 +219,8 @@ public class Controller implements Initializable {
     private JFXTextField tf_segundo_apellido;
     @FXML
     private JFXTextField tf_nueva_linea;
+    @FXML
+    private JFXTextField tf_nueva_linea_ant;
     /////////////////////////////////////////////////
     //generar reportes
     @FXML
@@ -425,40 +429,39 @@ public class Controller implements Initializable {
         String nuevaLinea = tf_nueva_linea.getText();
 
         int userID = new_user.get_user_id();
-        System.out.println(planAsociado);
-
         String name = nombres + " " + primerApellido + " " + segundoApellido;
-        System.out.println(name);
 
         Object[] customer = connection.read_DB("INSERT INTO customer(id, name, type, email) VALUES("+documentNumber+", '"+name+"', '"+tipoCliente+"', '"+email+"');");
 
         Object[] line = connection.read_DB("INSERT INTO lines VALUES("+nuevaLinea+", "+documentNumber+", "+tipoID+", "+planAsociado+", "+userID+", "+true+");");
+
+        tf_nombre_identificacion.setText("");
+        tf_correo_electronico.setText("");
+
+        tf_nombres.setText("");
+        tf_primer_apellido.setText("");
+
+        tf_segundo_apellido.setText("");
+        tf_nueva_linea.setText("");
     }
 
     public void handleGen_registrar_compra_ant(ActionEvent event) {
-        String tipoCliente = cb_ventas_nue_tipo_cliente.getSelectionModel().getSelectedItem();
+        String tipoCliente = cb_ventas_ant_tipo_cliente.getSelectionModel().getSelectedItem();
 
-        String tipoID = Integer.toString(cb_ventas_nue_tipo_id.getSelectionModel().getSelectedIndex()+1);
-        String planAsociado = Integer.toString(cb_ventas_nue_plan_asociado.getSelectionModel().getSelectedIndex()+1);
+        String tipoID = Integer.toString(cb_ventas_ant_tipo_id.getSelectionModel().getSelectedIndex()+1);
+        String planAsociado = Integer.toString(cb_ventas_ant_plan_asociado.getSelectionModel().getSelectedIndex()+1);
 
-        String documentNumber = tf_nombre_identificacion.getText();
-        String email = tf_correo_electronico.getText();
-
-        String nombres = tf_nombres.getText();
-        String primerApellido = tf_primer_apellido.getText();
-
-        String segundoApellido = tf_segundo_apellido.getText();
-        String nuevaLinea = tf_nueva_linea.getText();
+        String documentNumber = tf_nombre_identificacion_ant.getText();
+        String nuevaLinea = tf_nueva_linea_ant.getText();
 
         int userID = new_user.get_user_id();
-        System.out.println(planAsociado);
 
-        String name = nombres + " " + primerApellido + " " + segundoApellido;
-        System.out.println(name);
-
-        Object[] customer = connection.read_DB("INSERT INTO customer(id, name, type, email) VALUES("+documentNumber+", '"+name+"', '"+tipoCliente+"', '"+email+"');");
+        Object[] customer = connection.read_DB("SELECT * FROM customer WHERE id='"+documentNumber+"' AND type='"+tipoCliente+"';");
 
         Object[] line = connection.read_DB("INSERT INTO lines VALUES("+nuevaLinea+", "+documentNumber+", "+tipoID+", "+planAsociado+", "+userID+", "+true+");");
+
+        tf_nombre_identificacion_ant.setText("");
+        tf_nueva_linea_ant.setText("");
     }
 
     @FXML
