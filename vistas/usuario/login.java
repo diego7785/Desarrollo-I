@@ -28,46 +28,42 @@ public class login
 
     @FXML
     public void log_in(ActionEvent event) throws Exception {
-
-        try
-        {
+        try {
             int id_user = Integer.parseInt(tf_user.getText());
             Vector<String[]> result = (Vector) conection.read_DB("SELECT password, roleID from Users WHERE id = '"+id_user+"';")[1];
+
             String user_password = result.get(0)[0];
             System.out.println(user_password);
 
             //password entered by User
             String password_entered = tf_pass.getText();
-            try
-            {
-                if (password_entered.equals(user_password) && event.getSource().equals(btn_login))
-                {
+            try {
+                if (password_entered.equals(user_password) && event.getSource().equals(btn_login)) {
                     btn_login.getScene().getWindow().hide();
                     FXMLLoader loader = new FXMLLoader(getClass().getResource("mainUI.fxml"));
-                    Parent root = (Parent) loader.load();
 
+                    Parent root = (Parent) loader.load();
                     Stage primaryStage = new Stage();
+
                     primaryStage.initStyle(StageStyle.TRANSPARENT);
                     primaryStage.setTitle("");
+
                     primaryStage.setScene(new Scene(root));
                     primaryStage.show();
+
                     Controller controller = loader.getController();
                     controller.set_user_role(Integer.parseInt(result.get(0)[1]));
+                    controller.set_user_id(id_user);
                 }
-                else
-                {
+                else {
                     throw new Password_exception("Contraseña incorrecta");
                 }
-            }
-            catch (Exception ex)
-            {
+            } catch (Exception ex) {
                 JOptionPane.showMessageDialog(null, "Contraseña incorrecta");
                 tf_user.setText("");
                 tf_pass.setText("");
             }
-        }
-        catch (Exception e)
-        {
+        } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "ID incorrecto");
             tf_user.setText("");
             tf_pass.setText("");

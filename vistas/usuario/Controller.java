@@ -41,16 +41,14 @@ public class Controller implements Initializable {
     ObservableList<String> tipoCliente = FXCollections.observableArrayList( "Natural", "Corporativo");
     ObservableList<String> tipoDocumento= FXCollections.observableArrayList( "Cédula Ciudadanía", "Cédula Extranjería",
             "Pasaporte", "Carné Diplomático", "Tarjeta de Identidad");
+
     ObservableList<String> genero = FXCollections.observableArrayList( "Femenino", "Masculino", "Otro");
     ObservableList<String> estado_civil = FXCollections.observableArrayList( "Casado", "Soltero", "Viudo", "Divorciado");
+
     ObservableList<String> rol = FXCollections.observableArrayList( "Administrador", "Gerente", "Operador");
     ObservableList<String> estado = FXCollections.observableArrayList( "I", "II");
-    ObservableList<String> plan_asociado = FXCollections.observableArrayList( "plan1", "plan2", "plan3");
 
-    ObservableList<String> genero = FXCollections.observableArrayList( "M", "F", "Otro");
-    ObservableList<String> estadoCivil = FXCollections.observableArrayList( "Soltero", "Casado", "Viudo", "Comprometido");
-
-    ObservableList<String> planAsociado = FXCollections.observableArrayList( "Plan Conéctate", "Plan Conéctate Plus", "Plan Conectados Somos Más", "Plan Redes Sin Límites", "Plan Uno Es Más");
+    ObservableList<String> plan_asociado = FXCollections.observableArrayList( "Plan Conéctate", "Plan Conéctate Plus", "Plan Conectados Somos Más", "Plan Redes Sin Límites", "Plan Uno Es Más");
     //Login interface
     @FXML
     private JFXButton btn_login;
@@ -147,6 +145,8 @@ public class Controller implements Initializable {
     @FXML
     private JFXButton btn_reg_nuevo;
     @FXML
+    private JFXButton btn_reg_antiguo;
+    @FXML
     private JFXButton gen_fact_generar_button;
     @FXML
     private AnchorPane pane_edit_campos;
@@ -188,13 +188,9 @@ public class Controller implements Initializable {
     private AnchorPane pane_gen_fact_colectiva;
     @FXML
     private  JFXComboBox gest_usr_editar_id_cb_buscar12;
-    @FXML
-    private ComboBox pepe;
-    //ComboBox
     //ventas
     @FXML
     private JFXComboBox <String> cb_ventas_ant_tipo_cliente;
-
     @FXML
     private JFXComboBox <String> cb_ventas_ant_tipo_id;
     @FXML
@@ -209,6 +205,19 @@ public class Controller implements Initializable {
     private JFXComboBox <String> cb_ventas_nue_genero;
     @FXML
     private JFXComboBox <String> cb_ventas_nue_estado_civil;
+    @FXML
+    private JFXTextField  tf_nombre_identificacion;
+    @FXML
+    private JFXTextField tf_correo_electronico;
+    @FXML
+    private JFXTextField tf_nombres;
+    @FXML
+    private JFXTextField tf_primer_apellido;
+    @FXML
+    private JFXTextField tf_segundo_apellido;
+    @FXML
+    private JFXTextField tf_nueva_linea;
+    /////////////////////////////////////////////////
     //generar reportes
     @FXML
     private JFXComboBox <String> cb_gen_rep_tipo_id_pnat;
@@ -250,26 +259,9 @@ public class Controller implements Initializable {
     @FXML
     private JFXComboBox <String> set_est_tipo_id;
 
-
-
-
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         Platform.runLater(() -> {
-            gen_fact_clientes_comboBox.getItems().addAll(tipoCliente);
-            gen_fact_clientes_comboBox1.getItems().addAll(tipoDocumento);
-
-            cb_rol.getItems().addAll(tipoCliente);
-            cb_rol2.getItems().addAll(tipoDocumento);
-
-            cb_rol1.getItems().addAll(tipoCliente);
-            cb_rol21.getItems().addAll(tipoDocumento);
-
-            cb_rol_genero.getItems().addAll(genero);
-            cb_rol_estado_civil.getItems().addAll(estadoCivil);
-
-            cb_rol_plan_asociado.getItems().addAll(planAsociado);
-
             if (new_user.get_user_rol() == 1) {
                 realizar_pagos.setVisible(false);
                 generar_factura.setVisible(false);
@@ -278,7 +270,8 @@ public class Controller implements Initializable {
                 titulo_label.setText("  Agregar cliente");
                 titulo_label.setLayoutX(46);
 
-            } else if (new_user.get_user_rol() == 2) {
+            }
+            else if (new_user.get_user_rol() == 2) {
                 realizar_venta.setVisible(false);
                 generar_reporte.setVisible(false);
                 generar_factura.setVisible(false);
@@ -286,7 +279,8 @@ public class Controller implements Initializable {
                 pane_pagar.setVisible(true);
                 titulo_label.setText("   Realizar pagos");
                 titulo_label.setLayoutX(311);
-            } else {
+            }
+            else {
                 realizar_venta.setVisible(false);
                 generar_reporte.setVisible(false);
                 realizar_pagos.setVisible(false);
@@ -296,43 +290,36 @@ public class Controller implements Initializable {
             }
 
             JFXComboBox<String>[]  tipoCli = new JFXComboBox[]{cb_gen_fact_tip_cliente, cb_ventas_ant_tipo_cliente, cb_ventas_nue_tipo_cliente,pagar_linea_tip_cl,pagar_cliente_tip_cl};
-            for(int i=0; i<= (tipoCli.length-1); i++)
-            {
+            for(int i=0; i<= (tipoCli.length-1); i++) {
                 tipoCli[i].getItems().addAll(tipoCliente);
             }
 
             JFXComboBox<String>[] tipoId = new JFXComboBox[]{set_est_tipo_id,edit_user_tipo_id,add_user_tipo_id,pagar_cliente_tip_id,pagar_linea_tip_id,cb_gen_fact_tip_id, cb_ventas_ant_tipo_id, cb_ventas_nue_tipo_id,cb_gen_rep_tipo_id_pnat};
-            for(int i=0; i<= (tipoId.length-1); i++)
-            {
+            for(int i=0; i<= (tipoId.length-1); i++) {
                 tipoId[i].getItems().addAll(tipoDocumento);
             }
 
             JFXComboBox<String>[] planA = new JFXComboBox[]{cb_ventas_ant_plan_asociado, cb_ventas_nue_plan_asociado};
-            for(int i=0; i<= (planA.length-1); i++)
-            {
+            for(int i=0; i<= (planA.length-1); i++) {
                 planA[i].getItems().addAll(plan_asociado);
             }
 
             JFXComboBox<String>[] gen = new JFXComboBox[]{add_user_genero,edit_user_genero,cb_ventas_nue_genero};
-            for(int i=0; i<= (gen.length-1); i++)
-            {
+            for(int i=0; i<= (gen.length-1); i++) {
                 gen[i].getItems().addAll(genero);
             }
 
             JFXComboBox<String>[] estadoCiv = new JFXComboBox[]{edit_user_est_civil,add_user_est_civil,cb_ventas_nue_estado_civil};
-            for(int i=0; i<= (estadoCiv.length-1); i++)
-            {
+            for(int i=0; i<= (estadoCiv.length-1); i++) {
                 estadoCiv[i].getItems().addAll(estado_civil);
             }
 
             JFXComboBox<String>[] roles = new JFXComboBox[]{add_user_rol,edit_user_rol};
-            for(int i=0; i<= (roles.length-1); i++)
-            {
+            for(int i=0; i<= (roles.length-1); i++) {
                 roles[i].getItems().addAll(rol);
             }
 
             set_est.getItems().addAll(estado);
-
         });
     }
 
@@ -385,7 +372,6 @@ public class Controller implements Initializable {
                 pane_pagar_cliente.setVisible(false);
             }
         }
-
         else {
             realizar_venta.setVisible(false);
             generar_reporte.setVisible(false);
@@ -423,10 +409,56 @@ public class Controller implements Initializable {
         }
     }
 
-    public void registrar_compra(MouseEvent event) {
-        if(event.getSource().equals(btn_reg_nuevo)) {
-            System.exit(0);
-        }
+    public void handleGen_registrar_compra(ActionEvent event) {
+        String tipoCliente = cb_ventas_nue_tipo_cliente.getSelectionModel().getSelectedItem();
+
+        String tipoID = Integer.toString(cb_ventas_nue_tipo_id.getSelectionModel().getSelectedIndex()+1);
+        String planAsociado = Integer.toString(cb_ventas_nue_plan_asociado.getSelectionModel().getSelectedIndex()+1);
+
+        String documentNumber = tf_nombre_identificacion.getText();
+        String email = tf_correo_electronico.getText();
+
+        String nombres = tf_nombres.getText();
+        String primerApellido = tf_primer_apellido.getText();
+
+        String segundoApellido = tf_segundo_apellido.getText();
+        String nuevaLinea = tf_nueva_linea.getText();
+
+        int userID = new_user.get_user_id();
+        System.out.println(planAsociado);
+
+        String name = nombres + " " + primerApellido + " " + segundoApellido;
+        System.out.println(name);
+
+        Object[] customer = connection.read_DB("INSERT INTO customer(id, name, type, email) VALUES("+documentNumber+", '"+name+"', '"+tipoCliente+"', '"+email+"');");
+
+        Object[] line = connection.read_DB("INSERT INTO lines VALUES("+nuevaLinea+", "+documentNumber+", "+tipoID+", "+planAsociado+", "+userID+", "+true+");");
+    }
+
+    public void handleGen_registrar_compra_ant(ActionEvent event) {
+        String tipoCliente = cb_ventas_nue_tipo_cliente.getSelectionModel().getSelectedItem();
+
+        String tipoID = Integer.toString(cb_ventas_nue_tipo_id.getSelectionModel().getSelectedIndex()+1);
+        String planAsociado = Integer.toString(cb_ventas_nue_plan_asociado.getSelectionModel().getSelectedIndex()+1);
+
+        String documentNumber = tf_nombre_identificacion.getText();
+        String email = tf_correo_electronico.getText();
+
+        String nombres = tf_nombres.getText();
+        String primerApellido = tf_primer_apellido.getText();
+
+        String segundoApellido = tf_segundo_apellido.getText();
+        String nuevaLinea = tf_nueva_linea.getText();
+
+        int userID = new_user.get_user_id();
+        System.out.println(planAsociado);
+
+        String name = nombres + " " + primerApellido + " " + segundoApellido;
+        System.out.println(name);
+
+        Object[] customer = connection.read_DB("INSERT INTO customer(id, name, type, email) VALUES("+documentNumber+", '"+name+"', '"+tipoCliente+"', '"+email+"');");
+
+        Object[] line = connection.read_DB("INSERT INTO lines VALUES("+nuevaLinea+", "+documentNumber+", "+tipoID+", "+planAsociado+", "+userID+", "+true+");");
     }
 
     @FXML
@@ -580,4 +612,8 @@ public class Controller implements Initializable {
         }
     }
 
+    public void set_user_id (int id)
+    {
+        new_user.set_user_id(id);
+    }
 }
