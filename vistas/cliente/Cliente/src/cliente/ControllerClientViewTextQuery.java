@@ -58,22 +58,38 @@ public class ControllerClientViewTextQuery {
             String month = months[monthI];
             int plan = Integer.parseInt(infoPlan[0]);
             String name = infoPlan[1];
-
-            String text = "Plan tipo: "+plan+"\n"+"Nombre cliente: "+name+"\n"+"Mes: "+month+"\n";
-
-            text += "Linea número: "+info[12]+"\n"
-                    + "Consumo de datos: "+info[1] + " MB\n"
-                    + "Consumo de minutos: "+info[2]+" Minutos\n"
-                    + "Consumo de mensajes: "+info[3]+" SMS\n"
-                    + "Consumo de datos de Whatsapp: "+info[4]+" MB\n"
-                    + "Consumo de minutos de Whatsapp: "+info[5]+" Minutos\n"
-                    + "Consumo de datos de Facebook: "+info[6]+" MB\n";
-
+            String text;
+            text ="_______________________________________________________________\n" +
+                    "|                          Plan tipo                              |                    "+plan+"\n" +
+                    "_______________________________________________________________\n" +
+                    "|                        Nombre cliente                     |           "+name+"\n" +
+                    "_______________________________________________________________\n" +
+                    "|                               Mes                                 |                  "+month+"\n" +
+                    "_______________________________________________________________\n" +
+                    "|                       Linea número                         |          "+info[12]+"\n" +
+                    "_______________________________________________________________\n" +
+                    "|                    Consumo de datos                    |            "+info[1]+" MB\n" +
+                    "_______________________________________________________________\n" +
+                    "|                    Consumo de minutos                |           "+info[2]+" Minutos\n" +
+                    "_______________________________________________________________\n" +
+                    "|                   Consumo de mensajes              |               "+info[3]+" SMS\n" +
+                    "_______________________________________________________________\n" +
+                    "|       Consumo de datos de Whatsapp         |            "+info[4]+" MB\n" +
+                    "_______________________________________________________________\n" +
+                    "|      Consumo de minutos de Whatsapp      |           "+info[5]+" Minutos\n" +
+                    "_______________________________________________________________\n" +
+                    "|       Consumo de datos de Facebook         |            "+info[6]+" MB\n" +
+                    "_______________________________________________________________\n";
             if(plan == 4){
-                text += "Consumo de datos de Waze: "+info[7] +" MB";
+                text += "|             Consumo de datos de Waze           |         "+info[7]+" MB\n" +
+                        "_______________________________________________________________\n";
             } else if(plan == 5){
-                text += "Consumo minutos internacionales: "+info[8]+" Minutos\n"
-                        + "Consumo de datos para compartir: "+info[9]+" MB";
+                text += "|             Consumo de datos de Waze           |         "+info[7]+" MB\n" +
+                        "_______________________________________________________________\n"+
+                        "|     Consumo minutos internacionales       |           "+info[8]+" Minutos\n" +
+                        "_______________________________________________________________\n"+
+                        "|     Consumo de datos para compartir       |              "+info[9]+" MB\n" +
+                        "_______________________________________________________________\n";
             }
             textAreaConsumo.setText(text);
         } else{
@@ -84,22 +100,37 @@ public class ControllerClientViewTextQuery {
                 String month = months[monthI-1];
                 int plan = Integer.parseInt(infoPlan[0]);
                 String name = infoPlan[1];
-
-                text += "Plan tipo: "+plan+"\n"+"Nombre cliente: "+name+"\n"+"Mes: "+month+"\n";
-
-                text += "Linea número: "+info[12]+"\n"
-                        + "Consumo de datos: "+info[1] + " MB\n"
-                        + "Consumo de minutos: "+info[2]+" Minutos\n"
-                        + "Consumo de mensajes: "+info[3]+" SMS\n"
-                        + "Consumo de datos de Whatsapp: "+info[4]+" MB\n"
-                        + "Consumo de minutos de Whatsapp: "+info[5]+" Minutos\n"
-                        + "Consumo de datos de Facebook: "+info[6]+" MB\n";
-
+                text ="_______________________________________________________________\n" +
+                        "|                          Plan tipo                              |                    "+plan+"\n" +
+                        "_______________________________________________________________\n" +
+                        "|                        Nombre cliente                     |           "+name+"\n" +
+                        "_______________________________________________________________\n" +
+                        "|                               Mes                                 |                  "+month+"\n" +
+                        "_______________________________________________________________\n" +
+                        "|                       Linea número                         |          "+info[12]+"\n" +
+                        "_______________________________________________________________\n" +
+                        "|                    Consumo de datos                    |            "+info[1]+" MB\n" +
+                        "_______________________________________________________________\n" +
+                        "|                    Consumo de minutos                |           "+info[2]+" Minutos\n" +
+                        "_______________________________________________________________\n" +
+                        "|                   Consumo de mensajes              |               "+info[3]+" SMS\n" +
+                        "_______________________________________________________________\n" +
+                        "|       Consumo de datos de Whatsapp         |            "+info[4]+" MB\n" +
+                        "_______________________________________________________________\n" +
+                        "|      Consumo de minutos de Whatsapp      |           "+info[5]+" Minutos\n" +
+                        "_______________________________________________________________\n" +
+                        "|       Consumo de datos de Facebook         |            "+info[6]+" MB\n" +
+                        "_______________________________________________________________\n";
                 if(plan == 4){
-                    text += "Consumo de datos de Waze: "+info[7] +" MB";
+                    text += "|             Consumo de datos de Waze           |         "+info[7]+" MB\n" +
+                            "_______________________________________________________________\n";
                 } else if(plan == 5){
-                    text += "Consumo minutos internacionales: "+info[8]+" Minutos\n"
-                            + "Consumo de datos para compartir: "+info[9]+" MB";
+                    text += "|             Consumo de datos de Waze           |         "+info[7]+" MB\n" +
+                            "_______________________________________________________________\n"+
+                            "|     Consumo minutos internacionales       |           "+info[8]+" Minutos\n" +
+                            "_______________________________________________________________\n"+
+                            "|     Consumo de datos para compartir       |              "+info[9]+" MB\n" +
+                            "_______________________________________________________________\n";
                 }
                 text += "\n";
             }
