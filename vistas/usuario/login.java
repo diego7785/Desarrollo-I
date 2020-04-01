@@ -32,7 +32,7 @@ public class login
         try
         {
             int id_user = Integer.parseInt(tf_user.getText());
-            Vector<String[]> result = (Vector) conection.read_DB("SELECT password, roleID from Users WHERE id = '" + id_user + "';")[1];
+            Vector<String[]> result = (Vector) conection.read_DB("SELECT password, roleID from Users WHERE id = '"+id_user+"';")[1];
             String user_password = result.get(0)[0];
             System.out.println(user_password);
 

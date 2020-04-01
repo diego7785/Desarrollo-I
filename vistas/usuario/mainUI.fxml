@@ -532,7 +532,7 @@
                         <Font size="18.0" />
                      </font>
                   </Label>
-                  <JFXButton fx:id="btn_gen_fact_colect" layoutX="345.0" layoutY="181.0" onAction="#handleGen_fact_generar_button" prefHeight="48.0" prefWidth="123.0" text="Generar " textFill="WHITE">
+                  <JFXButton fx:id="btn_gen_fact_colect" layoutX="345.0" layoutY="181.0" onAction="#handleGen_fact_generar_colect_button" prefHeight="48.0" prefWidth="123.0" text="Generar " textFill="WHITE">
                      <font>
                         <Font size="18.0" />
                      </font>

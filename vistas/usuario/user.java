@@ -1,4 +1,4 @@
-public class User{
+public class user{
     private int user_rol=0;
 
     public int get_user_rol () {

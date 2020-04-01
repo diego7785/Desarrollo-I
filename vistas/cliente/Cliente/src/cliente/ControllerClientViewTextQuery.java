@@ -55,7 +55,7 @@ public class ControllerClientViewTextQuery {
         if(type == 1){
             String[] info = infoV.get(0);
             int monthI = Integer.parseInt(info[13].substring(5,7));
-            String month = months[monthI];
+            String month = months[monthI-1];
             int plan = Integer.parseInt(infoPlan[0]);
             String name = infoPlan[1];
             String text;
@@ -100,7 +100,7 @@ public class ControllerClientViewTextQuery {
                 String month = months[monthI-1];
                 int plan = Integer.parseInt(infoPlan[0]);
                 String name = infoPlan[1];
-                text ="_______________________________________________________________\n" +
+                text +="_______________________________________________________________\n" +
                         "|                          Plan tipo                              |                    "+plan+"\n" +
                         "_______________________________________________________________\n" +
                         "|                        Nombre cliente                     |           "+name+"\n" +

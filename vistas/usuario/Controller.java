@@ -32,7 +32,7 @@ public class Controller implements Initializable {
             "Agosto","Septiembre","Octubre","Noviembre","Diciembre"};
 
     //User class object
-    User new_user = new User();
+    user new_user = new user();
 
     ObservableList<String> tipoCliente = FXCollections.observableArrayList( "Natural", "Corporativo");
     ObservableList<String> tipoDocumento= FXCollections.observableArrayList( "Cédula Ciudadanía", "Cédula Extranjería",
@@ -412,7 +412,7 @@ public class Controller implements Initializable {
         int document = Integer.parseInt(gen_fact_id_TextField.getText());
         String number = gen_fact_linea_TextField.getText();
 
-        Object[] info = connection.read_DB("SELECT * FROM Bill, Lines, Customer WHERE number=linenumber AND number='"+number+"' AND customerid=Customer.id AND customerid="+document+" AND EXTRACT(YEAR FROM date) = "+cal.get(Calendar.YEAR)+" AND EXTRACT(MONTH FROM date) = "+(cal.get(Calendar.MONTH)+1)+" AND type = '"+tipoCliente+"';");
+        Object[] info = connection.read_DB("SELECT * FROM Bill, Lines, Customer WHERE number=linenumber AND number='"+number+"' AND customerid=Customer.id AND customerid='"+document+"' AND EXTRACT(YEAR FROM date) = "+cal.get(Calendar.YEAR)+" AND EXTRACT(MONTH FROM date) = "+(cal.get(Calendar.MONTH)+1)+" AND type = '"+tipoCliente+"';");
         Vector<String[]> result = (Vector) info[1];
 
         String actualDate = cal.get(Calendar.YEAR) + "/" + months[cal.get(Calendar.MONTH)];
@@ -424,7 +424,7 @@ public class Controller implements Initializable {
     }
 
     public void handleGen_fact_generar_colect_button(ActionEvent actionEvent){
-        Object[] infoHeaderBill = connection.read_DB("SELECT * FROM Bill, Lines, Customer WHERE number=linenumber AND customerid=Customer.id AND EXTRACT(YEAR FROM date) = 2020 AND EXTRACT(MONTH FROM date) = 3;");
+        Object[] infoHeaderBill = connection.read_DB("SELECT * FROM Bill, Lines, Customer WHERE number=linenumber AND customerid=Customer.id AND EXTRACT(YEAR FROM date) = "+cal.get(Calendar.YEAR)+" AND EXTRACT(MONTH FROM date) = "+(cal.get(Calendar.MONTH)+1)+";");
         Vector<String[]> result = (Vector) infoHeaderBill[1];
 
         String actualDate = cal.get(Calendar.YEAR) + "/" + months[cal.get(Calendar.MONTH)];
