@@ -140,6 +140,8 @@ public class Controller implements Initializable {
     @FXML
     private JFXButton gest_usr_editar_btn_buscar;
     @FXML
+    private JFXButton btn_reg_nuevo;
+    @FXML
     private JFXButton gen_fact_generar_button;
     @FXML
     private AnchorPane pane_edit_campos;
@@ -308,6 +310,12 @@ public class Controller implements Initializable {
             if (user_answer == 0) {
                 System.exit(0);
             }
+        }
+    }
+
+    public void registrar_compra(MouseEvent event) {
+        if(event.getSource().equals(btn_reg_nuevo)) {
+            System.exit(0);
         }
     }
 
