@@ -539,7 +539,7 @@ public class Controller implements Initializable {
         String tipoCliente = pagar_cliente_tip_cl.getSelectionModel().getSelectedItem();
         String documentNumber = tf_pagar_identificacion_cliente.getText();
 
-        Object[] lineNumber = connection.read_DB("SELECT id FROM (SELECT * FROM customer, lines WHERE customer.id=lines.customerid) AS result WHERE id='"+documentNumber+"' AND type='"+tipoCliente+"';");
+        Object[] lineNumber = connection.read_DB("SELECT number FROM (SELECT * FROM customer, lines WHERE customer.id=lines.customerid) AS result WHERE id='"+documentNumber+"' AND type='"+tipoCliente+"';");
         if(lineNumber[0] == "Error") {
             return;
         }
