@@ -739,7 +739,7 @@
       </AnchorPane>
       <AnchorPane fx:id="pane_gest_usr_agregar" layoutX="10.0" layoutY="102.0" onMouseClicked="#cambiar_pestana" prefHeight="509.0" prefWidth="900.0" style="-fx-background-color: #202642;" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
          <children>
-            <JFXButton fx:id="gest_usr_agreg_button" layoutX="348.0" layoutY="442.0" prefHeight="48.0" prefWidth="205.0" text="Registrar usuario" textFill="WHITE">
+            <JFXButton fx:id="gest_usr_agreg_button" layoutX="348.0" layoutY="442.0" onAction="#handleGen_agregar_usuario" prefHeight="48.0" prefWidth="205.0" text="Registrar usuario" textFill="WHITE">
                <font>
                   <Font size="18.0" />
                </font>
@@ -774,13 +774,13 @@
                         <Font size="18.0" />
                      </font>
                   </Label>
-                  <JFXComboBox fx:id="add_user_tipo_id" prefHeight="26.0" prefWidth="127.0" style="-fx-text-inner-color: BLACK;" GridPane.columnIndex="1" />
+                  <JFXComboBox fx:id="cb_add_user_tipo_id" prefHeight="26.0" prefWidth="127.0" style="-fx-text-inner-color: BLACK;" GridPane.columnIndex="1" />
                   <Label fx:id="pagar_id_label1" text="Documento de identificación:" textFill="WHITE" GridPane.rowIndex="1">
                      <font>
                         <Font size="18.0" />
                      </font>
                   </Label>
-                  <JFXTextField fx:id="gest_usr_agreg_id_TextField" prefHeight="25.0" prefWidth="227.0" style="-fx-text-inner-color: WHITE;" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                  <JFXTextField fx:id="tf_gest_usr_agreg_id" prefHeight="25.0" prefWidth="227.0" style="-fx-text-inner-color: WHITE;" GridPane.columnIndex="1" GridPane.rowIndex="1">
                      <font>
                         <Font size="18.0" />
                      </font>
@@ -790,13 +790,13 @@
                         <Font size="18.0" />
                      </font>
                   </Label>
-                  <JFXComboBox fx:id="add_user_rol" prefHeight="25.0" prefWidth="227.0" style="-fx-text-inner-color: BLACK;" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                  <JFXComboBox fx:id="cb_add_user_rol" prefHeight="25.0" prefWidth="227.0" style="-fx-text-inner-color: BLACK;" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                   <Label fx:id="pagar_id_label11" text="Nombres:" textFill="WHITE" GridPane.rowIndex="3">
                      <font>
                         <Font size="18.0" />
                      </font>
                   </Label>
-                  <JFXTextField fx:id="gest_usr_agreg_nombre_TextField" prefHeight="25.0" prefWidth="227.0" style="-fx-text-inner-color: WHITE;" GridPane.columnIndex="1" GridPane.rowIndex="3">
+                  <JFXTextField fx:id="tf_gest_usr_agreg_nombre" prefHeight="25.0" prefWidth="227.0" style="-fx-text-inner-color: WHITE;" GridPane.columnIndex="1" GridPane.rowIndex="3">
                      <font>
                         <Font size="18.0" />
                      </font>
@@ -806,7 +806,7 @@
                         <Font size="18.0" />
                      </font>
                   </Label>
-                  <JFXTextField fx:id="gest_usr_agreg_apellidoI_TextField" prefHeight="25.0" prefWidth="227.0" style="-fx-text-inner-color: WHITE;" GridPane.columnIndex="1" GridPane.rowIndex="4">
+                  <JFXTextField fx:id="tf_gest_usr_agreg_primer_apellido" prefHeight="25.0" prefWidth="227.0" style="-fx-text-inner-color: WHITE;" GridPane.columnIndex="1" GridPane.rowIndex="4">
                      <font>
                         <Font size="18.0" />
                      </font>
@@ -816,7 +816,7 @@
                         <Font size="18.0" />
                      </font>
                   </Label>
-                  <JFXTextField fx:id="gest_usr_agreg_apellidoII_TextField" prefHeight="25.0" prefWidth="227.0" style="-fx-text-inner-color: WHITE;" GridPane.columnIndex="1" GridPane.rowIndex="5">
+                  <JFXTextField fx:id="tf_gest_usr_agreg_segundo_apellido" prefHeight="25.0" prefWidth="227.0" style="-fx-text-inner-color: WHITE;" GridPane.columnIndex="1" GridPane.rowIndex="5">
                      <font>
                         <Font size="18.0" />
                      </font>
@@ -836,7 +836,7 @@
                         <Font size="18.0" />
                      </font>
                   </Label>
-                  <JFXComboBox fx:id="add_user_genero" prefHeight="26.0" prefWidth="163.0" style="-fx-text-inner-color: BLACK;" GridPane.columnIndex="1" GridPane.rowIndex="7" />
+                  <JFXComboBox fx:id="cb_add_user_genero" prefHeight="26.0" prefWidth="163.0" style="-fx-text-inner-color: BLACK;" GridPane.columnIndex="1" GridPane.rowIndex="7" />
                   <Label fx:id="pagar_linea_label111" text="Estado civil:" textFill="WHITE" GridPane.rowIndex="8">
                      <font>
                         <Font size="18.0" />
@@ -848,7 +848,7 @@
                         <Font size="18.0" />
                      </font>
                   </Label>
-                  <JFXTextField fx:id="gest_usr_agreg_email_TextField" prefHeight="25.0" prefWidth="227.0" style="-fx-text-inner-color: WHITE;" GridPane.columnIndex="1" GridPane.rowIndex="9">
+                  <JFXTextField fx:id="tf_gest_usr_agreg_email" prefHeight="25.0" prefWidth="227.0" style="-fx-text-inner-color: WHITE;" GridPane.columnIndex="1" GridPane.rowIndex="9">
                      <font>
                         <Font size="18.0" />
                      </font>
@@ -899,13 +899,13 @@
                               <Font size="18.0" />
                            </font>
                         </Label>
-                        <JFXComboBox fx:id="edit_user_rol" prefHeight="25.0" prefWidth="227.0" style="-fx-text-inner-color: BLACK;" GridPane.columnIndex="1" />
+                        <JFXComboBox fx:id="cb_edit_user_rol" prefHeight="25.0" prefWidth="227.0" style="-fx-text-inner-color: BLACK;" GridPane.columnIndex="1" />
                         <Label fx:id="pagar_id_label211111" text="Nombres:" textFill="WHITE" GridPane.rowIndex="1">
                            <font>
                               <Font size="18.0" />
                            </font>
                         </Label>
-                        <JFXTextField fx:id="gest_usr_cambiar_estadoII2" prefHeight="25.0" prefWidth="227.0" style="-fx-text-inner-color: WHITE;" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                        <JFXTextField fx:id="tf_gest_usr_cambiar_nombre" prefHeight="25.0" prefWidth="227.0" style="-fx-text-inner-color: WHITE;" GridPane.columnIndex="1" GridPane.rowIndex="1">
                            <font>
                               <Font size="18.0" />
                            </font>
@@ -915,7 +915,7 @@
                               <Font size="18.0" />
                            </font>
                         </Label>
-                        <JFXTextField fx:id="gest_usr_editar_apellidoII_tf12" prefHeight="25.0" prefWidth="227.0" style="-fx-text-inner-color: WHITE;" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                        <JFXTextField fx:id="tf_gest_usr_editar_primer_apellido" prefHeight="25.0" prefWidth="227.0" style="-fx-text-inner-color: WHITE;" GridPane.columnIndex="1" GridPane.rowIndex="2">
                            <font>
                               <Font size="18.0" />
                            </font>
@@ -925,7 +925,7 @@
                               <Font size="18.0" />
                            </font>
                         </Label>
-                        <JFXTextField fx:id="gest_usr_editar_nombre_tf12" prefHeight="25.0" prefWidth="227.0" style="-fx-text-inner-color: WHITE;" GridPane.columnIndex="1" GridPane.rowIndex="3">
+                        <JFXTextField fx:id="tf_gest_usr_editar_segundo_apellido" prefHeight="25.0" prefWidth="227.0" style="-fx-text-inner-color: WHITE;" GridPane.columnIndex="1" GridPane.rowIndex="3">
                            <font>
                               <Font size="18.0" />
                            </font>
@@ -953,7 +953,7 @@
                               <Font size="18.0" />
                            </font>
                         </Label>
-                        <JFXTextField fx:id="gest_usr_editar_correo_tf12" prefHeight="25.0" prefWidth="227.0" style="-fx-text-inner-color: WHITE;" GridPane.columnIndex="1" GridPane.rowIndex="7">
+                        <JFXTextField fx:id="tf_gest_usr_editar_correo" prefHeight="25.0" prefWidth="227.0" style="-fx-text-inner-color: WHITE;" GridPane.columnIndex="1" GridPane.rowIndex="7">
                            <font>
                               <Font size="18.0" />
                            </font>
@@ -975,14 +975,14 @@
                         <Font size="18.0" />
                      </font>
                   </Label>
-                  <JFXComboBox fx:id="edit_user_tipo_id" prefHeight="10.0" prefWidth="168.0" style="-fx-text-inner-color: BLACK;" />
+                  <JFXComboBox fx:id="cb_edit_user_tipo_id" prefHeight="10.0" prefWidth="168.0" style="-fx-text-inner-color: BLACK;" />
                   <Separator prefHeight="0.0" prefWidth="42.0" visible="false" />
                   <Label fx:id="pagar_id_label221111" text="Número:" textFill="WHITE">
                      <font>
                         <Font size="18.0" />
                      </font>
                   </Label>
-                  <JFXTextField fx:id="gest_usr_editar_numero_btn_buscar12" prefHeight="0.0" prefWidth="227.0" style="-fx-text-inner-color: WHITE;">
+                  <JFXTextField fx:id="tf_gest_usr_editar_numero" prefHeight="0.0" prefWidth="227.0" style="-fx-text-inner-color: WHITE;">
                      <font>
                         <Font size="18.0" />
                      </font>
@@ -1072,7 +1072,7 @@
             </AnchorPane>
             <AnchorPane fx:id="pane_estado_est" layoutX="23.0" layoutY="365.0" prefHeight="102.0" prefWidth="524.0" visible="false">
                <children>
-                  <JFXButton fx:id="gest_usr_editar_btn_buscar11" layoutX="324.0" layoutY="51.0" onAction="#buscar_edit" prefHeight="48.0" prefWidth="188.0" text="Guardar cambios" textFill="WHITE">
+                  <JFXButton fx:id="gest_usr_editar_btn_guardar" layoutX="324.0" layoutY="51.0" onAction="#buscar_edit" prefHeight="48.0" prefWidth="188.0" text="Guardar cambios" textFill="WHITE">
                      <font>
                         <Font size="18.0" />
                      </font>
@@ -1104,7 +1104,7 @@
                         <Font size="18.0" />
                      </font>
                   </Label>
-                  <JFXTextField fx:id="gest_usr_editar_numero_btn_buscar1" prefHeight="25.0" prefWidth="227.0" style="-fx-text-inner-color: WHITE;">
+                  <JFXTextField fx:id="tf_gest_usr_editar_estado_numero" prefHeight="25.0" prefWidth="227.0" style="-fx-text-inner-color: WHITE;">
                      <font>
                         <Font size="18.0" />
                      </font>
