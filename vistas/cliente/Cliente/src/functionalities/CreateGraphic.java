@@ -33,7 +33,7 @@
                     Datos.setValue(Float.parseFloat(query[9]), "Datos para compartir", months[month-1]);
                 }
 
-                JFreeChart Graphic = ChartFactory.createBarChart("Consumo mensual Linea: "+ query[12]+ " Cliente: "+infoPlan[1]+"\nPlan tipo: "+plan+" Mes: "+months[month-1],
+                JFreeChart Graphic = ChartFactory.createBarChart("Consumo mensual Linea: "+ query[12]+ "\n\tCliente: "+infoPlan[1]+"\n\tPlan tipo: "+plan+" Mes: "+months[month-1],
                         "Tipo consumo", "Consumo", Datos,
                         PlotOrientation.HORIZONTAL, true, true, false);
                 ChartPanel Panel = new ChartPanel(Graphic);
@@ -61,7 +61,7 @@
                     }
                 }
 
-                JFreeChart Graphic = ChartFactory.createBarChart("Consumo mensual Linea: " + line + " Cliente: " + infoPlan[1] + "\nPlan tipo: " + plan + " Mes: " + monthsShow,
+                JFreeChart Graphic = ChartFactory.createBarChart("Consumo mensual Linea: " + line + "\n\tCliente: " + infoPlan[1] + "\n\tPlan tipo: " + plan + " Mes: " + monthsShow,
                         "Tipo consumo", "Consumo", Datos,
                         PlotOrientation.HORIZONTAL, true, true, false);
                 ChartPanel Panel = new ChartPanel(Graphic);

@@ -60,8 +60,9 @@ public class DBConnection {
             try{
                 Statement st = con.createStatement();
                 rs = st.executeQuery(query);
+
                 Vector<String[]> table = makeTable(rs);
-                if((table.size() == 1) && (table.get(0)[0] == "Error")){
+                if((table.size() == 1) && (table.get(0)[0] == "Error")) {
                     result[0] = "Error";
                     result[1] = table.get(0)[1];
                 }
@@ -69,6 +70,7 @@ public class DBConnection {
                     result[0] = "QueryResult";
                     result[1] = table;
                 }
+
                 close_connection(con);
             }
             catch(SQLException e){
@@ -83,7 +85,6 @@ public class DBConnection {
     }
 
     private Vector <String[]> makeTable(ResultSet rs) {
-
         Vector <String[]> result;
         result = new Vector<String[]>(10,10);
         try{
@@ -100,8 +101,8 @@ public class DBConnection {
                     for(int i = 1; i <= att; i++){
                         reg[i-1] = rs.getString(i);
                     }
-                    result.add(reg);
 
+                    result.add(reg);
                 }while(rs.next());
             }
         }
@@ -111,11 +112,11 @@ public class DBConnection {
             result.add(mssg);
             System.out.println("Error en el manejo de ResultSet");
         }
+
         return result;
     }
 
     private void close_connection(java.sql.Connection con) {
-
         try{
             if(!con.isClosed()){
                 con.close();
@@ -127,11 +128,9 @@ public class DBConnection {
         catch(NullPointerException e){
             System.out.println("Conexion inexistente, no es necesario cerrarla");
         }
-
     }
 
     public boolean modify_DB(String query){
-
         java.sql.Connection con = null;
         boolean connected;
         boolean success = false;
@@ -159,7 +158,7 @@ public class DBConnection {
                 close_connection(con);
             }
         }
+
         return success;
     }
-
 }
