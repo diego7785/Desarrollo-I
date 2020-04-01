@@ -38,6 +38,10 @@ public class Controller implements Initializable {
     ObservableList<String> tipoDocumento= FXCollections.observableArrayList( "Cédula Ciudadanía", "Cédula Extranjería",
             "Pasaporte", "Carné Diplomático");
 
+    ObservableList<String> genero = FXCollections.observableArrayList( "M", "F", "Otro");
+    ObservableList<String> estadoCivil = FXCollections.observableArrayList( "Soltero", "Casado", "Viudo", "Comprometido");
+
+    ObservableList<String> planAsociado = FXCollections.observableArrayList( "Plan Conéctate", "Plan Conéctate Plus", "Plan Conectados Somos Más", "Plan Redes Sin Límites", "Plan Uno Es Más");
     //Login interface
     @FXML
     private JFXButton btn_login;
@@ -46,7 +50,19 @@ public class Controller implements Initializable {
     @FXML
     private JFXPasswordField tf_pass;
     @FXML
-    private JFXComboBox cb_rol;
+    private JFXComboBox<String> cb_rol;
+    @FXML
+    private JFXComboBox<String> cb_rol2;
+    @FXML
+    private JFXComboBox<String> cb_rol1;
+    @FXML
+    private JFXComboBox<String> cb_rol21;
+    @FXML
+    private JFXComboBox<String> cb_rol_genero;
+    @FXML
+    private JFXComboBox<String> cb_rol_estado_civil;
+    @FXML
+    private JFXComboBox<String> cb_rol_plan_asociado;
     @FXML
     private JFXButton btn_reg;
     @FXML
@@ -144,7 +160,7 @@ public class Controller implements Initializable {
     @FXML
     private AnchorPane pane_estado_est;
     @FXML
-    private JFXComboBox gest_usr_cambiar_estado_cb;
+    private JFXComboBox<String> gest_usr_cambiar_estado_cb;
     @FXML
     private JFXButton gest_usr_estado_btn_buscar;
     @FXML
@@ -167,6 +183,20 @@ public class Controller implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         Platform.runLater(() -> {
+            gen_fact_clientes_comboBox.getItems().addAll(tipoCliente);
+            gen_fact_clientes_comboBox1.getItems().addAll(tipoDocumento);
+
+            cb_rol.getItems().addAll(tipoCliente);
+            cb_rol2.getItems().addAll(tipoDocumento);
+
+            cb_rol1.getItems().addAll(tipoCliente);
+            cb_rol21.getItems().addAll(tipoDocumento);
+
+            cb_rol_genero.getItems().addAll(genero);
+            cb_rol_estado_civil.getItems().addAll(estadoCivil);
+
+            cb_rol_plan_asociado.getItems().addAll(planAsociado);
+
             if (new_user.get_user_rol() == 1) {
                 realizar_pagos.setVisible(false);
                 generar_factura.setVisible(false);
@@ -191,9 +221,6 @@ public class Controller implements Initializable {
                 titulo_label.setText(" Generar facturas");
                 titulo_label.setLayoutX(445);
             }
-
-            gen_fact_clientes_comboBox.getItems().addAll(tipoCliente);
-            gen_fact_clientes_comboBox1.getItems().addAll(tipoDocumento);
         });
     }
 

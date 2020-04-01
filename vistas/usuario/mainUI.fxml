@@ -114,7 +114,7 @@
                               <Font size="18.0" />
                            </font>
                         </Label>
-                        <JFXComboBox fx:id="cb_rol2" focusColor="#fa8628" prefHeight="26.0" prefWidth="109.0" style="-fx-text-inner-color: BLACK;" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                        <JFXComboBox fx:id="cb_rol2" focusColor="#fa8628" prefHeight="26.0" prefWidth="275.0" style="-fx-text-inner-color: BLACK;" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                         <Label text="Identificación:" textFill="WHITE" GridPane.rowIndex="2">
                            <font>
                               <Font size="18.0" />
@@ -204,7 +204,7 @@
                               <Insets left="10.0" />
                            </GridPane.margin>
                         </Label>
-                        <JFXComboBox fx:id="cb_rol312" focusColor="#fa8628" prefHeight="25.0" prefWidth="135.0" style="-fx-text-inner-color: BLACK;" GridPane.columnIndex="3" GridPane.rowIndex="1" />
+                        <JFXComboBox fx:id="cb_rol_genero" focusColor="#fa8628" prefHeight="25.0" prefWidth="135.0" style="-fx-text-inner-color: BLACK;" GridPane.columnIndex="3" GridPane.rowIndex="1" />
                         <Label text="Identificación:" textFill="WHITE" GridPane.rowIndex="2">
                            <font>
                               <Font size="18.0" />
@@ -222,7 +222,7 @@
                               <Insets left="10.0" />
                            </GridPane.margin>
                         </Label>
-                        <JFXComboBox fx:id="cb_rol311" focusColor="#fa8628" prefHeight="25.0" prefWidth="135.0" style="-fx-text-inner-color: BLACK;" GridPane.columnIndex="3" GridPane.rowIndex="2" />
+                        <JFXComboBox fx:id="cb_rol_estado_civil" focusColor="#fa8628" prefHeight="25.0" prefWidth="135.0" style="-fx-text-inner-color: BLACK;" GridPane.columnIndex="3" GridPane.rowIndex="2" />
                         <Label text="Nombres:" textFill="WHITE" GridPane.rowIndex="3">
                            <font>
                               <Font size="18.0" />
@@ -276,7 +276,7 @@
                               <Insets left="10.0" />
                            </GridPane.margin>
                         </Label>
-                        <JFXComboBox fx:id="cb_rol31" focusColor="#fa8628" prefHeight="25.0" prefWidth="135.0" style="-fx-text-inner-color: BLACK;" GridPane.columnIndex="3" GridPane.rowIndex="5" />
+                        <JFXComboBox fx:id="cb_rol_plan_asociado" focusColor="#fa8628" prefHeight="25.0" prefWidth="135.0" style="-fx-text-inner-color: BLACK;" GridPane.columnIndex="3" GridPane.rowIndex="5" />
                      </children>
                   </GridPane>
                </children>
