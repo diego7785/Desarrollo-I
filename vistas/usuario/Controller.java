@@ -246,27 +246,55 @@ public class Controller implements Initializable {
     private JFXTextField tf_pagar_identificacion_cliente;
     //agregar user
     @FXML
-    private JFXComboBox <String> add_user_tipo_id;
+    private JFXComboBox <String> cb_add_user_tipo_id;
     @FXML
-    private JFXComboBox <String> add_user_rol;
+    private JFXComboBox <String> cb_add_user_rol;
     @FXML
-    private JFXComboBox <String> add_user_genero;
+    private JFXComboBox <String> cb_add_user_genero;
     @FXML
     private JFXComboBox <String> add_user_est_civil;
+    @FXML
+    private JFXTextField tf_gest_usr_agreg_id;
+    @FXML
+    private JFXTextField tf_gest_usr_agreg_nombre;
+    @FXML
+    private JFXTextField tf_gest_usr_agreg_primer_apellido;
+    @FXML
+    private JFXTextField tf_gest_usr_agreg_segundo_apellido;
+    @FXML
+    private JFXTextField tf_gest_usr_agreg_email;
     //editar user
     @FXML
-    private JFXComboBox <String> edit_user_tipo_id;
+    private JFXComboBox <String> cb_edit_user_tipo_id;
     @FXML
-    private JFXComboBox <String> edit_user_rol;
+    private JFXComboBox <String> cb_edit_user_rol;
     @FXML
     private JFXComboBox <String> edit_user_genero;
     @FXML
     private JFXComboBox <String> edit_user_est_civil;
+    @FXML
+    private JFXTextField tf_gest_usr_editar_numero;
+    @FXML
+    private JFXTextField tf_gest_usr_cambiar_nombre;
+    @FXML
+    private JFXTextField tf_gest_usr_editar_primer_apellido;
+    @FXML
+    private JFXTextField tf_gest_usr_editar_segundo_apellido;
+    @FXML
+    private JFXTextField tf_gest_usr_editar_correo;
+    @FXML
+    private JFXButton gest_usr_editar_btn_guardar;
     //cambiar estado
     @FXML
     private JFXComboBox <String> set_est;
     @FXML
     private JFXComboBox <String> set_est_tipo_id;
+    @FXML
+    private JFXComboBox <String> cb_gest_usr_editar_rol;
+    @FXML
+    private JFXTextField tf_gest_usr_editar_estado_numero;
+    @FXML
+    private JFXButton gest_usr_editar_est_guardar;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -303,7 +331,7 @@ public class Controller implements Initializable {
                 tipoCli[i].getItems().addAll(tipoCliente);
             }
 
-            JFXComboBox<String>[] tipoId = new JFXComboBox[]{set_est_tipo_id,edit_user_tipo_id,add_user_tipo_id,pagar_cliente_tip_id,pagar_linea_tip_id,cb_gen_fact_tip_id, cb_ventas_ant_tipo_id, cb_ventas_nue_tipo_id,cb_gen_rep_tipo_id_pnat};
+            JFXComboBox<String>[] tipoId = new JFXComboBox[]{set_est_tipo_id,cb_edit_user_tipo_id,cb_add_user_tipo_id,pagar_cliente_tip_id,pagar_linea_tip_id,cb_gen_fact_tip_id, cb_ventas_ant_tipo_id, cb_ventas_nue_tipo_id,cb_gen_rep_tipo_id_pnat};
             for(int i=0; i<= (tipoId.length-1); i++) {
                 tipoId[i].getItems().addAll(tipoDocumento);
             }
@@ -313,7 +341,7 @@ public class Controller implements Initializable {
                 planA[i].getItems().addAll(plan_asociado);
             }
 
-            JFXComboBox<String>[] gen = new JFXComboBox[]{add_user_genero,edit_user_genero,cb_ventas_nue_genero};
+            JFXComboBox<String>[] gen = new JFXComboBox[]{cb_add_user_genero,edit_user_genero,cb_ventas_nue_genero};
             for(int i=0; i<= (gen.length-1); i++) {
                 gen[i].getItems().addAll(genero);
             }
@@ -323,7 +351,7 @@ public class Controller implements Initializable {
                 estadoCiv[i].getItems().addAll(estado_civil);
             }
 
-            JFXComboBox<String>[] roles = new JFXComboBox[]{add_user_rol,edit_user_rol};
+            JFXComboBox<String>[] roles = new JFXComboBox[]{cb_add_user_rol,cb_edit_user_rol,cb_gest_usr_editar_rol};
             for(int i=0; i<= (roles.length-1); i++) {
                 roles[i].getItems().addAll(rol);
             }
@@ -469,6 +497,28 @@ public class Controller implements Initializable {
         tf_nueva_linea_ant.setText("");
     }
 
+    public void handleGen_agregar_usuario(ActionEvent event) {
+        String rol = Integer.toString(cb_add_user_rol.getSelectionModel().getSelectedIndex()+1);
+
+        String documentNumber = tf_gest_usr_agreg_id.getText();
+        String email = tf_gest_usr_agreg_email.getText();
+
+        String nombres = tf_gest_usr_agreg_nombre.getText();
+        String primerApellido = tf_gest_usr_agreg_primer_apellido.getText();
+
+        String segundoApellido = tf_gest_usr_agreg_segundo_apellido.getText();
+
+        String name = nombres + " " + primerApellido + " " + segundoApellido;
+
+        String password = "test";
+
+        Object[] user = connection.read_DB("INSERT INTO users VALUES('"+documentNumber+"', '"+name+"', "+rol+", "+true+", '"+password+"');");
+
+        tf_gest_usr_agreg_id.setText("");
+        tf_gest_usr_agreg_primer_apellido.setText("");
+        tf_gest_usr_agreg_segundo_apellido.setText("");
+        tf_gest_usr_agreg_nombre.setText("");
+        tf_gest_usr_agreg_email.setText("");
     public void handleGen_pagar_linea(ActionEvent event) {
         //TODO: Use documentType and clientType in the query for line
         String documentNumber = tf_pagar_identificacion.getText();
@@ -601,14 +651,44 @@ public class Controller implements Initializable {
 
     public void buscar_edit(ActionEvent event){
         if(event.getSource().equals(gest_usr_editar_btn_buscar)) {
+            String documentNumber = tf_gest_usr_editar_numero.getText();
+
+            Object[] user = connection.read_DB("SELECT * FROM users WHERE id='"+documentNumber+"';");
             pane_edit_campos.setVisible(true);
+
+            if(event.getSource().equals(gest_usr_editar_btn_guardar)) {
+                String rol = Integer.toString(cb_edit_user_rol.getSelectionModel().getSelectedIndex() + 1);
+
+                String nombres = tf_gest_usr_cambiar_nombre.getText();
+                String primerApellido = tf_gest_usr_editar_primer_apellido.getText();
+
+                String segundoApellido = tf_gest_usr_editar_segundo_apellido.getText();
+                String email = tf_gest_usr_editar_correo.getText();
+
+                String name = nombres + " " + primerApellido + " " + segundoApellido;
+                user = connection.read_DB("UPDATE users SET rolid=" + rol + ", name='" + name + "' WHERE id='"+documentNumber+"';");
+
+                tf_gest_usr_cambiar_nombre.setText("");
+                tf_gest_usr_editar_primer_apellido.setText("");
+                tf_gest_usr_editar_segundo_apellido.setText("");
+                tf_gest_usr_editar_correo.setText("");
+            }
         }
     }
 
     public void buscar_estado(ActionEvent event){
         if(event.getSource().equals(gest_usr_estado_btn_buscar)) {
+            String documentNumber = tf_gest_usr_editar_estado_numero.getText();
+
+            Object[] user = connection.read_DB("SELECT * FROM users WHERE id='"+documentNumber+"';");
+
             pane_estado_campos.setVisible(true);
             pane_estado_est.setVisible(true);
+
+            if(event.getSource().equals("nameButton")) {
+                String rol = Integer.toString(cb_gest_usr_editar_rol.getSelectionModel().getSelectedIndex() + 1);
+                user = connection.read_DB("UPDATE user SET rolid='"+rol+"' WHERE id='"+documentNumber+"';");
+            }
         }
     }
 
@@ -653,8 +733,7 @@ public class Controller implements Initializable {
         }
     }
 
-    public void set_user_id (int id)
-    {
+    public void set_user_id (int id) {
         new_user.set_user_id(id);
     }
 }
