@@ -15,10 +15,11 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 
 import javax.swing.*;
+import java.awt.*;
+import java.lang.reflect.Array;
 import java.net.URL;
-import java.util.Calendar;
-import java.util.ResourceBundle;
-import java.util.Vector;
+import java.util.*;
+import java.util.List;
 
 public class Controller implements Initializable {
 
@@ -27,16 +28,24 @@ public class Controller implements Initializable {
 
     //Database connection
     private DBConnection connection= new DBConnection("", "", "", "", "", "");
+
     private final Calendar cal = Calendar.getInstance();
-    private final String months[]={"Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio",
-            "Agosto","Septiembre","Octubre","Noviembre","Diciembre"};
 
     //User class object
     user new_user = new user();
 
+    private final String months[]={"Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio",
+            "Agosto","Septiembre","Octubre","Noviembre","Diciembre"};
+
+    //Vectors for the ComboBox
     ObservableList<String> tipoCliente = FXCollections.observableArrayList( "Natural", "Corporativo");
     ObservableList<String> tipoDocumento= FXCollections.observableArrayList( "Cédula Ciudadanía", "Cédula Extranjería",
-            "Pasaporte", "Carné Diplomático");
+            "Pasaporte", "Carné Diplomático", "Tarjeta de Identidad");
+    ObservableList<String> genero = FXCollections.observableArrayList( "Femenino", "Masculino", "Otro");
+    ObservableList<String> estado_civil = FXCollections.observableArrayList( "Casado", "Soltero", "Viudo", "Divorciado");
+    ObservableList<String> rol = FXCollections.observableArrayList( "Administrador", "Gerente", "Operador");
+    ObservableList<String> estado = FXCollections.observableArrayList( "I", "II");
+    ObservableList<String> plan_asociado = FXCollections.observableArrayList( "plan1", "plan2", "plan3");
 
     //Login interface
     @FXML
@@ -91,10 +100,6 @@ public class Controller implements Initializable {
     private Label gen_fact_id_label;
     @FXML
     private Label gen_fact_linea_label;
-    @FXML
-    private JFXComboBox<String> gen_fact_clientes_comboBox;
-    @FXML
-    private JFXComboBox<String> gen_fact_clientes_comboBox1;
     @FXML
     private JFXTextField  gen_fact_id_TextField;
     @FXML
@@ -163,6 +168,72 @@ public class Controller implements Initializable {
     private AnchorPane pane_gen_fact_individual;
     @FXML
     private AnchorPane pane_gen_fact_colectiva;
+    @FXML
+    private  JFXComboBox gest_usr_editar_id_cb_buscar12;
+    @FXML
+    private ComboBox pepe;
+    //ComboBox
+    //ventas
+    @FXML
+    private JFXComboBox <String> cb_ventas_ant_tipo_cliente;
+
+    @FXML
+    private JFXComboBox <String> cb_ventas_ant_tipo_id;
+    @FXML
+    private JFXComboBox <String> cb_ventas_ant_plan_asociado;
+    @FXML
+    private JFXComboBox <String> cb_ventas_nue_tipo_cliente;
+    @FXML
+    private JFXComboBox <String> cb_ventas_nue_tipo_id;
+    @FXML
+    private JFXComboBox <String> cb_ventas_nue_plan_asociado;
+    @FXML
+    private JFXComboBox <String> cb_ventas_nue_genero;
+    @FXML
+    private JFXComboBox <String> cb_ventas_nue_estado_civil;
+    //generar reportes
+    @FXML
+    private JFXComboBox <String> cb_gen_rep_tipo_id_pnat;
+    //generar facturas
+    @FXML
+    private JFXComboBox <String> cb_gen_fact_tip_cliente;
+    @FXML
+    private JFXComboBox <String> cb_gen_fact_tip_id;
+    //pagos
+    @FXML
+    private JFXComboBox <String> pagar_linea_tip_cl;
+    @FXML
+    private JFXComboBox <String>  pagar_linea_tip_id;
+    @FXML
+    private JFXComboBox <String> pagar_cliente_tip_cl;
+    @FXML
+    private JFXComboBox <String> pagar_cliente_tip_id;
+    //agregar user
+    @FXML
+    private JFXComboBox <String> add_user_tipo_id;
+    @FXML
+    private JFXComboBox <String> add_user_rol;
+    @FXML
+    private JFXComboBox <String> add_user_genero;
+    @FXML
+    private JFXComboBox <String> add_user_est_civil;
+    //editar user
+    @FXML
+    private JFXComboBox <String> edit_user_tipo_id;
+    @FXML
+    private JFXComboBox <String> edit_user_rol;
+    @FXML
+    private JFXComboBox <String> edit_user_genero;
+    @FXML
+    private JFXComboBox <String> edit_user_est_civil;
+    //cambiar estado
+    @FXML
+    private JFXComboBox <String> set_est;
+    @FXML
+    private JFXComboBox <String> set_est_tipo_id;
+
+
+
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -192,8 +263,44 @@ public class Controller implements Initializable {
                 titulo_label.setLayoutX(445);
             }
 
-            gen_fact_clientes_comboBox.getItems().addAll(tipoCliente);
-            gen_fact_clientes_comboBox1.getItems().addAll(tipoDocumento);
+            JFXComboBox<String>[]  tipoCli = new JFXComboBox[]{cb_gen_fact_tip_cliente, cb_ventas_ant_tipo_cliente, cb_ventas_nue_tipo_cliente,pagar_linea_tip_cl,pagar_cliente_tip_cl};
+            for(int i=0; i<= (tipoCli.length-1); i++)
+            {
+                tipoCli[i].getItems().addAll(tipoCliente);
+            }
+
+            JFXComboBox<String>[] tipoId = new JFXComboBox[]{set_est_tipo_id,edit_user_tipo_id,add_user_tipo_id,pagar_cliente_tip_id,pagar_linea_tip_id,cb_gen_fact_tip_id, cb_ventas_ant_tipo_id, cb_ventas_nue_tipo_id,cb_gen_rep_tipo_id_pnat};
+            for(int i=0; i<= (tipoId.length-1); i++)
+            {
+                tipoId[i].getItems().addAll(tipoDocumento);
+            }
+
+            JFXComboBox<String>[] planA = new JFXComboBox[]{cb_ventas_ant_plan_asociado, cb_ventas_nue_plan_asociado};
+            for(int i=0; i<= (planA.length-1); i++)
+            {
+                planA[i].getItems().addAll(plan_asociado);
+            }
+
+            JFXComboBox<String>[] gen = new JFXComboBox[]{add_user_genero,edit_user_genero,cb_ventas_nue_genero};
+            for(int i=0; i<= (gen.length-1); i++)
+            {
+                gen[i].getItems().addAll(genero);
+            }
+
+            JFXComboBox<String>[] estadoCiv = new JFXComboBox[]{edit_user_est_civil,add_user_est_civil,cb_ventas_nue_estado_civil};
+            for(int i=0; i<= (estadoCiv.length-1); i++)
+            {
+                estadoCiv[i].getItems().addAll(estado_civil);
+            }
+
+            JFXComboBox<String>[] roles = new JFXComboBox[]{add_user_rol,edit_user_rol};
+            for(int i=0; i<= (roles.length-1); i++)
+            {
+                roles[i].getItems().addAll(rol);
+            }
+
+            set_est.getItems().addAll(estado);
+
         });
     }
 
@@ -407,8 +514,7 @@ public class Controller implements Initializable {
     }
 
     public void handleGen_fact_generar_button(ActionEvent actionEvent){
-        String tipoCliente = gen_fact_clientes_comboBox.getSelectionModel().getSelectedItem();
-
+        String tipoCliente = cb_gen_fact_tip_cliente.getSelectionModel().getSelectedItem();
         int document = Integer.parseInt(gen_fact_id_TextField.getText());
         String number = gen_fact_linea_TextField.getText();
 
