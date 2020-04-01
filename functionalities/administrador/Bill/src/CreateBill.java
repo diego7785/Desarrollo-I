@@ -10,10 +10,10 @@ import java.util.Vector;
 public class CreateBill {
     public void WriteBill(String[] info, String actualDate, String cutDate, String month) {
         String address = "";
-        if (info[26] == null) {
-            address = info[24] + " " + info[25];
+        if (info[29] == null) {
+            address = info[27] + " " + info[28];
         } else {
-            address = info[26];
+            address = info[29];
         }
 
         try {
@@ -35,10 +35,10 @@ public class CreateBill {
             pb.setTextMatrix(20, 730);
             pb.showText("......................................................................................."
                     + "..............................................................................");
-            doc.add(new Paragraph("Cliente: " + info[22]));
+            doc.add(new Paragraph("Cliente: " + info[25]));
             doc.add(new Paragraph("Dirección: " + address));
-            doc.add(new Paragraph("Nit o cédula: " + info[17]));
-            doc.add(new Paragraph("Celular: " + info[16] + "                   Tipo plan: " + info[18]));
+            doc.add(new Paragraph("Nit o cédula: " + info[18]));
+            doc.add(new Paragraph("Celular: " + info[17] + "                   Tipo plan: " + info[20]));
             doc.add(new Paragraph("Fecha expedición: " + actualDate));
             doc.add(new Paragraph("Factura de venta No: " + info[0]));
             pb.setFontAndSize(bf, 7);
@@ -102,7 +102,7 @@ public class CreateBill {
             table = new Paragraph();
             tabla = new PdfPTable(1);
             cell = new PdfPCell(new Phrase("Estimado cliente, le recomendamos estar al tiempo con sus pagos para evitar el pago por mora "
-                    + "o la suspensión del servicio, su servicio es del plan " + info[18] + " cuyo cobro por mora es de " + (Integer.parseInt(info[11]) * 0.01) + ". Si el pago ya fue realizado "
+                    + "o la suspensión del servicio, su servicio es del plan " + info[20] + " cuyo cobro por mora es de " + (Integer.parseInt(info[11]) * 0.01) + ". Si el pago ya fue realizado "
                     + "haga caso omiso."));
             cell.setBorder(Rectangle.NO_BORDER);
             cell.setBackgroundColor(BaseColor.DARK_GRAY);
@@ -125,7 +125,7 @@ public class CreateBill {
             doc.add(table);
             pb.setColorFill(BaseColor.BLACK);
             //Graphs here
-            int plan = Integer.parseInt(info[18]);
+            int plan = Integer.parseInt(info[20]);
             this.Graphic(info, plan);
             Image graphic = Image.getInstance("functionalities/administrador/Bill/src/assets/images/consumoComun.png");
             graphic.setAlignment(Element.ALIGN_LEFT);
@@ -262,11 +262,11 @@ public class CreateBill {
             tabla = new PdfPTable(6);
             cell = new PdfPCell(new Phrase("Cliente"));
             tabla.addCell(cell);
-            cell = new PdfPCell(new Phrase(info[17]));
+            cell = new PdfPCell(new Phrase(info[18]));
             tabla.addCell(cell);
             cell = new PdfPCell(new Phrase("Linea"));
             tabla.addCell(cell);
-            cell = new PdfPCell(new Phrase(info[16]));
+            cell = new PdfPCell(new Phrase(info[17]));
             tabla.addCell(cell);
             cell = new PdfPCell(new Phrase("Valor"));
             tabla.addCell(cell);
