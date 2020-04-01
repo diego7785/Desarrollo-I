@@ -170,9 +170,6 @@ public class Controller implements Initializable {
     private AnchorPane pane_gen_fact_colectiva;
     @FXML
     private  JFXComboBox gest_usr_editar_id_cb_buscar12;
-    @FXML
-    private ComboBox pepe;
-    //ComboBox
     //ventas
     @FXML
     private JFXComboBox <String> cb_ventas_ant_tipo_cliente;
