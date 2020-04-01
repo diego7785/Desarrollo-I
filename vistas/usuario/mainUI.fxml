@@ -1115,7 +1115,7 @@
       </AnchorPane>
       <AnchorPane fx:id="pane_gest_usr_listar" layoutX="10.0" layoutY="102.0" onMouseClicked="#cambiar_pestana" prefHeight="509.0" prefWidth="900.0" style="-fx-background-color: #202642;" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
          <children>
-            <Label fx:id="pagar_tipo_cliente_label11111" layoutX="163.0" layoutY="49.0" prefHeight="138.0" prefWidth="547.0" text="Está a solo un click de conocer la lista de usuarios de RAJA S.A. Cada uno de ellos con sus respectivos roles y estados. Si desea añadir algo más al listado de trabajadores, puede seleccionar a continuación:" textFill="WHITE" wrapText="true">
+            <Label fx:id="lb111111111111111111" layoutX="163.0" layoutY="49.0" prefHeight="138.0" prefWidth="547.0" text="Está a solo un click de conocer la lista de usuarios de RAJA S.A. Cada uno de ellos con sus respectivos roles y estados. Si desea añadir algo más al listado de trabajadores, puede seleccionar a continuación:" textFill="WHITE" wrapText="true">
                <font>
                   <Font size="18.0" />
                </font>

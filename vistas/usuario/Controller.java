@@ -187,6 +187,7 @@ public class Controller implements Initializable {
     //ventas
     @FXML
     private JFXComboBox <String> cb_ventas_ant_tipo_cliente;
+
     @FXML
     private JFXComboBox <String> cb_ventas_ant_tipo_id;
     @FXML
