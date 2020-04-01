@@ -221,7 +221,6 @@ public class Controller implements Initializable {
     private JFXTextField tf_nueva_linea;
     @FXML
     private JFXTextField tf_nueva_linea_ant;
-    /////////////////////////////////////////////////
     //generar reportes
     @FXML
     private JFXComboBox <String> cb_gen_rep_tipo_id_pnat;
@@ -239,6 +238,12 @@ public class Controller implements Initializable {
     private JFXComboBox <String> pagar_cliente_tip_cl;
     @FXML
     private JFXComboBox <String> pagar_cliente_tip_id;
+    @FXML
+    private JFXTextField tf_pagar_identificacion;
+    @FXML
+    private JFXTextField tf_pagar_numero_linea;
+    @FXML
+    private JFXTextField tf_pagar_identificacion_cliente;
     //agregar user
     @FXML
     private JFXComboBox <String> cb_add_user_tipo_id;
@@ -514,6 +519,37 @@ public class Controller implements Initializable {
         tf_gest_usr_agreg_segundo_apellido.setText("");
         tf_gest_usr_agreg_nombre.setText("");
         tf_gest_usr_agreg_email.setText("");
+    public void handleGen_pagar_linea(ActionEvent event) {
+        //TODO: Use documentType and clientType in the query for line
+        String documentNumber = tf_pagar_identificacion.getText();
+        String lineNumber = tf_pagar_numero_linea.getText();
+
+        Object[] line = connection.read_DB("SELECT * FROM lines WHERE customerid='"+documentNumber+"';");
+        if(line.length != 2) {
+            return;
+        }
+
+        Object[] bill = connection.read_DB("UPDATE bill SET status="+true+" WHERE linenumber='"+lineNumber+"';");
+
+        tf_pagar_identificacion.setText("");
+        tf_pagar_numero_linea.setText("");
+    }
+
+    public void handleGen_pagar_cliente(ActionEvent event) {
+        String tipoCliente = pagar_cliente_tip_cl.getSelectionModel().getSelectedItem();
+        String documentNumber = tf_pagar_identificacion_cliente.getText();
+
+        Object[] lineNumber = connection.read_DB("SELECT id FROM (SELECT * FROM customer, lines WHERE customer.id=lines.customerid) AS result WHERE id='"+documentNumber+"' AND type='"+tipoCliente+"';");
+        if(lineNumber[0] == "Error") {
+            return;
+        }
+
+        //TODO: lineNumber[1] is needed to update the state in bill table but the read_DB function is returning an object and
+        // i dont now how to parse it
+
+        //Object[] bill = connection.read_DB("UPDATE bill SET status="+true+" WHERE linenumber='"+lineNumber+"';");
+
+        tf_pagar_identificacion_cliente.setText("");
     }
 
     @FXML
@@ -697,8 +733,7 @@ public class Controller implements Initializable {
         }
     }
 
-    public void set_user_id (int id)
-    {
+    public void set_user_id (int id) {
         new_user.set_user_id(id);
     }
 }
