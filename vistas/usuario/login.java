@@ -25,7 +25,6 @@ public class login
     private JFXTextField tf_user;
     @FXML
     private JFXPasswordField tf_pass;
-    //****
 
     @FXML
     public void log_in(ActionEvent event) throws Exception {
@@ -33,11 +32,11 @@ public class login
         try
         {
             int id_user = Integer.parseInt(tf_user.getText());
-            Vector<String[]> result = (Vector) conection.read_DB("SELECT password, roleID from Users WHERE id =" + id_user)[1];
+            Vector<String[]> result = (Vector) conection.read_DB("SELECT password, roleID from Users WHERE id = '"+id_user+"';")[1];
             String user_password = result.get(0)[0];
             System.out.println(user_password);
 
-            //password entered by user
+            //password entered by User
             String password_entered = tf_pass.getText();
             try
             {
