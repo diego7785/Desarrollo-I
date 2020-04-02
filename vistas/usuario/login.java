@@ -30,9 +30,17 @@ public class login
     public void log_in(ActionEvent event) throws Exception {
         try {
             int id_user = Integer.parseInt(tf_user.getText());
-            Vector<String[]> result = (Vector) conection.read_DB("SELECT password, roleID from Users WHERE id = '"+id_user+"';")[1];
+            Object[] myobject = (Object[]) conection.read_DB("SELECT password, roleID from Users " +
+                    "WHERE id = '"+ id_user +"';");
+            Vector<String[]> result;
+            String user_password;
 
-            String user_password = result.get(0)[0];
+            if(myobject[0].equals("Error")){
+                String error= (String) myobject[1];
+                throw new Password_exception(error);
+            }
+            result = (Vector<String[]>) myobject[1];
+            user_password = result.get(0)[0];
             System.out.println(user_password);
 
             //password entered by User
@@ -60,11 +68,16 @@ public class login
                 }
             } catch (Exception ex) {
                 JOptionPane.showMessageDialog(null, "Contraseña incorrecta");
-                tf_user.setText("");
                 tf_pass.setText("");
             }
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "ID incorrecto");
+        } catch (NumberFormatException e){
+            JOptionPane.showMessageDialog(null, "Usuario debe ser numerico");
+            tf_user.setText("");
+            tf_pass.setText("");
+        }
+        catch (Password_exception e) {
+            JOptionPane.showMessageDialog(null, "Error al iniciar sesion:\n"
+                    + e.getMessage());
             tf_user.setText("");
             tf_pass.setText("");
         }
