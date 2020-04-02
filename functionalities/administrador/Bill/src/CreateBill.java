@@ -38,7 +38,7 @@ public class CreateBill {
             doc.add(new Paragraph("Cliente: " + info[25]));
             doc.add(new Paragraph("Dirección: " + address));
             doc.add(new Paragraph("Nit o cédula: " + info[18]));
-            doc.add(new Paragraph("Celular: " + info[12] + "                   Tipo plan: " + info[20]));
+            doc.add(new Paragraph("Celular: " + info[17] + "                   Tipo plan: " + info[20]));
             doc.add(new Paragraph("Fecha expedición: " + actualDate));
             doc.add(new Paragraph("Factura de venta No: " + info[0]));
             pb.setFontAndSize(bf, 7);
