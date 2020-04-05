@@ -26,10 +26,10 @@ public class CreateBill {
             logotype.scaleAbsolute(70, 70);
             doc.add(logotype);
 
-
-            logotype.scaleAbsolute(300,250);
-            logotype.setAbsolutePosition(150, 350);
-            doc.add(logotype);
+            Image logotypeBack = Image.getInstance("functionalities/administrador/Bill/src/assets/images/logotype_background.png");
+            logotypeBack.scaleAbsolute(300,250);
+            logotypeBack.setAbsolutePosition(150, 350);
+            doc.add(logotypeBack);
 
             PdfContentByte pb = writer.getDirectContent();
 
@@ -180,10 +180,11 @@ public class CreateBill {
             pb.showText("Tabla de consumo: ");
             doc.add(Chunk.NEWLINE);
             doc.add(Chunk.NEWLINE);
-            doc.add(Chunk.NEWLINE);
-            doc.add(Chunk.NEWLINE);
-            doc.add(Chunk.NEWLINE);
-            doc.add(Chunk.NEWLINE);
+
+            logotypeBack.scaleAbsolute(300,250);
+            logotypeBack.setAbsolutePosition(150, 350);
+            doc.add(logotypeBack);
+
             tabla = new PdfPTable(4);
             cell = new PdfPCell(new Phrase("Consumo datos"));
             tabla.addCell(cell);
