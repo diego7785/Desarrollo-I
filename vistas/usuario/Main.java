@@ -14,7 +14,6 @@ public class Main extends Application {
         Scene login = new Scene(root);
 
         primaryStage.setTitle("Log In");
-
         primaryStage.setScene(login);
         primaryStage.show();
     }

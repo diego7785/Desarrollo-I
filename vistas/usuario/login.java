@@ -41,7 +41,6 @@ public class login
             }
             result = (Vector<String[]>) myobject[1];
             user_password = result.get(0)[0];
-            System.out.println(user_password);
 
             //password entered by User
             String password_entered = tf_pass.getText();

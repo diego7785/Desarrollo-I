@@ -290,16 +290,16 @@ public class Controller implements Initializable {
     @FXML
     private JFXComboBox <String> set_est_tipo_id;
     @FXML
-    private JFXComboBox <String> cb_gest_usr_editar_rol;
+    private JFXComboBox <String> gest_usr_editar_rol_ComboBox1;
     @FXML
     private JFXTextField tf_gest_usr_editar_estado_numero;
     @FXML
-    private JFXButton gest_usr_editar_est_guardar;
+    private JFXButton gest_usr_editar_est_guardar;//ESTE BOTON NO EXISTE EN LA INTERFAZ
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         Platform.runLater(() -> {
-            if (new_user.get_user_rol() == 1) {
+            if (new_user.get_user_rol() == 2) {
                 realizar_pagos.setVisible(false);
                 generar_factura.setVisible(false);
                 agregar_user.setVisible(false);
@@ -308,7 +308,7 @@ public class Controller implements Initializable {
                 titulo_label.setLayoutX(46);
 
             }
-            else if (new_user.get_user_rol() == 2) {
+            else if (new_user.get_user_rol() == 3) {
                 realizar_venta.setVisible(false);
                 generar_reporte.setVisible(false);
                 generar_factura.setVisible(false);
@@ -317,7 +317,7 @@ public class Controller implements Initializable {
                 titulo_label.setText("   Realizar pagos");
                 titulo_label.setLayoutX(311);
             }
-            else {
+            else if(new_user.get_user_rol() == 1){
                 realizar_venta.setVisible(false);
                 generar_reporte.setVisible(false);
                 realizar_pagos.setVisible(false);
@@ -351,7 +351,7 @@ public class Controller implements Initializable {
                 estadoCiv[i].getItems().addAll(estado_civil);
             }
 
-            JFXComboBox<String>[] roles = new JFXComboBox[]{cb_add_user_rol,cb_edit_user_rol,cb_gest_usr_editar_rol};
+            JFXComboBox<String>[] roles = new JFXComboBox[]{cb_add_user_rol,cb_edit_user_rol,gest_usr_editar_rol_ComboBox1};
             for(int i=0; i<= (roles.length-1); i++) {
                 roles[i].getItems().addAll(rol);
             }
@@ -372,7 +372,7 @@ public class Controller implements Initializable {
 
     @FXML
     public void cambiar_pestana(MouseEvent event) throws Exception {
-        if (new_user.get_user_rol() == 1) {
+        if (new_user.get_user_rol() == 2) {
             realizar_pagos.setVisible(false);
             generar_factura.setVisible(false);
             agregar_user.setVisible(false);
@@ -395,7 +395,7 @@ public class Controller implements Initializable {
                 pane_gen_rep_corp.setVisible(false);
             }
         }
-        else if (new_user.get_user_rol() == 2) {
+        else if (new_user.get_user_rol() == 3) {
             realizar_venta.setVisible(false);
             generar_reporte.setVisible(false);
             generar_factura.setVisible(false);
@@ -409,7 +409,7 @@ public class Controller implements Initializable {
                 pane_pagar_cliente.setVisible(false);
             }
         }
-        else {
+        else if(new_user.get_user_rol() == 1){
             realizar_venta.setVisible(false);
             generar_reporte.setVisible(false);
             realizar_pagos.setVisible(false);
@@ -498,7 +498,7 @@ public class Controller implements Initializable {
     }
 
     public void handleGen_agregar_usuario(ActionEvent event) {
-        String rol = Integer.toString(cb_add_user_rol.getSelectionModel().getSelectedIndex()+1);
+        String rol = Integer.toString(cb_add_user_rol.getSelectionModel().getSelectedIndex() + 1);
 
         String documentNumber = tf_gest_usr_agreg_id.getText();
         String email = tf_gest_usr_agreg_email.getText();
@@ -512,13 +512,15 @@ public class Controller implements Initializable {
 
         String password = "test";
 
-        Object[] user = connection.read_DB("INSERT INTO users VALUES('"+documentNumber+"', '"+name+"', "+rol+", "+true+", '"+password+"');");
+        Object[] user = connection.read_DB("INSERT INTO users VALUES('" + documentNumber + "', '" + name + "', " + rol + ", " + true + ", '" + password + "');");
 
         tf_gest_usr_agreg_id.setText("");
         tf_gest_usr_agreg_primer_apellido.setText("");
         tf_gest_usr_agreg_segundo_apellido.setText("");
         tf_gest_usr_agreg_nombre.setText("");
         tf_gest_usr_agreg_email.setText("");
+    }
+
     public void handleGen_pagar_linea(ActionEvent event) {
         //TODO: Use documentType and clientType in the query for line
         String documentNumber = tf_pagar_identificacion.getText();
@@ -686,7 +688,7 @@ public class Controller implements Initializable {
             pane_estado_est.setVisible(true);
 
             if(event.getSource().equals("nameButton")) {
-                String rol = Integer.toString(cb_gest_usr_editar_rol.getSelectionModel().getSelectedIndex() + 1);
+                String rol = Integer.toString(gest_usr_editar_rol_ComboBox1.getSelectionModel().getSelectedIndex() + 1);
                 user = connection.read_DB("UPDATE user SET rolid='"+rol+"' WHERE id='"+documentNumber+"';");
             }
         }
