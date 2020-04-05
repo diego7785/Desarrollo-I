@@ -9,7 +9,7 @@ import java.util.Vector;
 
 public class CreateBill {
     public void WriteBill(String[] info, String actualDate, String cutDate, String month) {
-        String address = "";
+        String address;
         if (info[29] == null) {
             address = info[27] + " " + info[28];
         } else {
@@ -24,6 +24,11 @@ public class CreateBill {
             doc.open();
             logotype.setAlignment(Element.ALIGN_LEFT);
             logotype.scaleAbsolute(70, 70);
+            doc.add(logotype);
+
+
+            logotype.scaleAbsolute(300,250);
+            logotype.setAbsolutePosition(150, 350);
             doc.add(logotype);
 
             PdfContentByte pb = writer.getDirectContent();
@@ -173,6 +178,12 @@ public class CreateBill {
             doc.add(Chunk.NEWLINE);
             pb.setTextMatrix(30, 700);
             pb.showText("Tabla de consumo: ");
+            doc.add(Chunk.NEWLINE);
+            doc.add(Chunk.NEWLINE);
+            doc.add(Chunk.NEWLINE);
+            doc.add(Chunk.NEWLINE);
+            doc.add(Chunk.NEWLINE);
+            doc.add(Chunk.NEWLINE);
             tabla = new PdfPTable(4);
             cell = new PdfPCell(new Phrase("Consumo datos"));
             tabla.addCell(cell);
@@ -217,6 +228,7 @@ public class CreateBill {
             cell.setBorder(Rectangle.NO_BORDER);
             tabla.addCell(cell);
             tabla.setWidthPercentage(98);
+
             doc.add(tabla);
             doc.add(Chunk.NEWLINE);
             doc.add(new Paragraph("......................................................................................."
@@ -238,19 +250,19 @@ public class CreateBill {
             pb.beginText();
             pb.setTextMatrix(460, 502);
             logotype.scalePercent(10);
-            logotype.setAbsolutePosition(515, 504);
+            logotype.setAbsolutePosition(515, 485);
             pb.addImage(logotype);
             pb.endText();
             Barcode128 code128 = new Barcode128();
             code128.setCode(StringDefault.trim());
             code128.setCodeType(Barcode128.CODE128);
             Image code128Image = code128.createImageWithBarcode(cb, null, null);
-            code128Image.setAbsolutePosition(40, 420);
+            code128Image.setAbsolutePosition(40, 400);
             code128Image.scaleAbsolute(400, 85);
             doc.add(code128Image);
             this.QRCode(info[15]);
             graphic = Image.getInstance("functionalities/administrador/Bill/src/assets/images/QrCode.png");
-            graphic.setAbsolutePosition(460, 432);
+            graphic.setAbsolutePosition(460, 410);
             graphic.scaleAbsolute(100, 85);
             doc.add(graphic);
 
