@@ -290,7 +290,7 @@ public class Controller implements Initializable {
     @FXML
     private JFXComboBox <String> set_est_tipo_id;
     @FXML
-    private JFXComboBox <String> cb_gest_usr_editar_rol;
+    private JFXComboBox <String> gest_usr_editar_rol_ComboBox1;
     @FXML
     private JFXTextField tf_gest_usr_editar_estado_numero;
     @FXML
@@ -299,7 +299,7 @@ public class Controller implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         Platform.runLater(() -> {
-            if (new_user.get_user_rol() == 1) {
+            if (new_user.get_user_rol() == 2) {
                 realizar_pagos.setVisible(false);
                 generar_factura.setVisible(false);
                 agregar_user.setVisible(false);
@@ -308,7 +308,7 @@ public class Controller implements Initializable {
                 titulo_label.setLayoutX(46);
 
             }
-            else if (new_user.get_user_rol() == 2) {
+            else if (new_user.get_user_rol() == 3) {
                 realizar_venta.setVisible(false);
                 generar_reporte.setVisible(false);
                 generar_factura.setVisible(false);
@@ -317,7 +317,7 @@ public class Controller implements Initializable {
                 titulo_label.setText("   Realizar pagos");
                 titulo_label.setLayoutX(311);
             }
-            else {
+            else if(new_user.get_user_rol() == 1){
                 realizar_venta.setVisible(false);
                 generar_reporte.setVisible(false);
                 realizar_pagos.setVisible(false);
@@ -351,7 +351,7 @@ public class Controller implements Initializable {
                 estadoCiv[i].getItems().addAll(estado_civil);
             }
 
-            JFXComboBox<String>[] roles = new JFXComboBox[]{cb_add_user_rol,cb_edit_user_rol,cb_gest_usr_editar_rol};
+            JFXComboBox<String>[] roles = new JFXComboBox[]{cb_add_user_rol,cb_edit_user_rol,gest_usr_editar_rol_ComboBox1};
             for(int i=0; i<= (roles.length-1); i++) {
                 roles[i].getItems().addAll(rol);
             }
@@ -372,7 +372,7 @@ public class Controller implements Initializable {
 
     @FXML
     public void cambiar_pestana(MouseEvent event) throws Exception {
-        if (new_user.get_user_rol() == 1) {
+        if (new_user.get_user_rol() == 2) {
             realizar_pagos.setVisible(false);
             generar_factura.setVisible(false);
             agregar_user.setVisible(false);
@@ -395,7 +395,7 @@ public class Controller implements Initializable {
                 pane_gen_rep_corp.setVisible(false);
             }
         }
-        else if (new_user.get_user_rol() == 2) {
+        else if (new_user.get_user_rol() == 3) {
             realizar_venta.setVisible(false);
             generar_reporte.setVisible(false);
             generar_factura.setVisible(false);
@@ -409,7 +409,7 @@ public class Controller implements Initializable {
                 pane_pagar_cliente.setVisible(false);
             }
         }
-        else {
+        else if(new_user.get_user_rol() == 1){
             realizar_venta.setVisible(false);
             generar_reporte.setVisible(false);
             realizar_pagos.setVisible(false);
@@ -464,9 +464,22 @@ public class Controller implements Initializable {
         int userID = new_user.get_user_id();
         String name = nombres + " " + primerApellido + " " + segundoApellido;
 
-        Object[] customer = connection.read_DB("INSERT INTO customer(id, name, type, email) VALUES("+documentNumber+", '"+name+"', '"+tipoCliente+"', '"+email+"');");
+        if(connection.modify_DB("INSERT INTO customer(id, name, type, email) " +
+                "VALUES("+documentNumber+", '"+name+"', '"+tipoCliente+"', '"+email+"');")) {
+            if(connection.modify_DB("INSERT INTO lines " +
+                    "VALUES("+nuevaLinea+", "+documentNumber+", "+tipoID+", "+planAsociado+", "+userID+", "+true+");")){
+                JOptionPane.showMessageDialog(null,"Compra registrada exitosamente");
+            }
+            else{
+                boolean deleted = connection.modify_DB("DELETE FROM customer WHERE id = "+documentNumber+" ;");
+                System.out.println(deleted);
+                JOptionPane.showMessageDialog(null,"¡ERROR! No se pudo registrar la compra");
+            }
+        }
+        else{
+            JOptionPane.showMessageDialog(null,"¡ERROR! No se pudo registrar correctamente al cliente");
+        }
 
-        Object[] line = connection.read_DB("INSERT INTO lines VALUES("+nuevaLinea+", "+documentNumber+", "+tipoID+", "+planAsociado+", "+userID+", "+true+");");
 
         tf_nombre_identificacion.setText("");
         tf_correo_electronico.setText("");
@@ -491,14 +504,20 @@ public class Controller implements Initializable {
 
         Object[] customer = connection.read_DB("SELECT * FROM customer WHERE id='"+documentNumber+"' AND type='"+tipoCliente+"';");
 
-        Object[] line = connection.read_DB("INSERT INTO lines VALUES("+nuevaLinea+", "+documentNumber+", "+tipoID+", "+planAsociado+", "+userID+", "+true+");");
+        if(connection.modify_DB("INSERT INTO lines " +
+                "VALUES("+nuevaLinea+", "+documentNumber+", "+tipoID+", "+planAsociado+", "+userID+", "+true+");")){
+            JOptionPane.showMessageDialog(null,"Compra registrada exitosamente");
+        }
+        else{
+            JOptionPane.showMessageDialog(null,"¡ERROR! No se pudo registrar la compra");
+        }
 
         tf_nombre_identificacion_ant.setText("");
         tf_nueva_linea_ant.setText("");
     }
 
     public void handleGen_agregar_usuario(ActionEvent event) {
-        String rol = Integer.toString(cb_add_user_rol.getSelectionModel().getSelectedIndex()+1);
+        String rol = Integer.toString(cb_add_user_rol.getSelectionModel().getSelectedIndex() + 1);
 
         String documentNumber = tf_gest_usr_agreg_id.getText();
         String email = tf_gest_usr_agreg_email.getText();
@@ -512,13 +531,21 @@ public class Controller implements Initializable {
 
         String password = "test";
 
-        Object[] user = connection.read_DB("INSERT INTO users VALUES('"+documentNumber+"', '"+name+"', "+rol+", "+true+", '"+password+"');");
+        if(connection.modify_DB("INSERT INTO users " +
+                "VALUES('" + documentNumber + "', '" + name + "', " + rol + ", " + true + ", '" + password + "');")){
+            JOptionPane.showMessageDialog(null,"usuario registrado exitosamente");
+        }
+        else{
+            JOptionPane.showMessageDialog(null,"¡ERROR! No se pudo registrar al usuario");
+        }
 
         tf_gest_usr_agreg_id.setText("");
         tf_gest_usr_agreg_primer_apellido.setText("");
         tf_gest_usr_agreg_segundo_apellido.setText("");
         tf_gest_usr_agreg_nombre.setText("");
         tf_gest_usr_agreg_email.setText("");
+    }
+
     public void handleGen_pagar_linea(ActionEvent event) {
         //TODO: Use documentType and clientType in the query for line
         String documentNumber = tf_pagar_identificacion.getText();
@@ -529,7 +556,12 @@ public class Controller implements Initializable {
             return;
         }
 
-        Object[] bill = connection.read_DB("UPDATE bill SET status="+true+" WHERE linenumber='"+lineNumber+"';");
+        if(connection.modify_DB("UPDATE bill SET status="+true+" WHERE linenumber='"+lineNumber+"';")){
+            JOptionPane.showMessageDialog(null,"Pago realizado exitosamente");
+        }
+        else{
+            JOptionPane.showMessageDialog(null,"¡ERROR! No se pudo registrar el pago");
+        }
 
         tf_pagar_identificacion.setText("");
         tf_pagar_numero_linea.setText("");
@@ -539,15 +571,16 @@ public class Controller implements Initializable {
         String tipoCliente = pagar_cliente_tip_cl.getSelectionModel().getSelectedItem();
         String documentNumber = tf_pagar_identificacion_cliente.getText();
 
-        Object[] lineNumber = connection.read_DB("SELECT number FROM (SELECT * FROM customer, lines WHERE customer.id=lines.customerid) AS result WHERE id='"+documentNumber+"' AND type='"+tipoCliente+"';");
-        if(lineNumber[0] == "Error") {
+        Object[] lineNumber = connection.read_DB("SELECT number FROM (SELECT * FROM customer, lines " +
+                "WHERE customer.id=lines.customerid) AS result WHERE id='"+documentNumber+"' AND type='"+tipoCliente+"';");
+        if(lineNumber[0].equals("Error")) {
             return;
         }
 
         //TODO: lineNumber[1] is needed to update the state in bill table but the read_DB function is returning an object and
         // i dont now how to parse it
 
-        //Object[] bill = connection.read_DB("UPDATE bill SET status="+true+" WHERE linenumber='"+lineNumber+"';");
+        //connection.modify_DB("UPDATE bill SET status="+true+" WHERE linenumber='"+lineNumber+"';");
 
         tf_pagar_identificacion_cliente.setText("");
     }
@@ -666,7 +699,13 @@ public class Controller implements Initializable {
                 String email = tf_gest_usr_editar_correo.getText();
 
                 String name = nombres + " " + primerApellido + " " + segundoApellido;
-                user = connection.read_DB("UPDATE users SET rolid=" + rol + ", name='" + name + "' WHERE id='"+documentNumber+"';");
+                if(connection.modify_DB("UPDATE users SET rolid=" + rol + ", name='" + name + "' " +
+                        "WHERE id='"+documentNumber+"';")){
+                    JOptionPane.showMessageDialog(null,"Actualizacion realizada correctamente");
+                }
+                else{
+                    JOptionPane.showMessageDialog(null,"¡ERROR! No se pudo realizar la actualizacion");
+                }
 
                 tf_gest_usr_cambiar_nombre.setText("");
                 tf_gest_usr_editar_primer_apellido.setText("");
@@ -686,8 +725,13 @@ public class Controller implements Initializable {
             pane_estado_est.setVisible(true);
 
             if(event.getSource().equals("nameButton")) {
-                String rol = Integer.toString(cb_gest_usr_editar_rol.getSelectionModel().getSelectedIndex() + 1);
-                user = connection.read_DB("UPDATE user SET rolid='"+rol+"' WHERE id='"+documentNumber+"';");
+                String rol = Integer.toString(gest_usr_editar_rol_ComboBox1.getSelectionModel().getSelectedIndex() + 1);
+                if(connection.modify_DB("UPDATE user SET rolid='"+rol+"' WHERE id='"+documentNumber+"';")){
+                    JOptionPane.showMessageDialog(null,"Actualizacion realizada correctamente");
+                }
+                else{
+                    JOptionPane.showMessageDialog(null,"¡ERROR! No se pudo realizar la actualizacion");
+                }
             }
         }
     }
