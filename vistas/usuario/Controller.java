@@ -749,6 +749,7 @@ public class Controller implements Initializable {
     }
 
     public void handleGen_fact_generar_button(ActionEvent actionEvent){
+        JOptionPane.showMessageDialog(null, "Generando factura, por favor espere");
         String tipoCliente = cb_gen_fact_tip_cliente.getSelectionModel().getSelectedItem();
         int document = Integer.parseInt(gen_fact_id_TextField.getText());
         String number = gen_fact_linea_TextField.getText();
@@ -762,9 +763,11 @@ public class Controller implements Initializable {
         CreateBill bill = new CreateBill();
 
         bill.WriteBill(result.get(0),actualDate, cutDate, months[Integer.parseInt(result.get(0)[13].substring(5,7))-1]);
+        JOptionPane.showMessageDialog(null, "Factura generada");
     }
 
     public void handleGen_fact_generar_colect_button(ActionEvent actionEvent){
+        JOptionPane.showMessageDialog(null, "Generando facturas, por favor espere");
         Object[] infoHeaderBill = connection.read_DB("SELECT * FROM Bill, Lines, Customer WHERE number=linenumber AND customerid=Customer.id AND EXTRACT(YEAR FROM date) = "+cal.get(Calendar.YEAR)+" AND EXTRACT(MONTH FROM date) = "+(cal.get(Calendar.MONTH)+1)+";");
         Vector<String[]> result = (Vector) infoHeaderBill[1];
 
@@ -775,6 +778,8 @@ public class Controller implements Initializable {
             CreateBill bill = new CreateBill();
             bill.WriteBill(result.get(i),actualDate, cutDate, months[Integer.parseInt(result.get(0)[13].substring(5,7))-1]);
         }
+
+        JOptionPane.showMessageDialog(null, "Facturas generadas");
     }
 
     public void set_user_id (int id) {
