@@ -100,6 +100,7 @@ public class ControllerClientView implements Initializable {
     }
 
     public void handleButtonSearchText(ActionEvent actionEvent) {
+        JOptionPane.showMessageDialog(null, "Realizando consulta por texto, por favor espere");
         labelError.setText("");
         try{
             String number=(String) textFieldNumber.getText();
@@ -201,7 +202,6 @@ public class ControllerClientView implements Initializable {
                     window.show();
                 }
             }
-
         } catch(EmptyFields e){
             labelError.setText("El campo número de celular no debe quedar vacío");
         } catch(NotNumber e){
@@ -222,6 +222,7 @@ public class ControllerClientView implements Initializable {
     }
 
     public void handleButtonSearchGraphic(ActionEvent actionEvent) {
+        JOptionPane.showMessageDialog(null, "Realizando consulta gráfica, por favor espere");
         labelError.setText("");
         try{
             String number=(String) textFieldNumber.getText();
@@ -314,7 +315,6 @@ public class ControllerClientView implements Initializable {
                     Window.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
                 }
             }
-
         } catch(EmptyFields e){
             labelError.setText("El campo número de celular no debe quedar vacío");
         } catch(NotNumber e){

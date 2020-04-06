@@ -15,6 +15,7 @@ public class CreateBill {
         } else {
             address = info[29];
         }
+        int plan = Integer.parseInt(info[20]);
 
         try {
             FileOutputStream file = new FileOutputStream("bill" + info[12] + ".pdf");
@@ -47,38 +48,75 @@ public class CreateBill {
             doc.add(new Paragraph("Fecha expedición: " + actualDate));
             doc.add(new Paragraph("Factura de venta No: " + info[0]));
             pb.setFontAndSize(bf, 7);
-            pb.setTextMatrix(315, 190);
-            pb.showText("Raja telecomunicaciones, tipos de planes:");
-            pb.setTextMatrix(315, 182);
-            pb.showText("Plan conéctate");
-            pb.setTextMatrix(315, 174);
-            pb.showText("Plan conéctate plus");
-            pb.setTextMatrix(315, 166);
-            pb.showText("Plan conectados somos más");
-            pb.setTextMatrix(315, 158);
-            pb.showText("Plan redes sin límites");
-            pb.setTextMatrix(315, 150);
-            pb.showText("Plan uno es más");
-            pb.setTextMatrix(315, 142);
-            pb.showText("Para más información consulte con un asesor de Raja");
-            pb.setTextMatrix(315, 134);
-            pb.showText("Recuerde que los pagos los puede realizar directamente a la empresa");
-            pb.setTextMatrix(315, 126);
-            pb.showText("o en los bancos Bancolombia o Davivienda");
-            pb.setTextMatrix(315,118);
-            pb.showText("Los servicios adicionales no tienen ningún costo adicional, pero");
-            pb.setTextMatrix(315,110);
-            pb.showText("una vez excedido el consumo de minutos permitido");
-            pb.setTextMatrix(315, 102);
-            pb.showText("tendrá un costo por minuto que será cargado a su siguiente factura");
-            pb.setTextMatrix(315, 94);
-            pb.showText("Si consume el total de sus servicios adicionales y desea tenerlos");
-            pb.setTextMatrix(315,86);
-            pb.showText("una vez excedido el consumo de minutos permitido");
-            pb.setTextMatrix(315, 78);
-            pb.showText("El cobro por mora será del 1 % del precio de su plan, después de dos");
-            pb.setTextMatrix(315,70);
-            pb.showText("meses de mora el servicio de la línea será suspendido");
+            if(plan == 5){
+                pb.setTextMatrix(315, 190);
+                pb.showText("Raja telecomunicaciones, tipos de planes:");
+                pb.setTextMatrix(315, 182);
+                pb.showText("Plan conéctate");
+                pb.setTextMatrix(315, 174);
+                pb.showText("Plan conéctate plus");
+                pb.setTextMatrix(315, 166);
+                pb.showText("Plan conectados somos más");
+                pb.setTextMatrix(315, 158);
+                pb.showText("Plan redes sin límites");
+                pb.setTextMatrix(315, 150);
+                pb.showText("Plan uno es más");
+                pb.setTextMatrix(315, 142);
+                pb.showText("Para más información consulte con un asesor de Raja");
+                pb.setTextMatrix(315, 134);
+                pb.showText("Recuerde que los pagos los puede realizar directamente a la empresa");
+                pb.setTextMatrix(315, 126);
+                pb.showText("o en los bancos Bancolombia o Davivienda");
+                pb.setTextMatrix(315,118);
+                pb.showText("Los servicios adicionales no tienen ningún costo adicional, pero");
+                pb.setTextMatrix(315,110);
+                pb.showText("una vez excedido el consumo de minutos permitido");
+                pb.setTextMatrix(315, 102);
+                pb.showText("tendrá un costo por minuto que será cargado a su siguiente factura");
+                pb.setTextMatrix(315, 94);
+                pb.showText("Si consume el total de sus servicios adicionales y desea tenerlos");
+                pb.setTextMatrix(315,86);
+                pb.showText("una vez excedido el consumo de minutos permitido");
+                pb.setTextMatrix(315, 78);
+                pb.showText("El cobro por mora será del 1 % del precio de su plan, después de dos");
+                pb.setTextMatrix(315,70);
+                pb.showText("meses de mora el servicio de la línea será suspendido");
+            } else{
+                pb.setTextMatrix(40, 190);
+                pb.showText("Raja telecomunicaciones, tipos de planes:");
+                pb.setTextMatrix(40, 182);
+                pb.showText("Plan conéctate");
+                pb.setTextMatrix(40, 174);
+                pb.showText("Plan conéctate plus");
+                pb.setTextMatrix(40, 166);
+                pb.showText("Plan conectados somos más");
+                pb.setTextMatrix(40, 158);
+                pb.showText("Plan redes sin límites");
+                pb.setTextMatrix(40, 150);
+                pb.showText("Plan uno es más");
+                pb.setTextMatrix(40, 142);
+                pb.showText("Para más información consulte con un asesor de Raja");
+                pb.setTextMatrix(40, 134);
+                pb.showText("Recuerde que los pagos los puede realizar directamente a la empresa");
+                pb.setTextMatrix(40, 126);
+                pb.showText("o en los bancos Bancolombia o Davivienda");
+                pb.setTextMatrix(40,118);
+                pb.showText("Los servicios adicionales no tienen ningún costo adicional, pero");
+                pb.setTextMatrix(40,110);
+                pb.showText("una vez excedido el consumo de minutos permitido");
+                pb.setTextMatrix(40, 102);
+                pb.showText("tendrá un costo por minuto que será cargado a su siguiente factura");
+                pb.setTextMatrix(40, 94);
+                pb.showText("Si consume el total de sus servicios adicionales y desea tenerlos");
+                pb.setTextMatrix(40,86);
+                pb.showText("una vez excedido el consumo de minutos permitido");
+                pb.setTextMatrix(40, 78);
+                pb.showText("El cobro por mora será del 1 % del precio de su plan, después de dos");
+                pb.setTextMatrix(40,70);
+                pb.showText("meses de mora el servicio de la línea será suspendido");
+            }
+
+
             pb.setFontAndSize(bf, 12);
             doc.add(Chunk.NEWLINE);
             Paragraph table = new Paragraph();
@@ -159,8 +197,6 @@ public class CreateBill {
             table.add(tabla);
             doc.add(table);
             pb.setColorFill(BaseColor.BLACK);
-            //Graphs here
-            int plan = Integer.parseInt(info[20]);
             this.Graphic(info, plan);
             Image graphic = Image.getInstance("functionalities/administrador/Bill/src/assets/images/consumoComun.png");
             graphic.setAlignment(Element.ALIGN_LEFT);
