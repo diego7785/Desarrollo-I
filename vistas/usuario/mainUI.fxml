@@ -1,26 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import com.jfoenix.controls.JFXButton?>
-<?import com.jfoenix.controls.JFXComboBox?>
-<?import com.jfoenix.controls.JFXRadioButton?>
-<?import com.jfoenix.controls.JFXTextField?>
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.control.DatePicker?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.Separator?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.ColumnConstraints?>
-<?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.RowConstraints?>
-<?import javafx.scene.layout.VBox?>
-<?import javafx.scene.text.Font?>
+<?import com.jfoenix.controls.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
 <!--suppress JavaFxUnusedImports -->
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="601.0" prefWidth="900.0" style="-fx-background-color: #4d4d4d;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="601.0" prefWidth="900.0" style="-fx-background-color: #4d4d4d;" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller">
    <children>
       <AnchorPane prefHeight="60.0" prefWidth="900.0" style="-fx-background-color: #202642;">
          <children>
@@ -67,7 +56,7 @@
             </HBox>
          </children>
       </AnchorPane>
-      <AnchorPane fx:id="pane_ventas" layoutY="92.0" onMouseClicked="#cambiar_pestana" prefHeight="509.0" prefWidth="900.0" style="-fx-background-color: #202642;" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+      <AnchorPane fx:id="pane_ventas" layoutY="92.0" onMouseClicked="#cambiar_pestana" prefHeight="509.0" prefWidth="900.0" style="-fx-background-color: #202642;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
          <children>
             <Label layoutX="357.0" layoutY="14.0" text="¿Quién hizo la compra?" textFill="WHITE">
                <font>
@@ -96,7 +85,7 @@
             </ImageView>
             <AnchorPane fx:id="pane_ventas_antiguo" layoutX="16.0" layoutY="216.0" prefHeight="279.0" prefWidth="872.0" visible="false">
                <children>
-                  <JFXButton fx:id="btn_reg_antiguo" layoutX="383.0" layoutY="232.0" text="Registrar" onAction="#handleGen_registrar_compra_ant" textFill="WHITE">
+                  <JFXButton fx:id="btn_reg_antiguo" layoutX="383.0" layoutY="232.0" onAction="#handleGen_registrar_compra_ant" text="Registrar" textFill="WHITE">
                      <font>
                         <Font size="18.0" />
                      </font>
