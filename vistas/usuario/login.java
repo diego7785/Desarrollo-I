@@ -36,13 +36,17 @@ public class login
                 throw new EmptyFieldException("Debes llenar todos los campos");
             }
             int id_user = Integer.parseInt(tf_user.getText());
-            Vector<String[]> result = (Vector) conection.read_DB("SELECT password, roleID from Users WHERE id = '"+id_user+"';")[1];
+            Object[] objectResult = conection.read_DB("SELECT password, roleID from Users " +
+                    "WHERE id = '"+id_user+"';");
 
+            if(objectResult[0].equals("Error")){
+                String error= (String) objectResult[1];
+                throw new Password_exception(error);
+            }
+            Vector<String[]> result = (Vector<String[]>) objectResult[1];
             String user_password = result.get(0)[0];
-            System.out.println(user_password);
 
-            //password entered by User
-
+            password_entered = tf_pass.getText();
             try {
                 if (password_entered.equals(user_password) && event.getSource().equals(btn_login)) {
                     btn_login.getScene().getWindow().hide();
@@ -71,6 +75,16 @@ public class login
             }
         } catch (EmptyFieldException e){
             JOptionPane.showMessageDialog(null, e.getMessage());
+                tf_pass.setText("");
+        }catch (NumberFormatException e){
+            JOptionPane.showMessageDialog(null, "Usuario debe ser numerico");
+            tf_user.setText("");
+            tf_pass.setText("");
+        }catch (Password_exception e) {
+            JOptionPane.showMessageDialog(null, "Error al iniciar sesion:\n"
+                    + e.getMessage());
+            tf_user.setText("");
+            tf_pass.setText("");
         }
     }
 }
