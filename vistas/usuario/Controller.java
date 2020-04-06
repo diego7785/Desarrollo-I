@@ -790,23 +790,33 @@ public class Controller implements Initializable {
     }
 
     public void buscar_estado(ActionEvent event){
-        if(event.getSource().equals(gest_usr_estado_btn_buscar)) {
-            String documentNumber = tf_gest_usr_editar_estado_numero.getText();
+        try {
+            if (event.getSource().equals(gest_usr_estado_btn_buscar)) {
+                String documentNumber = tf_gest_usr_editar_estado_numero.getText();
 
-            Object[] user = connection.read_DB("SELECT * FROM users WHERE id='"+documentNumber+"';");
+                if(documentNumber.isBlank()){
+                    throw new EmptyFieldException("Debe llenar todos los campos");
+                }else {
 
-            pane_estado_campos.setVisible(true);
-            pane_estado_est.setVisible(true);
+                    Object[] user = connection.read_DB("SELECT * FROM users WHERE id='" + documentNumber + "';");
 
-            if(event.getSource().equals("nameButton")) {
-                String rol = Integer.toString(gest_usr_editar_rol_ComboBox1.getSelectionModel().getSelectedIndex() + 1);
-                if(connection.modify_DB("UPDATE user SET rolid='"+rol+"' WHERE id='"+documentNumber+"';")){
-                    JOptionPane.showMessageDialog(null,"Actualizacion realizada correctamente");
-                }
-                else{
-                    JOptionPane.showMessageDialog(null,"¡ERROR! No se pudo realizar la actualizacion");
+                    pane_estado_campos.setVisible(true);
+                    pane_estado_est.setVisible(true);
+
+                    if (event.getSource().equals("nameButton")) {
+                        String rol = Integer.toString(gest_usr_editar_rol_ComboBox1.getSelectionModel().getSelectedIndex() + 1);
+                        if (connection.modify_DB("UPDATE user SET rolid='" + rol + "' WHERE id='" + documentNumber + "';")) {
+                            JOptionPane.showMessageDialog(null, "Actualizacion realizada correctamente");
+                        } else {
+                            JOptionPane.showMessageDialog(null, "¡ERROR! No se pudo realizar la actualizacion");
+                        }
+                    }
                 }
             }
+        }catch (EmptyFieldException e){
+            JOptionPane.showMessageDialog(null, e.getMessage());
+        }catch (Exception e){
+            JOptionPane.showMessageDialog(null, "Debe llenar todos los campos");
         }
     }
 
@@ -823,31 +833,46 @@ public class Controller implements Initializable {
     }
 
     public void handleGen_fact_generar_button(ActionEvent actionEvent){
-        String tipoCliente = cb_gen_fact_tip_cliente.getSelectionModel().getSelectedItem();
-        int document = Integer.parseInt(gen_fact_id_TextField.getText());
-        String number = gen_fact_linea_TextField.getText();
+        try {
+            String tipoCliente = cb_gen_fact_tip_cliente.getSelectionModel().getSelectedItem();
 
-        Object[] info = connection.read_DB("SELECT * FROM Bill, Lines, Customer WHERE number=linenumber AND number='"+number+"' AND customerid=Customer.id AND customerid='"+document+"' AND EXTRACT(YEAR FROM date) = "+cal.get(Calendar.YEAR)+" AND EXTRACT(MONTH FROM date) = "+(cal.get(Calendar.MONTH)+1)+" AND type = '"+tipoCliente+"';");
-        Vector<String[]> result = (Vector) info[1];
+            if(gen_fact_id_TextField.getText().isBlank() || gen_fact_linea_TextField.getText().isBlank()){
+                throw new EmptyFieldException("Debe llenar todos los campos");
+            }
 
-        String actualDate = cal.get(Calendar.YEAR) + "/" + months[cal.get(Calendar.MONTH)];
-        String cutDate = cal.get(Calendar.YEAR) + "/" + months[cal.get(Calendar.MONTH)+1]+"/05";
+            int document = Integer.parseInt(gen_fact_id_TextField.getText());
+            String number = gen_fact_linea_TextField.getText();
 
-        CreateBill bill = new CreateBill();
+            Object[] info = connection.read_DB("SELECT * FROM Bill, Lines, Customer WHERE number=linenumber AND number='" + number + "' AND customerid=Customer.id AND customerid='" + document + "' AND EXTRACT(YEAR FROM date) = " + cal.get(Calendar.YEAR) + " AND EXTRACT(MONTH FROM date) = " + (cal.get(Calendar.MONTH) + 1) + " AND type = '" + tipoCliente + "';");
+            Vector<String[]> result = (Vector) info[1];
 
-        bill.WriteBill(result.get(0),actualDate, cutDate, months[Integer.parseInt(result.get(0)[13].substring(5,7))-1]);
+            String actualDate = cal.get(Calendar.YEAR) + "/" + months[cal.get(Calendar.MONTH)];
+            String cutDate = cal.get(Calendar.YEAR) + "/" + months[cal.get(Calendar.MONTH) + 1] + "/05";
+
+            CreateBill bill = new CreateBill();
+
+            bill.WriteBill(result.get(0), actualDate, cutDate, months[Integer.parseInt(result.get(0)[13].substring(5, 7)) - 1]);
+        }catch (EmptyFieldException e){
+            JOptionPane.showMessageDialog(null, e.getMessage());
+        }catch (Exception e){
+            JOptionPane.showMessageDialog(null, "Debe llenar todos los campos");
+        }
     }
 
     public void handleGen_fact_generar_colect_button(ActionEvent actionEvent){
-        Object[] infoHeaderBill = connection.read_DB("SELECT * FROM Bill, Lines, Customer WHERE number=linenumber AND customerid=Customer.id AND EXTRACT(YEAR FROM date) = "+cal.get(Calendar.YEAR)+" AND EXTRACT(MONTH FROM date) = "+(cal.get(Calendar.MONTH)+1)+";");
-        Vector<String[]> result = (Vector) infoHeaderBill[1];
+        try {
+            Object[] infoHeaderBill = connection.read_DB("SELECT * FROM Bill, Lines, Customer WHERE number=linenumber AND customerid=Customer.id AND EXTRACT(YEAR FROM date) = " + cal.get(Calendar.YEAR) + " AND EXTRACT(MONTH FROM date) = " + (cal.get(Calendar.MONTH) + 1) + ";");
+            Vector<String[]> result = (Vector) infoHeaderBill[1];
 
-        String actualDate = cal.get(Calendar.YEAR) + "/" + months[cal.get(Calendar.MONTH)];
-        String cutDate = cal.get(Calendar.YEAR) + "/" + months[cal.get(Calendar.MONTH)+1]+"/05";
+            String actualDate = cal.get(Calendar.YEAR) + "/" + months[cal.get(Calendar.MONTH)];
+            String cutDate = cal.get(Calendar.YEAR) + "/" + months[cal.get(Calendar.MONTH) + 1] + "/05";
 
-        for(int i = 0; i < result.size(); i++){
-            CreateBill bill = new CreateBill();
-            bill.WriteBill(result.get(i),actualDate, cutDate, months[Integer.parseInt(result.get(0)[13].substring(5,7))-1]);
+            for (int i = 0; i < result.size(); i++) {
+                CreateBill bill = new CreateBill();
+                bill.WriteBill(result.get(i), actualDate, cutDate, months[Integer.parseInt(result.get(0)[13].substring(5, 7)) - 1]);
+            }
+        }catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Debe llenar todos los campos");
         }
     }
 
