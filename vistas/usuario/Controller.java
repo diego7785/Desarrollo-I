@@ -833,6 +833,8 @@ public class Controller implements Initializable {
     }
 
     public void handleGen_fact_generar_button(ActionEvent actionEvent){
+        JOptionPane.showMessageDialog(null, "Generando factura, por favor espere");
+      
         try {
             String tipoCliente = cb_gen_fact_tip_cliente.getSelectionModel().getSelectedItem();
 
@@ -843,6 +845,7 @@ public class Controller implements Initializable {
             int document = Integer.parseInt(gen_fact_id_TextField.getText());
             String number = gen_fact_linea_TextField.getText();
 
+
             Object[] info = connection.read_DB("SELECT * FROM Bill, Lines, Customer WHERE number=linenumber AND number='" + number + "' AND customerid=Customer.id AND customerid='" + document + "' AND EXTRACT(YEAR FROM date) = " + cal.get(Calendar.YEAR) + " AND EXTRACT(MONTH FROM date) = " + (cal.get(Calendar.MONTH) + 1) + " AND type = '" + tipoCliente + "';");
             Vector<String[]> result = (Vector) info[1];
 
@@ -851,7 +854,9 @@ public class Controller implements Initializable {
 
             CreateBill bill = new CreateBill();
 
-            bill.WriteBill(result.get(0), actualDate, cutDate, months[Integer.parseInt(result.get(0)[13].substring(5, 7)) - 1]);
+    }
+        bill.WriteBill(result.get(0), actualDate, cutDate, months[Integer.parseInt(result.get(0)[13].substring(5, 7)) - 1]);
+        JOptionPane.showMessageDialog(null, "Factura generada");
         }catch (EmptyFieldException e){
             JOptionPane.showMessageDialog(null, e.getMessage());
         }catch (Exception e){
@@ -860,6 +865,7 @@ public class Controller implements Initializable {
     }
 
     public void handleGen_fact_generar_colect_button(ActionEvent actionEvent){
+      JOptionPane.showMessageDialog(null, "Generando facturas, por favor espere");
         try {
             Object[] infoHeaderBill = connection.read_DB("SELECT * FROM Bill, Lines, Customer WHERE number=linenumber AND customerid=Customer.id AND EXTRACT(YEAR FROM date) = " + cal.get(Calendar.YEAR) + " AND EXTRACT(MONTH FROM date) = " + (cal.get(Calendar.MONTH) + 1) + ";");
             Vector<String[]> result = (Vector) infoHeaderBill[1];
@@ -874,6 +880,8 @@ public class Controller implements Initializable {
         }catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Debe llenar todos los campos");
         }
+
+        JOptionPane.showMessageDialog(null, "Facturas generadas");
     }
 
     public void set_user_id (int id) {

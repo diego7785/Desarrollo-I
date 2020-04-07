@@ -15,6 +15,7 @@ public class CreateBill {
         } else {
             address = info[29];
         }
+        int plan = Integer.parseInt(info[20]);
 
         try {
             FileOutputStream file = new FileOutputStream("bill" + info[12] + ".pdf");
@@ -42,8 +43,75 @@ public class CreateBill {
             doc.add(new Paragraph("Fecha expedición: " + actualDate));
             doc.add(new Paragraph("Factura de venta No: " + info[0]));
             pb.setFontAndSize(bf, 7);
-            pb.setTextMatrix(337, 90);
-            pb.showText("Escanee este código para realizar el pago");
+            if(plan == 5){
+                pb.setTextMatrix(315, 190);
+                pb.showText("Raja telecomunicaciones, tipos de planes:");
+                pb.setTextMatrix(315, 182);
+                pb.showText("Plan conéctate");
+                pb.setTextMatrix(315, 174);
+                pb.showText("Plan conéctate plus");
+                pb.setTextMatrix(315, 166);
+                pb.showText("Plan conectados somos más");
+                pb.setTextMatrix(315, 158);
+                pb.showText("Plan redes sin límites");
+                pb.setTextMatrix(315, 150);
+                pb.showText("Plan uno es más");
+                pb.setTextMatrix(315, 142);
+                pb.showText("Para más información consulte con un asesor de Raja");
+                pb.setTextMatrix(315, 134);
+                pb.showText("Recuerde que los pagos los puede realizar directamente a la empresa");
+                pb.setTextMatrix(315, 126);
+                pb.showText("o en los bancos Bancolombia o Davivienda");
+                pb.setTextMatrix(315,118);
+                pb.showText("Los servicios adicionales no tienen ningún costo adicional, pero");
+                pb.setTextMatrix(315,110);
+                pb.showText("una vez excedido el consumo de minutos permitido");
+                pb.setTextMatrix(315, 102);
+                pb.showText("tendrá un costo por minuto que será cargado a su siguiente factura");
+                pb.setTextMatrix(315, 94);
+                pb.showText("Si consume el total de sus servicios adicionales y desea tenerlos");
+                pb.setTextMatrix(315,86);
+                pb.showText("una vez excedido el consumo de minutos permitido");
+                pb.setTextMatrix(315, 78);
+                pb.showText("El cobro por mora será del 1 % del precio de su plan, después de dos");
+                pb.setTextMatrix(315,70);
+                pb.showText("meses de mora el servicio de la línea será suspendido");
+            } else{
+                pb.setTextMatrix(40, 190);
+                pb.showText("Raja telecomunicaciones, tipos de planes:");
+                pb.setTextMatrix(40, 182);
+                pb.showText("Plan conéctate");
+                pb.setTextMatrix(40, 174);
+                pb.showText("Plan conéctate plus");
+                pb.setTextMatrix(40, 166);
+                pb.showText("Plan conectados somos más");
+                pb.setTextMatrix(40, 158);
+                pb.showText("Plan redes sin límites");
+                pb.setTextMatrix(40, 150);
+                pb.showText("Plan uno es más");
+                pb.setTextMatrix(40, 142);
+                pb.showText("Para más información consulte con un asesor de Raja");
+                pb.setTextMatrix(40, 134);
+                pb.showText("Recuerde que los pagos los puede realizar directamente a la empresa");
+                pb.setTextMatrix(40, 126);
+                pb.showText("o en los bancos Bancolombia o Davivienda");
+                pb.setTextMatrix(40,118);
+                pb.showText("Los servicios adicionales no tienen ningún costo adicional, pero");
+                pb.setTextMatrix(40,110);
+                pb.showText("una vez excedido el consumo de minutos permitido");
+                pb.setTextMatrix(40, 102);
+                pb.showText("tendrá un costo por minuto que será cargado a su siguiente factura");
+                pb.setTextMatrix(40, 94);
+                pb.showText("Si consume el total de sus servicios adicionales y desea tenerlos");
+                pb.setTextMatrix(40,86);
+                pb.showText("una vez excedido el consumo de minutos permitido");
+                pb.setTextMatrix(40, 78);
+                pb.showText("El cobro por mora será del 1 % del precio de su plan, después de dos");
+                pb.setTextMatrix(40,70);
+                pb.showText("meses de mora el servicio de la línea será suspendido");
+            }
+
+
             pb.setFontAndSize(bf, 12);
             doc.add(Chunk.NEWLINE);
             Paragraph table = new Paragraph();
@@ -124,8 +192,6 @@ public class CreateBill {
             table.add(tabla);
             doc.add(table);
             pb.setColorFill(BaseColor.BLACK);
-            //Graphs here
-            int plan = Integer.parseInt(info[20]);
             this.Graphic(info, plan);
             Image graphic = Image.getInstance("functionalities/administrador/Bill/src/assets/images/consumoComun.png");
             graphic.setAlignment(Element.ALIGN_LEFT);
@@ -151,13 +217,6 @@ public class CreateBill {
                 graphic.scaleAbsolute(200, 150);
                 doc.add(graphic);
             }
-
-            //Investigar el uso de código de barras o qr
-            this.QRCode(info[15]);
-            graphic = Image.getInstance("functionalities/administrador/Bill/src/assets/images/QrCode.png");
-            graphic.setAbsolutePosition(310, 77);
-            graphic.scaleAbsolute(200, 150);
-            doc.add(graphic);
 
             pb.endText();
             doc.newPage();
@@ -219,6 +278,38 @@ public class CreateBill {
             tabla.setWidthPercentage(98);
             doc.add(tabla);
             doc.add(Chunk.NEWLINE);
+
+            Image promotion = Image.getInstance("functionalities/administrador/Bill/src/assets/images/raja_promocion.png");
+            promotion.scaleAbsolute(500, 200);
+            promotion.setAbsolutePosition(40,330);
+            doc.add(promotion);
+
+            Image footer = Image.getInstance("functionalities/administrador/Bill/src/assets/images/footer.png");
+            footer.scaleAbsolute(500,120);
+            footer.setAbsolutePosition(40, 210);
+            doc.add(footer);
+
+            doc.add(Chunk.NEWLINE);
+            doc.add(Chunk.NEWLINE);
+            doc.add(Chunk.NEWLINE);
+            doc.add(Chunk.NEWLINE);
+            doc.add(Chunk.NEWLINE);
+            doc.add(Chunk.NEWLINE);
+            doc.add(Chunk.NEWLINE);
+            doc.add(Chunk.NEWLINE);
+            doc.add(Chunk.NEWLINE);
+            doc.add(Chunk.NEWLINE);
+            doc.add(Chunk.NEWLINE);
+            doc.add(Chunk.NEWLINE);
+            doc.add(Chunk.NEWLINE);
+            doc.add(Chunk.NEWLINE);
+            doc.add(Chunk.NEWLINE);
+            doc.add(Chunk.NEWLINE);
+            doc.add(Chunk.NEWLINE);
+            doc.add(Chunk.NEWLINE);
+            doc.add(Chunk.NEWLINE);
+            doc.add(Chunk.NEWLINE);
+
             doc.add(new Paragraph("......................................................................................."
                     + "....................................................................."));
             doc.add(new Paragraph("Desprenda esta parte para realizar el pago"));
@@ -238,19 +329,23 @@ public class CreateBill {
             pb.beginText();
             pb.setTextMatrix(460, 502);
             logotype.scalePercent(10);
-            logotype.setAbsolutePosition(515, 504);
+            logotype.setAbsolutePosition(515, 165);
+          
             pb.addImage(logotype);
             pb.endText();
             Barcode128 code128 = new Barcode128();
             code128.setCode(StringDefault.trim());
             code128.setCodeType(Barcode128.CODE128);
             Image code128Image = code128.createImageWithBarcode(cb, null, null);
-            code128Image.setAbsolutePosition(40, 420);
+            code128Image.setAbsolutePosition(40, 80);
+
             code128Image.scaleAbsolute(400, 85);
             doc.add(code128Image);
             this.QRCode(info[15]);
             graphic = Image.getInstance("functionalities/administrador/Bill/src/assets/images/QrCode.png");
-            graphic.setAbsolutePosition(460, 432);
+
+            graphic.setAbsolutePosition(460, 90);
+
             graphic.scaleAbsolute(100, 85);
             doc.add(graphic);
 
