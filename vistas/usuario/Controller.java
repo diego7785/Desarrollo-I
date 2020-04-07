@@ -1,4 +1,5 @@
 import DB_Connection.DBConnection;
+import Exceptions.EmptyFieldException;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXPasswordField;
@@ -16,6 +17,7 @@ import javafx.scene.layout.AnchorPane;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.EOFException;
 import java.lang.reflect.Array;
 import java.net.URL;
 import java.util.*;
@@ -447,25 +449,30 @@ public class Controller implements Initializable {
     }
 
     public void handleGen_registrar_compra(ActionEvent event) {
-        String tipoCliente = cb_ventas_nue_tipo_cliente.getSelectionModel().getSelectedItem();
 
-        String tipoID = Integer.toString(cb_ventas_nue_tipo_id.getSelectionModel().getSelectedIndex()+1);
-        String planAsociado = Integer.toString(cb_ventas_nue_plan_asociado.getSelectionModel().getSelectedIndex()+1);
+        try {
+            String tipoCliente = cb_ventas_nue_tipo_cliente.getSelectionModel().getSelectedItem();
 
-        String documentNumber = tf_nombre_identificacion.getText();
-        String email = tf_correo_electronico.getText();
+            String tipoID = Integer.toString(cb_ventas_nue_tipo_id.getSelectionModel().getSelectedIndex() + 1);
+            String planAsociado = Integer.toString(cb_ventas_nue_plan_asociado.getSelectionModel().getSelectedIndex() + 1);
 
-        String nombres = tf_nombres.getText();
-        String primerApellido = tf_primer_apellido.getText();
+            String documentNumber = tf_nombre_identificacion.getText();
+            String email = tf_correo_electronico.getText();
 
-        String segundoApellido = tf_segundo_apellido.getText();
-        String nuevaLinea = tf_nueva_linea.getText();
+            String nombres = tf_nombres.getText();
+            String primerApellido = tf_primer_apellido.getText();
 
-        int userID = new_user.get_user_id();
-        String name = nombres + " " + primerApellido + " " + segundoApellido;
+            String segundoApellido = tf_segundo_apellido.getText();
+            String nuevaLinea = tf_nueva_linea.getText();
 
-        if(connection.modify_DB("INSERT INTO customer(id, name, type, email) " +
-                "VALUES("+documentNumber+", '"+name+"', '"+tipoCliente+"', '"+email+"');")) {
+            if(tipoCliente.equals("")||tipoID.equals(" ")||planAsociado.equals(" ")||documentNumber.equals(" ")||email.equals("")||nombres.equals("")||primerApellido.equals("")||segundoApellido.equals("")||nuevaLinea.equals("")){
+                throw new EmptyFieldException("Debe llenar todos los campos");
+            }else {
+                int userID = new_user.get_user_id();
+                String name = nombres + " " + primerApellido + " " + segundoApellido;
+
+                if(connection.modify_DB("INSERT INTO customer(id, name, type, email) " +
+                "VALUES(" + documentNumber + ", '" + name + "', '" + tipoCliente + "', '" + email + "');")) {
             if(connection.modify_DB("INSERT INTO lines " +
                     "VALUES("+nuevaLinea+", "+documentNumber+", "+tipoID+", "+planAsociado+", "+userID+", "+true+");")){
                 JOptionPane.showMessageDialog(null,"Compra registrada exitosamente");
@@ -480,31 +487,56 @@ public class Controller implements Initializable {
             JOptionPane.showMessageDialog(null,"¡ERROR! No se pudo registrar correctamente al cliente");
         }
 
+                Object[] line = connection.read_DB("INSERT INTO lines VALUES(" + nuevaLinea + ", " + documentNumber + ", " + tipoID + ", " + planAsociado + ", " + userID + ", " + true + ");");
 
-        tf_nombre_identificacion.setText("");
-        tf_correo_electronico.setText("");
+                tf_nombre_identificacion.setText("");
+                tf_correo_electronico.setText("");
 
-        tf_nombres.setText("");
-        tf_primer_apellido.setText("");
+                tf_nombres.setText("");
+                tf_primer_apellido.setText("");
 
-        tf_segundo_apellido.setText("");
-        tf_nueva_linea.setText("");
+                tf_segundo_apellido.setText("");
+                tf_nueva_linea.setText("");
+            }
+        }catch(EmptyFieldException e){
+            JOptionPane.showMessageDialog(null, e.getMessage());
+        }catch (Exception e){
+            JOptionPane.showMessageDialog(null, "Debe llenar todos los campos");
+        }
+
     }
 
     public void handleGen_registrar_compra_ant(ActionEvent event) {
-        String tipoCliente = cb_ventas_ant_tipo_cliente.getSelectionModel().getSelectedItem();
+        try {
+            String tipoCliente = cb_ventas_ant_tipo_cliente.getSelectionModel().getSelectedItem();
 
-        String tipoID = Integer.toString(cb_ventas_ant_tipo_id.getSelectionModel().getSelectedIndex()+1);
-        String planAsociado = Integer.toString(cb_ventas_ant_plan_asociado.getSelectionModel().getSelectedIndex()+1);
+            String tipoID = Integer.toString(cb_ventas_ant_tipo_id.getSelectionModel().getSelectedIndex() + 1);
+            String planAsociado = Integer.toString(cb_ventas_ant_plan_asociado.getSelectionModel().getSelectedIndex() + 1);
 
-        String documentNumber = tf_nombre_identificacion_ant.getText();
-        String nuevaLinea = tf_nueva_linea_ant.getText();
+            String documentNumber = tf_nombre_identificacion_ant.getText();
+            String nuevaLinea = tf_nueva_linea_ant.getText();
 
-        int userID = new_user.get_user_id();
+            if(tipoCliente.equals("")||tipoID.equals("")||planAsociado.equals("")||documentNumber.equals("")||nuevaLinea.equals("")){
+                throw new EmptyFieldException("Debe llenar todos los campos");
+            }else{
+                int userID = new_user.get_user_id();
 
-        Object[] customer = connection.read_DB("SELECT * FROM customer WHERE id='"+documentNumber+"' AND type='"+tipoCliente+"';");
+                Object[] customer = connection.read_DB("SELECT * FROM customer WHERE id='"+documentNumber+"' AND type='"+tipoCliente+"';");
+                if(connection.modify_DB("INSERT INTO lines " +
+                        "VALUES("+nuevaLinea+", "+documentNumber+", "+tipoID+", "+planAsociado+", "+userID+", "+true+");")){
+                    JOptionPane.showMessageDialog(null,"usuario registrado exitosamente");
+                }
+                else{
+                    JOptionPane.showMessageDialog(null,"¡ERROR! No se pudo registrar al usuario");
+                }
 
-        if(connection.modify_DB("INSERT INTO lines " +
+                tf_gest_usr_agreg_id.setText("");
+                tf_gest_usr_agreg_primer_apellido.setText("");
+                tf_gest_usr_agreg_segundo_apellido.setText("");
+                tf_gest_usr_agreg_nombre.setText("");
+                tf_gest_usr_agreg_email.setText("");
+
+                if(connection.modify_DB("INSERT INTO lines " +
                 "VALUES("+nuevaLinea+", "+documentNumber+", "+tipoID+", "+planAsociado+", "+userID+", "+true+");")){
             JOptionPane.showMessageDialog(null,"Compra registrada exitosamente");
         }
@@ -512,77 +544,102 @@ public class Controller implements Initializable {
             JOptionPane.showMessageDialog(null,"¡ERROR! No se pudo registrar la compra");
         }
 
-        tf_nombre_identificacion_ant.setText("");
-        tf_nueva_linea_ant.setText("");
+                tf_nombre_identificacion_ant.setText("");
+                tf_nueva_linea_ant.setText("");
+            }
+        }catch (EmptyFieldException e){
+            JOptionPane.showMessageDialog(null, e.getMessage());
+        }catch (Exception e){
+            JOptionPane.showMessageDialog(null, "Debe llenar todos los campos");
+        }
     }
 
     public void handleGen_agregar_usuario(ActionEvent event) {
-        String rol = Integer.toString(cb_add_user_rol.getSelectionModel().getSelectedIndex() + 1);
 
-        String documentNumber = tf_gest_usr_agreg_id.getText();
-        String email = tf_gest_usr_agreg_email.getText();
+        try {
+            String rol = Integer.toString(cb_add_user_rol.getSelectionModel().getSelectedIndex() + 1);
 
-        String nombres = tf_gest_usr_agreg_nombre.getText();
-        String primerApellido = tf_gest_usr_agreg_primer_apellido.getText();
+            String documentNumber = tf_gest_usr_agreg_id.getText();
+            String email = tf_gest_usr_agreg_email.getText();
 
-        String segundoApellido = tf_gest_usr_agreg_segundo_apellido.getText();
+            String nombres = tf_gest_usr_agreg_nombre.getText();
+            String primerApellido = tf_gest_usr_agreg_primer_apellido.getText();
 
-        String name = nombres + " " + primerApellido + " " + segundoApellido;
+            String segundoApellido = tf_gest_usr_agreg_segundo_apellido.getText();
 
-        String password = "test";
+            String name = nombres + " " + primerApellido + " " + segundoApellido;
 
-        if(connection.modify_DB("INSERT INTO users " +
-                "VALUES('" + documentNumber + "', '" + name + "', " + rol + ", " + true + ", '" + password + "');")){
-            JOptionPane.showMessageDialog(null,"usuario registrado exitosamente");
+            String password = "test";
+
+            if(documentNumber.isBlank()||email.isBlank()||nombres.isBlank()||primerApellido.isBlank()||segundoApellido.isBlank()||segundoApellido.isBlank()||password.isBlank())
+                throw new EmptyFieldException("Debe llenar todos los campos");
+            else{
+                Object[] user = connection.read_DB("INSERT INTO users VALUES('" + documentNumber + "', '" + name + "', " + rol + ", " + true + ", '" + password + "');");
+            }
+
+        }catch (EmptyFieldException e){
+            JOptionPane.showMessageDialog(null, e.getMessage());
+        }catch (Exception e){
+            JOptionPane.showMessageDialog(null, "Debe llenar todos los campos");
         }
-        else{
-            JOptionPane.showMessageDialog(null,"¡ERROR! No se pudo registrar al usuario");
-        }
-
-        tf_gest_usr_agreg_id.setText("");
-        tf_gest_usr_agreg_primer_apellido.setText("");
-        tf_gest_usr_agreg_segundo_apellido.setText("");
-        tf_gest_usr_agreg_nombre.setText("");
-        tf_gest_usr_agreg_email.setText("");
     }
-
     public void handleGen_pagar_linea(ActionEvent event) {
         //TODO: Use documentType and clientType in the query for line
-        String documentNumber = tf_pagar_identificacion.getText();
-        String lineNumber = tf_pagar_numero_linea.getText();
+        try {
+            String documentNumber = tf_pagar_identificacion.getText();
+            String lineNumber = tf_pagar_numero_linea.getText();
 
-        Object[] line = connection.read_DB("SELECT * FROM lines WHERE customerid='"+documentNumber+"';");
-        if(line.length != 2) {
-            return;
-        }
+            if(documentNumber.isBlank()||lineNumber.isBlank()){
+                throw new EmptyFieldException("Debe llenar todos los campos");
+            }else {
 
-        if(connection.modify_DB("UPDATE bill SET status="+true+" WHERE linenumber='"+lineNumber+"';")){
+                Object[] line = connection.read_DB("SELECT * FROM lines WHERE customerid='" + documentNumber + "';");
+                if (line.length != 2) {
+                    return;
+                }
+
+                if(connection.modify_DB("UPDATE bill SET status=" + true + " WHERE linenumber='" + lineNumber + "';")){
             JOptionPane.showMessageDialog(null,"Pago realizado exitosamente");
         }
         else{
             JOptionPane.showMessageDialog(null,"¡ERROR! No se pudo registrar el pago");
         }
 
-        tf_pagar_identificacion.setText("");
-        tf_pagar_numero_linea.setText("");
+                tf_pagar_identificacion.setText("");
+                tf_pagar_numero_linea.setText("");
+            }
+        }catch (EmptyFieldException e){
+            JOptionPane.showMessageDialog(null, e.getMessage());
+        }catch (Exception e){
+            JOptionPane.showMessageDialog(null, "Debe llenar todos los campos");
+        }
     }
 
     public void handleGen_pagar_cliente(ActionEvent event) {
-        String tipoCliente = pagar_cliente_tip_cl.getSelectionModel().getSelectedItem();
-        String documentNumber = tf_pagar_identificacion_cliente.getText();
+        try {
+            String tipoCliente = pagar_cliente_tip_cl.getSelectionModel().getSelectedItem() + 1;
+            String documentNumber = tf_pagar_identificacion_cliente.getText();
 
-        Object[] lineNumber = connection.read_DB("SELECT number FROM (SELECT * FROM customer, lines " +
-                "WHERE customer.id=lines.customerid) AS result WHERE id='"+documentNumber+"' AND type='"+tipoCliente+"';");
-        if(lineNumber[0].equals("Error")) {
-            return;
+            if(documentNumber.isBlank()){
+                throw new EmptyFieldException("Debe llenar todos los campos");
+            }else {
+                Object[] lineNumber = connection.read_DB("SELECT number FROM (SELECT * FROM customer, lines " +
+                "WHERE customer.id=lines.customerid) AS result WHERE id='" + documentNumber + "' AND type='" + tipoCliente + "';");
+                if (lineNumber[0].equals("Error")) {
+                    return;
+                }
+                //TODO: lineNumber[1] is needed to update the state in bill table but the read_DB function is returning an object and
+                // i dont now how to parse it
+
+                //connection.modify_DB("UPDATE bill SET status="+true+" WHERE linenumber='"+lineNumber+"';");
+
+                tf_pagar_identificacion_cliente.setText("");
+            }
+        }catch (EmptyFieldException e){
+            JOptionPane.showMessageDialog(null, e.getMessage());
+        }catch (Exception e){
+            JOptionPane.showMessageDialog(null, "Debe llenar todos los campos");
         }
-
-        //TODO: lineNumber[1] is needed to update the state in bill table but the read_DB function is returning an object and
-        // i dont now how to parse it
-
-        //connection.modify_DB("UPDATE bill SET status="+true+" WHERE linenumber='"+lineNumber+"';");
-
-        tf_pagar_identificacion_cliente.setText("");
     }
 
     @FXML
@@ -683,56 +740,83 @@ public class Controller implements Initializable {
     }
 
     public void buscar_edit(ActionEvent event){
-        if(event.getSource().equals(gest_usr_editar_btn_buscar)) {
-            String documentNumber = tf_gest_usr_editar_numero.getText();
+        try {
+            if (event.getSource().equals(gest_usr_editar_btn_buscar)) {
+                String documentNumber = tf_gest_usr_editar_numero.getText();
 
-            Object[] user = connection.read_DB("SELECT * FROM users WHERE id='"+documentNumber+"';");
-            pane_edit_campos.setVisible(true);
-
-            if(event.getSource().equals(gest_usr_editar_btn_guardar)) {
-                String rol = Integer.toString(cb_edit_user_rol.getSelectionModel().getSelectedIndex() + 1);
-
-                String nombres = tf_gest_usr_cambiar_nombre.getText();
-                String primerApellido = tf_gest_usr_editar_primer_apellido.getText();
-
-                String segundoApellido = tf_gest_usr_editar_segundo_apellido.getText();
-                String email = tf_gest_usr_editar_correo.getText();
-
-                String name = nombres + " " + primerApellido + " " + segundoApellido;
-                if(connection.modify_DB("UPDATE users SET rolid=" + rol + ", name='" + name + "' " +
-                        "WHERE id='"+documentNumber+"';")){
-                    JOptionPane.showMessageDialog(null,"Actualizacion realizada correctamente");
-                }
-                else{
-                    JOptionPane.showMessageDialog(null,"¡ERROR! No se pudo realizar la actualizacion");
+                if (documentNumber.isBlank()) {
+                    throw new EmptyFieldException("Debe llenar todos los campos");
                 }
 
-                tf_gest_usr_cambiar_nombre.setText("");
-                tf_gest_usr_editar_primer_apellido.setText("");
-                tf_gest_usr_editar_segundo_apellido.setText("");
-                tf_gest_usr_editar_correo.setText("");
+                Object[] user = connection.read_DB("SELECT * FROM users WHERE id='" + documentNumber + "';");
+                pane_edit_campos.setVisible(true);
+
+                if (event.getSource().equals(gest_usr_editar_btn_guardar)) {
+                    String rol = Integer.toString(cb_edit_user_rol.getSelectionModel().getSelectedIndex() + 1);
+
+                    String nombres = tf_gest_usr_cambiar_nombre.getText();
+                    String primerApellido = tf_gest_usr_editar_primer_apellido.getText();
+
+                    String segundoApellido = tf_gest_usr_editar_segundo_apellido.getText();
+                    String email = tf_gest_usr_editar_correo.getText();
+
+                    if (rol.isBlank() || nombres.isBlank() || primerApellido.isBlank() || segundoApellido.isBlank() || email.isBlank())
+                        throw new EmptyFieldException("Debe llenar todos los campos");
+                    else {
+
+                        String name = nombres + " " + primerApellido + " " + segundoApellido;
+                        user = connection.read_DB("UPDATE users SET rolid=" + rol + ", name='" + name + "' WHERE id='" + documentNumber + "';");
+                        name = nombres + " " + primerApellido + " " + segundoApellido;
+                        if (connection.modify_DB("UPDATE users SET rolid=" + rol + ", name='" + name + "' " +
+                                "WHERE id='" + documentNumber + "';")) {
+                            JOptionPane.showMessageDialog(null, "Actualizacion realizada correctamente");
+                        } else {
+                            JOptionPane.showMessageDialog(null, "¡ERROR! No se pudo realizar la actualizacion");
+                        }
+
+                        tf_gest_usr_cambiar_nombre.setText("");
+                        tf_gest_usr_cambiar_nombre.setText("");
+                        tf_gest_usr_editar_primer_apellido.setText("");
+                        tf_gest_usr_editar_segundo_apellido.setText("");
+                        tf_gest_usr_editar_correo.setText("");
+                    }
+                }
             }
+        }catch (EmptyFieldException e){
+            JOptionPane.showMessageDialog(null, e.getMessage());
+        }catch (Exception e){
+            JOptionPane.showMessageDialog(null, "Debe llenar todos los campos");
         }
     }
 
     public void buscar_estado(ActionEvent event){
-        if(event.getSource().equals(gest_usr_estado_btn_buscar)) {
-            String documentNumber = tf_gest_usr_editar_estado_numero.getText();
+        try {
+            if (event.getSource().equals(gest_usr_estado_btn_buscar)) {
+                String documentNumber = tf_gest_usr_editar_estado_numero.getText();
 
-            Object[] user = connection.read_DB("SELECT * FROM users WHERE id='"+documentNumber+"';");
+                if(documentNumber.isBlank()){
+                    throw new EmptyFieldException("Debe llenar todos los campos");
+                }else {
 
-            pane_estado_campos.setVisible(true);
-            pane_estado_est.setVisible(true);
+                    Object[] user = connection.read_DB("SELECT * FROM users WHERE id='" + documentNumber + "';");
 
-            if(event.getSource().equals("nameButton")) {
-                String rol = Integer.toString(gest_usr_editar_rol_ComboBox1.getSelectionModel().getSelectedIndex() + 1);
-                if(connection.modify_DB("UPDATE user SET rolid='"+rol+"' WHERE id='"+documentNumber+"';")){
-                    JOptionPane.showMessageDialog(null,"Actualizacion realizada correctamente");
-                }
-                else{
-                    JOptionPane.showMessageDialog(null,"¡ERROR! No se pudo realizar la actualizacion");
+                    pane_estado_campos.setVisible(true);
+                    pane_estado_est.setVisible(true);
+
+                    if (event.getSource().equals("nameButton")) {
+                        String rol = Integer.toString(gest_usr_editar_rol_ComboBox1.getSelectionModel().getSelectedIndex() + 1);
+                        if (connection.modify_DB("UPDATE user SET rolid='" + rol + "' WHERE id='" + documentNumber + "';")) {
+                            JOptionPane.showMessageDialog(null, "Actualizacion realizada correctamente");
+                        } else {
+                            JOptionPane.showMessageDialog(null, "¡ERROR! No se pudo realizar la actualizacion");
+                        }
+                    }
                 }
             }
+        }catch (EmptyFieldException e){
+            JOptionPane.showMessageDialog(null, e.getMessage());
+        }catch (Exception e){
+            JOptionPane.showMessageDialog(null, "Debe llenar todos los campos");
         }
     }
 
@@ -750,33 +834,51 @@ public class Controller implements Initializable {
 
     public void handleGen_fact_generar_button(ActionEvent actionEvent){
         JOptionPane.showMessageDialog(null, "Generando factura, por favor espere");
-        String tipoCliente = cb_gen_fact_tip_cliente.getSelectionModel().getSelectedItem();
-        int document = Integer.parseInt(gen_fact_id_TextField.getText());
-        String number = gen_fact_linea_TextField.getText();
+      
+        try {
+            String tipoCliente = cb_gen_fact_tip_cliente.getSelectionModel().getSelectedItem();
 
-        Object[] info = connection.read_DB("SELECT * FROM Bill, Lines, Customer WHERE number=linenumber AND number='"+number+"' AND customerid=Customer.id AND customerid='"+document+"' AND EXTRACT(YEAR FROM date) = "+cal.get(Calendar.YEAR)+" AND EXTRACT(MONTH FROM date) = "+(cal.get(Calendar.MONTH)+1)+" AND type = '"+tipoCliente+"';");
-        Vector<String[]> result = (Vector) info[1];
+            if(gen_fact_id_TextField.getText().isBlank() || gen_fact_linea_TextField.getText().isBlank()){
+                throw new EmptyFieldException("Debe llenar todos los campos");
+            }
 
-        String actualDate = cal.get(Calendar.YEAR) + "/" + months[cal.get(Calendar.MONTH)];
-        String cutDate = cal.get(Calendar.YEAR) + "/" + months[cal.get(Calendar.MONTH)+1]+"/05";
+            int document = Integer.parseInt(gen_fact_id_TextField.getText());
+            String number = gen_fact_linea_TextField.getText();
 
-        CreateBill bill = new CreateBill();
 
-        bill.WriteBill(result.get(0),actualDate, cutDate, months[Integer.parseInt(result.get(0)[13].substring(5,7))-1]);
+            Object[] info = connection.read_DB("SELECT * FROM Bill, Lines, Customer WHERE number=linenumber AND number='" + number + "' AND customerid=Customer.id AND customerid='" + document + "' AND EXTRACT(YEAR FROM date) = " + cal.get(Calendar.YEAR) + " AND EXTRACT(MONTH FROM date) = " + (cal.get(Calendar.MONTH) + 1) + " AND type = '" + tipoCliente + "';");
+            Vector<String[]> result = (Vector) info[1];
+
+            String actualDate = cal.get(Calendar.YEAR) + "/" + months[cal.get(Calendar.MONTH)];
+            String cutDate = cal.get(Calendar.YEAR) + "/" + months[cal.get(Calendar.MONTH) + 1] + "/05";
+
+            CreateBill bill = new CreateBill();
+
+    }
+        bill.WriteBill(result.get(0), actualDate, cutDate, months[Integer.parseInt(result.get(0)[13].substring(5, 7)) - 1]);
         JOptionPane.showMessageDialog(null, "Factura generada");
+        }catch (EmptyFieldException e){
+            JOptionPane.showMessageDialog(null, e.getMessage());
+        }catch (Exception e){
+            JOptionPane.showMessageDialog(null, "Debe llenar todos los campos");
+        }
     }
 
     public void handleGen_fact_generar_colect_button(ActionEvent actionEvent){
-        JOptionPane.showMessageDialog(null, "Generando facturas, por favor espere");
-        Object[] infoHeaderBill = connection.read_DB("SELECT * FROM Bill, Lines, Customer WHERE number=linenumber AND customerid=Customer.id AND EXTRACT(YEAR FROM date) = "+cal.get(Calendar.YEAR)+" AND EXTRACT(MONTH FROM date) = "+(cal.get(Calendar.MONTH)+1)+";");
-        Vector<String[]> result = (Vector) infoHeaderBill[1];
+      JOptionPane.showMessageDialog(null, "Generando facturas, por favor espere");
+        try {
+            Object[] infoHeaderBill = connection.read_DB("SELECT * FROM Bill, Lines, Customer WHERE number=linenumber AND customerid=Customer.id AND EXTRACT(YEAR FROM date) = " + cal.get(Calendar.YEAR) + " AND EXTRACT(MONTH FROM date) = " + (cal.get(Calendar.MONTH) + 1) + ";");
+            Vector<String[]> result = (Vector) infoHeaderBill[1];
 
-        String actualDate = cal.get(Calendar.YEAR) + "/" + months[cal.get(Calendar.MONTH)];
-        String cutDate = cal.get(Calendar.YEAR) + "/" + months[cal.get(Calendar.MONTH)+1]+"/05";
+            String actualDate = cal.get(Calendar.YEAR) + "/" + months[cal.get(Calendar.MONTH)];
+            String cutDate = cal.get(Calendar.YEAR) + "/" + months[cal.get(Calendar.MONTH) + 1] + "/05";
 
-        for(int i = 0; i < result.size(); i++){
-            CreateBill bill = new CreateBill();
-            bill.WriteBill(result.get(i),actualDate, cutDate, months[Integer.parseInt(result.get(0)[13].substring(5,7))-1]);
+            for (int i = 0; i < result.size(); i++) {
+                CreateBill bill = new CreateBill();
+                bill.WriteBill(result.get(i), actualDate, cutDate, months[Integer.parseInt(result.get(0)[13].substring(5, 7)) - 1]);
+            }
+        }catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Debe llenar todos los campos");
         }
 
         JOptionPane.showMessageDialog(null, "Facturas generadas");

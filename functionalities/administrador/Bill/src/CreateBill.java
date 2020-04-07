@@ -9,7 +9,7 @@ import java.util.Vector;
 
 public class CreateBill {
     public void WriteBill(String[] info, String actualDate, String cutDate, String month) {
-        String address;
+        String address = "";
         if (info[29] == null) {
             address = info[27] + " " + info[28];
         } else {
@@ -27,11 +27,6 @@ public class CreateBill {
             logotype.scaleAbsolute(70, 70);
             doc.add(logotype);
 
-            Image logotypeBack = Image.getInstance("functionalities/administrador/Bill/src/assets/images/logotype_background.png");
-            logotypeBack.scaleAbsolute(300,250);
-            logotypeBack.setAbsolutePosition(150, 350);
-            doc.add(logotypeBack);
-
             PdfContentByte pb = writer.getDirectContent();
 
             BaseFont bf = BaseFont.createFont(BaseFont.HELVETICA, BaseFont.CP1252, BaseFont.NOT_EMBEDDED);
@@ -44,7 +39,7 @@ public class CreateBill {
             doc.add(new Paragraph("Cliente: " + info[25]));
             doc.add(new Paragraph("Dirección: " + address));
             doc.add(new Paragraph("Nit o cédula: " + info[18]));
-            doc.add(new Paragraph("Celular: " + info[17] + "                   Tipo plan: " + info[20]));
+            doc.add(new Paragraph("Celular: " + info[12] + "                   Tipo plan: " + info[20]));
             doc.add(new Paragraph("Fecha expedición: " + actualDate));
             doc.add(new Paragraph("Factura de venta No: " + info[0]));
             pb.setFontAndSize(bf, 7);
@@ -237,13 +232,6 @@ public class CreateBill {
             doc.add(Chunk.NEWLINE);
             pb.setTextMatrix(30, 700);
             pb.showText("Tabla de consumo: ");
-            doc.add(Chunk.NEWLINE);
-            doc.add(Chunk.NEWLINE);
-
-            logotypeBack.scaleAbsolute(300,250);
-            logotypeBack.setAbsolutePosition(150, 350);
-            doc.add(logotypeBack);
-
             tabla = new PdfPTable(4);
             cell = new PdfPCell(new Phrase("Consumo datos"));
             tabla.addCell(cell);
@@ -288,7 +276,6 @@ public class CreateBill {
             cell.setBorder(Rectangle.NO_BORDER);
             tabla.addCell(cell);
             tabla.setWidthPercentage(98);
-
             doc.add(tabla);
             doc.add(Chunk.NEWLINE);
 
@@ -343,6 +330,7 @@ public class CreateBill {
             pb.setTextMatrix(460, 502);
             logotype.scalePercent(10);
             logotype.setAbsolutePosition(515, 165);
+          
             pb.addImage(logotype);
             pb.endText();
             Barcode128 code128 = new Barcode128();
@@ -350,11 +338,14 @@ public class CreateBill {
             code128.setCodeType(Barcode128.CODE128);
             Image code128Image = code128.createImageWithBarcode(cb, null, null);
             code128Image.setAbsolutePosition(40, 80);
+
             code128Image.scaleAbsolute(400, 85);
             doc.add(code128Image);
             this.QRCode(info[15]);
             graphic = Image.getInstance("functionalities/administrador/Bill/src/assets/images/QrCode.png");
+
             graphic.setAbsolutePosition(460, 90);
+
             graphic.scaleAbsolute(100, 85);
             doc.add(graphic);
 

@@ -1,4 +1,5 @@
 import DB_Connection.DBConnection;
+import Exceptions.EmptyFieldException;
 import Exceptions.Password_exception;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXPasswordField;
@@ -29,6 +30,11 @@ public class login
     @FXML
     public void log_in(ActionEvent event) throws Exception {
         try {
+
+            String password_entered = tf_pass.getText();
+            if(tf_user.getText().equals("")||password_entered.equals("")){
+                throw new EmptyFieldException("Debes llenar todos los campos");
+            }
             int id_user = Integer.parseInt(tf_user.getText());
             Object[] objectResult = conection.read_DB("SELECT password, roleID from Users " +
                     "WHERE id = '"+id_user+"';");
@@ -40,7 +46,7 @@ public class login
             Vector<String[]> result = (Vector<String[]>) objectResult[1];
             String user_password = result.get(0)[0];
 
-            String password_entered = tf_pass.getText();
+            password_entered = tf_pass.getText();
             try {
                 if (password_entered.equals(user_password) && event.getSource().equals(btn_login)) {
                     btn_login.getScene().getWindow().hide();
@@ -62,16 +68,19 @@ public class login
                 else {
                     throw new Password_exception("Contraseña incorrecta");
                 }
-            } catch (Exception ex) {
+            } catch (Password_exception ex) {
                 JOptionPane.showMessageDialog(null, "Contraseña incorrecta");
+                tf_user.setText("");
                 tf_pass.setText("");
             }
-        } catch (NumberFormatException e){
+        } catch (EmptyFieldException e){
+            JOptionPane.showMessageDialog(null, e.getMessage());
+                tf_pass.setText("");
+        }catch (NumberFormatException e){
             JOptionPane.showMessageDialog(null, "Usuario debe ser numerico");
             tf_user.setText("");
             tf_pass.setText("");
-        }
-        catch (Password_exception e) {
+        }catch (Password_exception e) {
             JOptionPane.showMessageDialog(null, "Error al iniciar sesion:\n"
                     + e.getMessage());
             tf_user.setText("");
