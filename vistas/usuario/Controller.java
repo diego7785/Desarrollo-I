@@ -853,10 +853,8 @@ public class Controller implements Initializable {
             String cutDate = cal.get(Calendar.YEAR) + "/" + months[cal.get(Calendar.MONTH) + 1] + "/05";
 
             CreateBill bill = new CreateBill();
-
-    }
-        bill.WriteBill(result.get(0), actualDate, cutDate, months[Integer.parseInt(result.get(0)[13].substring(5, 7)) - 1]);
-        JOptionPane.showMessageDialog(null, "Factura generada");
+            bill.WriteBill(result.get(0), actualDate, cutDate, months[Integer.parseInt(result.get(0)[13].substring(5, 7)) - 1]);
+            JOptionPane.showMessageDialog(null, "Factura generada");
         }catch (EmptyFieldException e){
             JOptionPane.showMessageDialog(null, e.getMessage());
         }catch (Exception e){
