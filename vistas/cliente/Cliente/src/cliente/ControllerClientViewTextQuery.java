@@ -27,8 +27,7 @@ public class ControllerClientViewTextQuery {
 
     private final String months[]={"Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio",
             "Agosto","Septiembre","Octubre","Noviembre","Diciembre"};
-
-    private String text;
+    
 
     @FXML
     public void initialize()
@@ -55,18 +54,19 @@ public class ControllerClientViewTextQuery {
 
     public void setInfo(Vector<String[]> infoV, String infoPlan[], int type) {
         if (type == 1) {
-            text = "";
-            infoQuery(infoV, infoPlan, 0);
+            String text = infoQuery(infoV, infoPlan, 0);
+            textAreaConsumo.setText(text);
         } else {
-            text = "";
+            String text = "";
             for (int j = 0; j < infoV.size(); j++) {
-                infoQuery(infoV, infoPlan, j);
+                text += infoQuery(infoV, infoPlan, j);
             }
+            textAreaConsumo.setText(text);
 
         }
     }
 
-    public void infoQuery(Vector<String[]> infoV, String infoPlan[], int pos){
+    public String infoQuery(Vector<String[]> infoV, String infoPlan[], int pos){
         String[] info = infoV.get(pos);
         int monthI = Integer.parseInt(info[13].substring(5,7));
         String month = months[monthI-1];
@@ -104,7 +104,8 @@ public class ControllerClientViewTextQuery {
                     "|     Consumo de datos para compartir       |              "+info[9]+" MB\n" +
                     "_______________________________________________________________\n";
         }
-        textAreaConsumo.setText(text);
+
+        return text;
     }
 
 }
