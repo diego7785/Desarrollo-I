@@ -15,6 +15,20 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 
+//
+import javax.activation.DataHandler;
+import javax.activation.DataSource;
+import javax.activation.FileDataSource;
+import javax.mail.*;
+import javax.mail.internet.*;
+import javax.swing.JPanel;
+import java.io.IOException;
+import java.util.Properties;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+//
+
+
 import javax.swing.*;
 import java.awt.*;
 import java.io.EOFException;
@@ -297,6 +311,9 @@ public class Controller implements Initializable {
     private JFXTextField tf_gest_usr_editar_estado_numero;
     @FXML
     private JFXButton gest_usr_editar_est_guardar;
+    //Button for send bill by customer email
+    @FXML
+    private JFXButton gen_fact_send_email_btn;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -833,8 +850,8 @@ public class Controller implements Initializable {
     }
 
     public void handleGen_fact_generar_button(ActionEvent actionEvent){
+
         JOptionPane.showMessageDialog(null, "Generando factura, por favor espere");
-      
         try {
             String tipoCliente = cb_gen_fact_tip_cliente.getSelectionModel().getSelectedItem();
 
@@ -854,7 +871,7 @@ public class Controller implements Initializable {
 
             CreateBill bill = new CreateBill();
             bill.WriteBill(result.get(0), actualDate, cutDate, months[Integer.parseInt(result.get(0)[13].substring(5, 7)) - 1]);
-            JOptionPane.showMessageDialog(null, "Factura generada");
+
         }catch (EmptyFieldException e){
             JOptionPane.showMessageDialog(null, e.getMessage());
         }catch (Exception e){
@@ -882,7 +899,64 @@ public class Controller implements Initializable {
         JOptionPane.showMessageDialog(null, "Facturas generadas");
     }
 
-    public void set_user_id (int id) {
+    public void set_user_id (int id)
+    {
         new_user.set_user_id(id);
     }
+
+    public void send_bill_by_email (String customer_email, String customer_bill) throws MessagingException, IOException {
+        Properties propiedad = new Properties();
+        propiedad.setProperty("mail.smtp.host", "smtp.gmail.com");
+        propiedad.setProperty("mail.smtp.starttls.enable", "true");
+        propiedad.setProperty("mail.smtp.port", "587");
+        propiedad.setProperty("mail.smtp.auth", "true");
+
+        Session sesion = Session.getDefaultInstance(propiedad);
+
+        String correoEnvia = "telefoniaraja@gmail.com";
+        String contrasena = "desarrollo1";
+        String destinatario = customer_email;//"";
+        String asunto = "Su factura mensual de telefonía RAJA";
+        String texto = "Cordial saludo, desde la telefonía RAJA S.A. adjuntamos su factura de este mes";
+
+
+        MimeMessage mail = new MimeMessage(sesion);
+
+        //PDF
+        //Parte del mensaje en texto
+        MimeBodyPart mimeBodyPart = new MimeBodyPart();
+        mimeBodyPart.setText(texto);
+        //Agregar el PDF
+        MimeBodyPart mimeBodyPartAdjunto = new MimeBodyPart();
+        mimeBodyPartAdjunto.attachFile(customer_bill);
+
+        //agregar el texto y PDF al multipart, para mandar el email
+        Multipart multipart = new MimeMultipart();
+        multipart.addBodyPart(mimeBodyPart);
+        multipart.addBodyPart(mimeBodyPartAdjunto);
+        //
+
+        try {
+            mail.setFrom(new InternetAddress (correoEnvia));
+            mail.addRecipient(Message.RecipientType.TO, new InternetAddress(destinatario));
+            mail.setSubject(asunto);
+            mail.setContent(multipart);
+
+            Transport transporte = sesion.getTransport("smtp");
+            transporte.connect(correoEnvia,contrasena);
+            transporte.sendMessage(mail, mail.getRecipients(Message.RecipientType.TO));
+            transporte.close();
+
+            JOptionPane.showMessageDialog(null, "Correo enviado");
+
+        } catch (AddressException ex) {
+            Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (MessagingException ex) {
+            Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }
+
+
+
 }
