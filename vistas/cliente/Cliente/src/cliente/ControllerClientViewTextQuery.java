@@ -27,7 +27,7 @@ public class ControllerClientViewTextQuery {
 
     private final String months[]={"Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio",
             "Agosto","Septiembre","Octubre","Noviembre","Diciembre"};
-    
+
 
     @FXML
     public void initialize()
