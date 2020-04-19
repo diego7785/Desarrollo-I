@@ -309,6 +309,7 @@ public class CreateBill {
             doc.add(Chunk.NEWLINE);
             doc.add(Chunk.NEWLINE);
             doc.add(Chunk.NEWLINE);
+            doc.add(Chunk.NEWLINE);
 
             doc.add(new Paragraph("......................................................................................."
                     + "....................................................................."));
