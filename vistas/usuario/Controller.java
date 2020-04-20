@@ -9,19 +9,38 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
+import javafx.stage.StageStyle;
+
 
 import javax.swing.*;
 import java.awt.*;
 import java.io.EOFException;
+import java.io.File;
 import java.lang.reflect.Array;
 import java.net.URL;
 import java.util.*;
 import java.util.List;
+
+import javax.activation.DataHandler;
+import javax.activation.DataSource;
+import javax.activation.FileDataSource;
+import javax.mail.*;
+import javax.mail.internet.*;
+import javax.swing.JPanel;
+import java.io.IOException;
+import java.util.Properties;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class Controller implements Initializable {
 
@@ -103,7 +122,7 @@ public class Controller implements Initializable {
     @FXML
     private ImageView generar_factura;
     @FXML
-    private ImageView salir;
+    private  ImageView cerrar_sesion;
     @FXML
     private AnchorPane pane_generar_facturas;
     @FXML
@@ -297,6 +316,12 @@ public class Controller implements Initializable {
     private JFXTextField tf_gest_usr_editar_estado_numero;
     @FXML
     private JFXButton gest_usr_editar_est_guardar;
+    @FXML
+    private VBox cerrar_sesion_vbox;
+    @FXML
+    private Label cerrar_sesion_label;
+    @FXML
+    private Label salir_label;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -306,8 +331,9 @@ public class Controller implements Initializable {
                 generar_factura.setVisible(false);
                 agregar_user.setVisible(false);
                 pane_ventas.setVisible(true);
-                titulo_label.setText("  Agregar cliente");
-                titulo_label.setLayoutX(46);
+                cerrar_sesion_vbox.setVisible(false);
+                titulo_label.setText("    Agregar venta");
+                titulo_label.setLayoutX(35);
 
             }
             else if (new_user.get_user_rol() == 3) {
@@ -315,6 +341,7 @@ public class Controller implements Initializable {
                 generar_reporte.setVisible(false);
                 generar_factura.setVisible(false);
                 agregar_user.setVisible(false);
+                cerrar_sesion_vbox.setVisible(false);
                 pane_pagar.setVisible(true);
                 titulo_label.setText("   Realizar pagos");
                 titulo_label.setLayoutX(311);
@@ -323,6 +350,7 @@ public class Controller implements Initializable {
                 realizar_venta.setVisible(false);
                 generar_reporte.setVisible(false);
                 realizar_pagos.setVisible(false);
+                cerrar_sesion_vbox.setVisible(false);
                 pane_generar_facturas.setVisible(true);
                 titulo_label.setText(" Generar facturas");
                 titulo_label.setLayoutX(445);
@@ -378,23 +406,26 @@ public class Controller implements Initializable {
             realizar_pagos.setVisible(false);
             generar_factura.setVisible(false);
             agregar_user.setVisible(false);
+            cerrar_sesion_vbox.setVisible(false);
 
             if (event.getSource().equals(realizar_venta)) {
                 pane_generar_reporte.setVisible(false);
                 pane_ventas.setVisible(true);
-                titulo_label.setText("  Agregar cliente");
-                titulo_label.setLayoutX(46);
+                titulo_label.setText("    Agregar venta");
+                titulo_label.setLayoutX(35);
                 pane_ventas_antiguo.setVisible(false);
                 pane_ventas_nuevo.setVisible(false);
+                cerrar_sesion_vbox.setVisible(false);
             }
 
             if (event.getSource().equals(generar_reporte)) {
                 pane_generar_reporte.setVisible(true);
                 pane_gestionar_usuarios.setVisible(false);
                 titulo_label.setText(" Generar reportes");
-                titulo_label.setLayoutX(173);
+                titulo_label.setLayoutX(161);
                 pane_gen_rep_pnat.setVisible(false);
                 pane_gen_rep_corp.setVisible(false);
+                cerrar_sesion_vbox.setVisible(false);
             }
         }
         else if (new_user.get_user_rol() == 3) {
@@ -402,6 +433,7 @@ public class Controller implements Initializable {
             generar_reporte.setVisible(false);
             generar_factura.setVisible(false);
             agregar_user.setVisible(false);
+            cerrar_sesion_vbox.setVisible(false);
 
             if (event.getSource().equals(realizar_pagos)) {
                 pane_pagar.setVisible(true);
@@ -409,12 +441,14 @@ public class Controller implements Initializable {
                 titulo_label.setLayoutX(311);
                 pane_pagar_linea.setVisible(false);
                 pane_pagar_cliente.setVisible(false);
+                cerrar_sesion_vbox.setVisible(false);
             }
         }
         else if(new_user.get_user_rol() == 1){
             realizar_venta.setVisible(false);
             generar_reporte.setVisible(false);
             realizar_pagos.setVisible(false);
+            cerrar_sesion_vbox.setVisible(false);
 
             if (event.getSource().equals(generar_factura)) {
                 pane_generar_facturas.setVisible(true);
@@ -427,21 +461,44 @@ public class Controller implements Initializable {
                 pane_gest_usr_editar.setVisible(false);
                 pane_gest_usr_cambiar_estado.setVisible(false);
                 pane_gest_usr_listar.setVisible(false);
+                cerrar_sesion_vbox.setVisible(false);
             }
 
             if (event.getSource().equals(agregar_user)) {
                 pane_generar_facturas.setVisible(false);
                 pane_gestionar_usuarios.setVisible(true);
-                titulo_label.setText("Gestión usuarios");
+                cerrar_sesion_vbox.setVisible(false);
+                titulo_label.setText("  Gestión usuarios");
                 titulo_label.setLayoutX(580);
             }
         }
     }
 
     @FXML
+    public void cerrar_sesion(MouseEvent event) throws Exception {
+        cerrar_sesion_vbox.setVisible(true);
+        if (event.getSource().equals(cerrar_sesion_label))
+        {
+            try {
+                Stage log = (Stage) cerrar_sesion_label.getScene().getWindow();
+                log.close();
+                Parent root = FXMLLoader.load(getClass().getResource("Login.fxml"));
+                Stage primaryStage = new Stage();
+                primaryStage.setTitle("Log In");
+
+                primaryStage.setScene(new Scene(root));
+                primaryStage.show();
+            } catch (IOException ex) {
+                System.out.println(ex);
+            }
+        }
+    }
+
+    @FXML
     public void log_out(MouseEvent event) {
-        if(event.getSource().equals(salir)) {
-            int user_answer = JOptionPane.showConfirmDialog(null, "¿Seguro desea cerrar la sesion?", "¡Alerta!", JOptionPane.YES_NO_OPTION);
+        if(event.getSource().equals(salir_label)) {
+            cerrar_sesion_vbox.setVisible(false);
+            int user_answer = JOptionPane.showConfirmDialog(null, "¿Desea cerrar el programa?", "¡Alerta!", JOptionPane.YES_NO_OPTION);
             if (user_answer == 0) {
                 System.exit(0);
             }
@@ -651,6 +708,7 @@ public class Controller implements Initializable {
             pane_gest_usr_editar.setVisible(false);
             pane_gest_usr_cambiar_estado.setVisible(false);
             pane_gest_usr_listar.setVisible(false);
+            cerrar_sesion_vbox.setVisible(false);
             titulo_label.setText(" Añadir usuarios");
             titulo_label.setLayoutX(580);
         }
@@ -662,7 +720,8 @@ public class Controller implements Initializable {
             pane_gest_usr_editar.setVisible(false);
             pane_gest_usr_cambiar_estado.setVisible(false);
             pane_gest_usr_listar.setVisible(false);
-            titulo_label.setText("Gestión usuarios");
+            cerrar_sesion_vbox.setVisible(false);
+            titulo_label.setText("  Gestión usuarios");
             titulo_label.setLayoutX(580);
         }
 
@@ -673,6 +732,7 @@ public class Controller implements Initializable {
             pane_gest_usr_editar.setVisible(true);
             pane_gest_usr_cambiar_estado.setVisible(false);
             pane_gest_usr_listar.setVisible(false);
+            cerrar_sesion_vbox.setVisible(false);
             titulo_label.setText(" Editar usuarios");
             titulo_label.setLayoutX(580);
             pane_edit_campos.setVisible(false);
@@ -685,6 +745,7 @@ public class Controller implements Initializable {
             pane_gest_usr_editar.setVisible(false);
             pane_gest_usr_cambiar_estado.setVisible(true);
             pane_gest_usr_listar.setVisible(false);
+            cerrar_sesion_vbox.setVisible(false);
             titulo_label.setText(" Cambiar estado");
             titulo_label.setLayoutX(580);
             pane_estado_campos.setVisible(false);
@@ -698,6 +759,7 @@ public class Controller implements Initializable {
             pane_gest_usr_editar.setVisible(false);
             pane_gest_usr_cambiar_estado.setVisible(false);
             pane_gest_usr_listar.setVisible(true);
+            cerrar_sesion_vbox.setVisible(false);
             titulo_label.setText(" Listar usuarios");
             titulo_label.setLayoutX(580);
         }
@@ -707,11 +769,13 @@ public class Controller implements Initializable {
         if (event.getSource().equals(gen_rep_corporativo)) {
             pane_gen_rep_pnat.setVisible(false);
             pane_gen_rep_corp.setVisible(true);
+            cerrar_sesion_vbox.setVisible(false);
         }
 
         if (event.getSource().equals(gen_rep_persona_nat)) {
             pane_gen_rep_pnat.setVisible(true);
             pane_gen_rep_corp.setVisible(false);
+            cerrar_sesion_vbox.setVisible(false);
         }
     }
 
@@ -719,11 +783,13 @@ public class Controller implements Initializable {
         if(event.getSource().equals(gen_fact_colectiva)) {
             pane_gen_fact_individual.setVisible(false);
             pane_gen_fact_colectiva.setVisible(true);
+            cerrar_sesion_vbox.setVisible(false);
         }
 
         if(event.getSource().equals(gen_fact_individual)) {
             pane_gen_fact_individual.setVisible(true);
             pane_gen_fact_colectiva.setVisible(false);
+            cerrar_sesion_vbox.setVisible(false);
         }
     }
 
@@ -731,17 +797,21 @@ public class Controller implements Initializable {
         if(event.getSource().equals(pagar_cliente)) {
             pane_pagar_linea.setVisible(false);
             pane_pagar_cliente.setVisible(true);
+            cerrar_sesion_vbox.setVisible(false);
         }
 
         if(event.getSource().equals(pagar_linea)) {
             pane_pagar_linea.setVisible(true);
             pane_pagar_cliente.setVisible(false);
+            cerrar_sesion_vbox.setVisible(false);
         }
+
     }
 
     public void buscar_edit(ActionEvent event){
         try {
             if (event.getSource().equals(gest_usr_editar_btn_buscar)) {
+                cerrar_sesion_vbox.setVisible(false);
                 String documentNumber = tf_gest_usr_editar_numero.getText();
 
                 if (documentNumber.isBlank()) {
@@ -752,6 +822,7 @@ public class Controller implements Initializable {
                 pane_edit_campos.setVisible(true);
 
                 if (event.getSource().equals(gest_usr_editar_btn_guardar)) {
+                    cerrar_sesion_vbox.setVisible(false);
                     String rol = Integer.toString(cb_edit_user_rol.getSelectionModel().getSelectedIndex() + 1);
 
                     String nombres = tf_gest_usr_cambiar_nombre.getText();
@@ -792,6 +863,7 @@ public class Controller implements Initializable {
     public void buscar_estado(ActionEvent event){
         try {
             if (event.getSource().equals(gest_usr_estado_btn_buscar)) {
+                cerrar_sesion_vbox.setVisible(false);
                 String documentNumber = tf_gest_usr_editar_estado_numero.getText();
 
                 if(documentNumber.isBlank()){
@@ -804,6 +876,7 @@ public class Controller implements Initializable {
                     pane_estado_est.setVisible(true);
 
                     if (event.getSource().equals("nameButton")) {
+                        cerrar_sesion_vbox.setVisible(false);
                         String rol = Integer.toString(gest_usr_editar_rol_ComboBox1.getSelectionModel().getSelectedIndex() + 1);
                         if (connection.modify_DB("UPDATE user SET rolid='" + rol + "' WHERE id='" + documentNumber + "';")) {
                             JOptionPane.showMessageDialog(null, "Actualizacion realizada correctamente");
@@ -824,11 +897,13 @@ public class Controller implements Initializable {
         if(event.getSource().equals(ventas_cliente_ant_Image)) {
             pane_ventas_antiguo.setVisible(true);
             pane_ventas_nuevo.setVisible(false);
+            cerrar_sesion_vbox.setVisible(false);
         }
 
         if(event.getSource().equals(ventas_cliente_nue_Image)) {
             pane_ventas_antiguo.setVisible(false);
             pane_ventas_nuevo.setVisible(true);
+            cerrar_sesion_vbox.setVisible(false);
         }
     }
 
@@ -836,6 +911,11 @@ public class Controller implements Initializable {
         JOptionPane.showMessageDialog(null, "Generando factura, por favor espere");
       
         try {
+         /*Booleano para representar si el cliente quiere factura en el correo o a la dirección
+        Se supone que se debe sacar de la bdd pero aún no está. True si quiere factura electrónica, falso si no*/
+
+            Boolean electronic_bill = true;
+
             String tipoCliente = cb_gen_fact_tip_cliente.getSelectionModel().getSelectedItem();
 
             if(gen_fact_id_TextField.getText().isBlank() || gen_fact_linea_TextField.getText().isBlank()){
@@ -853,16 +933,31 @@ public class Controller implements Initializable {
             String cutDate = cal.get(Calendar.YEAR) + "/" + months[cal.get(Calendar.MONTH) + 1] + "/05";
 
             CreateBill bill = new CreateBill();
-            bill.WriteBill(result.get(0), actualDate, cutDate, months[Integer.parseInt(result.get(0)[13].substring(5, 7)) - 1]);
-            JOptionPane.showMessageDialog(null, "Factura generada");
+            String path_file;
+            path_file = bill.WriteBill(result.get(0),actualDate, cutDate, months[Integer.parseInt(result.get(0)[13].substring(5, 7)) - 1]);
+
+            //Condicional para arrojar un mensaje de como fue enviada la factura del cliente. En este paso, se envia por mail
+            if (electronic_bill)
+            {
+                Object[] customer = connection.read_DB("SELECT email FROM Customer WHERE id = '"+document+"';");
+                Vector<String[]> resultado = (Vector<String[]>) customer[1];
+                String email = resultado.get(0)[0];
+                String name_bill = path_file+"/bill"+number+".pdf";
+                send_bill_by_email(email,name_bill);
+            }
+            else
+            {
+                JOptionPane.showMessageDialog(null, "Factura generada. Lista para imprimir");
+            }
+
         }catch (EmptyFieldException e){
-            JOptionPane.showMessageDialog(null, e.getMessage());
-        }catch (Exception e){
             JOptionPane.showMessageDialog(null, "Debe llenar todos los campos");
+        }catch (Exception e){
+            JOptionPane.showMessageDialog(null, "No hay registros para este mes");
         }
     }
 
-    public void handleGen_fact_generar_colect_button(ActionEvent actionEvent){
+    public void handleGen_fact_generar_colect_button(ActionEvent actionEvent) throws IOException, MessagingException {
       JOptionPane.showMessageDialog(null, "Generando facturas, por favor espere");
         try {
             Object[] infoHeaderBill = connection.read_DB("SELECT * FROM Bill, Lines, Customer WHERE number=linenumber AND customerid=Customer.id AND EXTRACT(YEAR FROM date) = " + cal.get(Calendar.YEAR) + " AND EXTRACT(MONTH FROM date) = " + (cal.get(Calendar.MONTH) + 1) + ";");
@@ -870,13 +965,34 @@ public class Controller implements Initializable {
 
             String actualDate = cal.get(Calendar.YEAR) + "/" + months[cal.get(Calendar.MONTH)];
             String cutDate = cal.get(Calendar.YEAR) + "/" + months[cal.get(Calendar.MONTH) + 1] + "/05";
+            String path_name;
 
             for (int i = 0; i < result.size(); i++) {
+
                 CreateBill bill = new CreateBill();
-                bill.WriteBill(result.get(i), actualDate, cutDate, months[Integer.parseInt(result.get(0)[13].substring(5, 7)) - 1]);
+                path_name = bill.WriteBill(result.get(i),actualDate, cutDate, months[Integer.parseInt(result.get(0)[13].substring(5, 7)) - 1]);
+
+                String line_number = result.get(i)[12];
+
+                /*Booleano para representar si el cliente quiere factura en el correo o a la dirección
+                Se supone que se debe sacar de la bdd pero aún no está. True si quiere factura electrónica, falso si no*/
+
+                Boolean electronic_bill = true;
+
+                if (electronic_bill)
+                {
+                    Object[] customer = connection.read_DB("SELECT email FROM lines INNER JOIN customer ON lines.customerID = customer.id WHERE lines.number = '"+line_number+"';");
+                    Vector<String[]> resultado = (Vector<String[]>) customer[1];
+                    String email = resultado.get(0)[0];
+                    send_bill_by_email(email,path_name+"/bill"+line_number+".pdf");
+                }
+                else
+                {
+                    JOptionPane.showMessageDialog(null, "Factura generada. Lista para imprimir");
+                }
             }
         }catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Debe llenar todos los campos");
+            JOptionPane.showMessageDialog(null, e.getMessage());
         }
 
         JOptionPane.showMessageDialog(null, "Facturas generadas");
@@ -884,5 +1000,58 @@ public class Controller implements Initializable {
 
     public void set_user_id (int id) {
         new_user.set_user_id(id);
+    }
+
+    public void send_bill_by_email (String customer_email,String customer_bill) throws MessagingException, IOException {
+        Properties propiedad = new Properties();
+        propiedad.setProperty("mail.smtp.host", "smtp.gmail.com");
+        propiedad.setProperty("mail.smtp.starttls.enable", "true");
+        propiedad.setProperty("mail.smtp.port", "587");
+        propiedad.setProperty("mail.smtp.auth", "true");
+
+        Session sesion = Session.getDefaultInstance(propiedad);
+
+        String correoEnvia = "telefoniaraja@gmail.com";
+        String contrasena = "desarrollo1";
+        String destinatario = customer_email;
+        String asunto = "Su factura mensual de telefonía RAJA";
+        String texto = "Cordial saludo, desde la telefonía RAJA S.A. adjuntamos su factura de este mes";
+
+
+        MimeMessage mail = new MimeMessage(sesion);
+
+        //PDF
+        //Parte del mensaje en texto
+        MimeBodyPart mimeBodyPart = new MimeBodyPart();
+        mimeBodyPart.setText(texto);
+        //Agregar el PDF
+        MimeBodyPart mimeBodyPartAdjunto = new MimeBodyPart();
+        mimeBodyPartAdjunto.attachFile("/home/angelica/IdeaProjects/Desarrollo-I/"+customer_bill);
+
+        //agregar el texto y PDF al multipart, para mandar el email
+        Multipart multipart = new MimeMultipart();
+        multipart.addBodyPart(mimeBodyPart);
+        multipart.addBodyPart(mimeBodyPartAdjunto);
+        //
+
+        try {
+            mail.setFrom(new InternetAddress (correoEnvia));
+            mail.addRecipient(Message.RecipientType.TO, new InternetAddress(destinatario));
+            mail.setSubject(asunto);
+            mail.setContent(multipart);
+
+            Transport transporte = sesion.getTransport("smtp");
+            transporte.connect(correoEnvia,contrasena);
+            transporte.sendMessage(mail, mail.getRecipients(Message.RecipientType.TO));
+            transporte.close();
+
+            JOptionPane.showMessageDialog(null, "Factura generada. Fue enviada al email del cliente");
+
+        } catch (AddressException ex) {
+            Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (MessagingException ex) {
+            Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
     }
 }
