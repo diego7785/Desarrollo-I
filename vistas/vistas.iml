@@ -13,5 +13,7 @@
     <orderEntry type="module" module-name="functionalities" />
     <orderEntry type="library" name="postgresql-42.2.11" level="project" />
     <orderEntry type="module" module-name="database" />
+    <orderEntry type="library" name="mail" level="project" />
+    <orderEntry type="library" name="javax.activation-1.2.01" level="project" />
   </component>
 </module>

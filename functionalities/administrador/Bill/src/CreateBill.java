@@ -3,12 +3,40 @@ import com.itextpdf.text.*;
 import com.itextpdf.text.pdf.*;
 import org.w3c.dom.css.Rect;
 
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.Calendar;
 import java.util.Vector;
 
 public class CreateBill {
-    public void WriteBill(String[] info, String actualDate, String cutDate, String month) {
+    public String WriteBill(String[] info,String actualDate, String cutDate, String month) {
+        Calendar cal = Calendar.getInstance();
+        Integer actual_year = cal.get(Calendar.YEAR) ;
+
+        Boolean electronic_bill = false;
+        File directorio;
+
+        if(electronic_bill)
+        {
+            directorio = new File("./Bills/Bills sended by email/"+actual_year+"/"+month);
+        }
+        else
+        {
+            directorio = new File("./Bills/Bills to send home/"+actual_year+"/"+month);
+        }
+
+        if (!directorio.exists())
+        {
+            if (directorio.mkdirs())
+            {
+                System.out.println("Directorio creado");
+            }
+            else
+            {
+                System.out.println("Error al crear directorio");
+            }
+        }
         String address = "";
         if (info[29] == null) {
             address = info[27] + " " + info[28];
@@ -18,7 +46,7 @@ public class CreateBill {
         int plan = Integer.parseInt(info[20]);
 
         try {
-            FileOutputStream file = new FileOutputStream("bill" + info[12] + ".pdf");
+            FileOutputStream file = new FileOutputStream(directorio.getPath()+"/bill" + info[12]+".pdf");
             Document doc = new Document();
             PdfWriter writer = PdfWriter.getInstance(doc, file);
             Image logotype = Image.getInstance("functionalities/administrador/Bill/src/assets/images/logotype.png");
@@ -375,6 +403,7 @@ public class CreateBill {
         } catch (Exception e) {
             System.out.println("Something went wrong " + e);
         }
+        return directorio.getPath();
     }
 
     public void Graphic(String[] consume, int type) {
@@ -390,4 +419,5 @@ public class CreateBill {
             System.out.println("Could not generate QR Code, IOException :: " + e.getMessage());
         }
     }
+
 }
