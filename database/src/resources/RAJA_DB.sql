@@ -1,7 +1,20 @@
 -- POSTGRESQL VERSION
 -- PostgreSQL 12.2 - 64-bits
 -- ***********************************************************************************
--- ******************************BASE DE DATOS V6*************************************
+-- ******************************BASE DE DATOS V7*************************************
+DROP TRIGGER IF EXISTS tr_codificate_role ON Roles;
+DROP TRIGGER IF EXISTS tr_codificate_plan ON Plan;
+DROP TRIGGER IF EXISTS tr_codificate_typeid ON Type_IDCustomer;
+DROP TRIGGER IF EXISTS tr_generate_bill ON Bill;
+DROP TRIGGER IF EXISTS tr_extend_plan ON Bill;
+
+
+DROP FUNCTION IF EXISTS codificate_role;
+DROP FUNCTION IF EXISTS codificate_plan;
+DROP FUNCTION IF EXISTS codificate_typeid;
+DROP FUNCTION IF EXISTS generate_bill;
+DROP FUNCTION IF EXISTS generate_all_bills;
+DROP FUNCTION IF EXISTS extend_plan;
 
 DROP TABLE IF EXISTS Bill;
 DROP TABLE IF EXISTS Lines;
@@ -12,7 +25,6 @@ DROP TABLE IF EXISTS Users;
 DROP TABLE IF EXISTS Roles;
 DROP TABLE IF EXISTS DB_version;
 
-DROP SEQUENCE IF EXISTS secuencia1;
 DROP SEQUENCE IF EXISTS seq_id_bill;
 DROP SEQUENCE IF EXISTS seq_id_role;
 DROP SEQUENCE IF EXISTS seq_id_typeid;
@@ -28,7 +40,7 @@ CREATE TABLE DB_version (
 	version INT,
 	CONSTRAINT pk_db_version PRIMARY KEY (version)
 );
-INSERT INTO DB_version VALUES(6);
+INSERT INTO DB_version VALUES(7);
 
 CREATE TABLE Roles (
 	id INT,
@@ -47,7 +59,7 @@ CREATE TABLE Users (
 		REFERENCES Roles(id) ON UPDATE CASCADE ON DELETE RESTRICT
 );
 CREATE TABLE Type_IDCustomer(
-	id INT DEFAULT NEXTVAL('seq_id_typeid'),
+	id INT,
 	name VARCHAR(25) NOT NULL,
 	CONSTRAINT pk_type_user PRIMARY KEY (id)
 );
@@ -64,7 +76,7 @@ CREATE TABLE Customer (
 		REFERENCES Type_IDCustomer(id) ON UPDATE CASCADE ON DELETE RESTRICT
 );
 CREATE TABLE Plan (
-	id INT DEFAULT NEXTVAL('seq_id_plan'),
+	id INT,
 	cost INT NOT NULL,
 	minutes INT NOT NULL,
 	dataPlan INT NOT NULL,
@@ -76,6 +88,8 @@ CREATE TABLE Plan (
 	minutes_international INT NOT NULL,
 	data_shared INT NOT NULL,
 	description VARCHAR(200),
+	additional_minute INT,
+	additional_minutewp INT,
 	CONSTRAINT pk_plan PRIMARY KEY (id)
 );
 CREATE TABLE Lines (
@@ -85,6 +99,7 @@ CREATE TABLE Lines (
 	planID INT,
 	userID VARCHAR(20) NOT NULL,
 	status BOOLEAN NOT NULL DEFAULT TRUE,
+	physicalBill BOOLEAN DEFAULT FALSE,
 	CONSTRAINT pk_line PRIMARY KEY (number),
 	CONSTRAINT fk_linecustomer FOREIGN KEY (customerID,customerIDtype) 
 		REFERENCES Customer(id,typeID) ON UPDATE CASCADE ON DELETE RESTRICT,
@@ -94,34 +109,38 @@ CREATE TABLE Lines (
 		REFERENCES Users(id) ON UPDATE CASCADE ON DELETE RESTRICT
 );
 CREATE TABLE Bill (
-	id INT DEFAULT NEXTVAL('seq_id_bill'),
-	data_consuption DECIMAL(7,2) NOT NULL,
-	minutes_consuption INT NOT NULL,
-	sms_consuption INT NOT NULL,
-	data_wpp DECIMAL(7,2) NOT NULL,
-	minutes_wpp INT NOT NULL,
-	data_fb DECIMAL(7,2) NOT NULL,
-	data_waze DECIMAL(7,2) NOT NULL,
-	minutes_international INT NOT NULL,
-	data_shared DECIMAL(7,2) NOT NULL,
+	id INT,
+	data_consuption DECIMAL(7,2),
+	minutes_consuption INT,
+	sms_consuption INT,
+	data_wpp DECIMAL(7,2),
+	minutes_wpp INT,
+	data_fb DECIMAL(7,2),
+	data_waze DECIMAL(7,2),
+	minutes_international INT,
+	data_shared DECIMAL(7,2),
 	place_payment VARCHAR(20),
-	price INT NOT NULL,
+	price INT,
+	plan_ext INT DEFAULT 0,
 	lineNumber VARCHAR(10) NOT NULL,
-	date date NOT NULL,
-	userID VARCHAR(20) NOT NULL,
-	numberForPay VARCHAR(28) NOT NULL,
-	status BOOLEAN NOT NULL DEFAULT FALSE,
+	date_pdf DATE,
+	date_pay DATE,
+	userID VARCHAR(20),
+	numberForPay VARCHAR(28),
+	status BOOLEAN DEFAULT FALSE,
 	CONSTRAINT pk_comsumption PRIMARY KEY (id),
 	CONSTRAINT fk_consumptionline FOREIGN KEY (lineNumber) 
 		REFERENCES Lines(number) ON UPDATE CASCADE ON DELETE RESTRICT,
 	CONSTRAINT fk_billuser FOREIGN KEY (userID) 
 		REFERENCES Users(id) ON UPDATE CASCADE ON DELETE RESTRICT
 );
+-- date_pdf ES LA FECHA QUE SE GENERARA EL PDF Y date_pay ES LA FECHA DE CORTE
+
 -- *******************************************************************
 -- **************************VISTAS**********************************
 -- ******************************************************************
 -- ******************PROCEDIMIENTOS ALMACENADOS**********************
-CREATE OR REPLACE FUNCTION codificate_role() RETURNS TRIGGER AS $$
+CREATE FUNCTION codificate_role() RETURNS TRIGGER AS $$
 DECLARE
 BEGIN
 	NEW.id := NEXTVAL('seq_id_role');
@@ -129,38 +148,26 @@ BEGIN
 END
 $$ LANGUAGE plpgsql;
 
-DROP TRIGGER IF EXISTS tr_codificate_role ON Roles;
 CREATE TRIGGER tr_codificate_role BEFORE INSERT 
 ON Roles FOR EACH ROW 
 EXECUTE PROCEDURE codificate_role();
 
-CREATE OR REPLACE FUNCTION codificate_plan() RETURNS TRIGGER AS $$
+
+CREATE FUNCTION codificate_plan() RETURNS TRIGGER AS $$
 DECLARE
 BEGIN
 	NEW.id := NEXTVAL('seq_id_plan');
+	NEW.additional_minute := NEW.cost / NEW.minutes;
 	RETURN NEW;
 END
 $$ LANGUAGE plpgsql;
 
-DROP TRIGGER IF EXISTS tr_codificate_plan ON Plan;
 CREATE TRIGGER tr_codificate_plan BEFORE INSERT 
 ON Plan FOR EACH ROW 
 EXECUTE PROCEDURE codificate_plan();
 
-CREATE OR REPLACE FUNCTION codificate_bill() RETURNS TRIGGER AS $$
-DECLARE
-BEGIN
-	NEW.id := NEXTVAL('seq_id_bill');
-	RETURN NEW;
-END
-$$ LANGUAGE plpgsql;
 
-DROP TRIGGER IF EXISTS tr_codificate_bill ON Bill;
-CREATE TRIGGER tr_codificate_bill BEFORE INSERT 
-ON Bill FOR EACH ROW 
-EXECUTE PROCEDURE codificate_bill();
-
-CREATE OR REPLACE FUNCTION codificate_typeid() RETURNS TRIGGER AS $$
+CREATE FUNCTION codificate_typeid() RETURNS TRIGGER AS $$
 DECLARE
 BEGIN
 	NEW.id := NEXTVAL('seq_id_typeid');
@@ -168,31 +175,151 @@ BEGIN
 END
 $$ LANGUAGE plpgsql;
 
-DROP TRIGGER IF EXISTS tr_codificate_typeid ON Type_IDCustomer;
 CREATE TRIGGER tr_codificate_typeid BEFORE INSERT 
 ON Type_IDCustomer FOR EACH ROW 
 EXECUTE PROCEDURE codificate_typeid();
+
+CREATE FUNCTION generate_bill() RETURNS TRIGGER AS $$
+DECLARE
+	Fecha_C DATE;
+	id_C VARCHAR;
+BEGIN
+	Fecha_C := to_date(to_char(LOCALTIMESTAMP - INTERVAL '5 hours','YYYY-MM-DD'),'YYYY-MM-DD');
+	IF NEW.id IS NULL THEN
+		NEW.date_pdf := to_date(to_char(Fecha_C,'YYYY-')|| extract(month from Fecha_C)+2 || '-01','YYYY-MM-DD')-1;
+		NEW.date_pay := to_date(to_char(Fecha_C,'YYYY-')|| extract(month from Fecha_C)+2 || '-05','YYYY-MM-DD');
+	ELSE
+		NEW.date_pdf := to_date(to_char(Fecha_C,'YYYY-')|| extract(month from Fecha_C)+1 || '-01','YYYY-MM-DD')-1;
+		NEW.date_pay := to_date(to_char(Fecha_C,'YYYY-')|| extract(month from Fecha_C)+1 || '-05','YYYY-MM-DD');
+	END IF;
+	NEW.minutes_consuption := (SELECT Plan.minutes FROM Lines INNER JOIN Plan 
+				ON Lines.planID = Plan.id WHERE Lines.number = NEW.lineNumber);
+	NEW.data_consuption := (SELECT Plan.dataplan FROM Lines INNER JOIN Plan 
+				ON Lines.planID = Plan.id WHERE Lines.number = NEW.lineNumber);
+	NEW.sms_consuption := (SELECT Plan.messages FROM Lines INNER JOIN Plan 
+				ON Lines.planID = Plan.id WHERE Lines.number = NEW.lineNumber);
+	NEW.data_wpp := (SELECT Plan.data_wpp FROM Lines INNER JOIN Plan 
+				ON Lines.planID = Plan.id WHERE Lines.number = NEW.lineNumber);
+	NEW.minutes_wpp := (SELECT Plan.minutes_wpp FROM Lines INNER JOIN Plan 
+				ON Lines.planID = Plan.id WHERE Lines.number = NEW.lineNumber);
+	NEW.data_fb := (SELECT Plan.data_fb FROM Lines INNER JOIN Plan 
+				ON Lines.planID = Plan.id WHERE Lines.number = NEW.lineNumber);
+	NEW.data_waze := (SELECT Plan.data_waze FROM Lines INNER JOIN Plan 
+				ON Lines.planID = Plan.id WHERE Lines.number = NEW.lineNumber);
+	NEW.minutes_international := (SELECT Plan.minutes_international FROM Lines INNER JOIN Plan 
+				ON Lines.planID = Plan.id WHERE Lines.number = NEW.lineNumber);
+	NEW.data_shared := (SELECT Plan.data_shared FROM Lines INNER JOIN Plan 
+				ON Lines.planID = Plan.id WHERE Lines.number = NEW.lineNumber);
+	NEW.price := (SELECT Plan.cost FROM Lines INNER JOIN Plan 
+				ON Lines.planID = Plan.id WHERE Lines.number = NEW.lineNumber);
+	id_C := (SELECT CustomerID FROM Lines WHERE number = NEW.lineNumber);
+	NEW.id := NEXTVAL('seq_id_bill');
+	NEW.numberForPay := (id_C||NEW.lineNumber||to_char(NEW.date_pdf,'YYYYMMDD'));
+	RETURN NEW;
+END
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER tr_generate_bill BEFORE INSERT 
+ON Bill FOR EACH ROW 
+EXECUTE PROCEDURE generate_bill();
+
+
+CREATE FUNCTION extend_plan() RETURNS TRIGGER AS $$
+BEGIN
+	IF NEW.plan_ext = 1 THEN
+		NEW.plan_ext := -1;
+		NEW.price := OLD.price +
+			((SELECT Plan.cost FROM Lines INNER JOIN Plan 
+				ON Lines.planID = Plan.id WHERE Lines.number = NEW.lineNumber)*0.5);
+		IF OLD.minutes_consuption != -1 THEN
+			NEW.minutes_consuption := OLD.minutes_consuption + 
+				(SELECT Plan.minutes FROM Lines INNER JOIN Plan 
+					ON Lines.planID = Plan.id WHERE Lines.number = NEW.lineNumber);
+		END IF;
+		IF OLD.data_consuption != -1 THEN
+			NEW.data_consuption := OLD.data_consuption +
+				(SELECT Plan.dataplan FROM Lines INNER JOIN Plan 
+					ON Lines.planID = Plan.id WHERE Lines.number = NEW.lineNumber);
+		END IF;
+		IF OLD.sms_consuption != -1 THEN
+			NEW.sms_consuption := OLD.sms_consuption +
+				(SELECT Plan.messages FROM Lines INNER JOIN Plan 
+					ON Lines.planID = Plan.id WHERE Lines.number = NEW.lineNumber);
+		END IF;
+		IF OLD.data_wpp != -1 THEN
+			NEW.data_wpp := OLD.data_wpp +
+				(SELECT Plan.data_wpp FROM Lines INNER JOIN Plan 
+					ON Lines.planID = Plan.id WHERE Lines.number = NEW.lineNumber);
+		END IF;
+		IF OLD.minutes_wpp != -1 THEN
+			NEW.minutes_wpp := OLD.minutes_wpp + 
+				(SELECT Plan.minutes_wpp FROM Lines INNER JOIN Plan 
+					ON Lines.planID = Plan.id WHERE Lines.number = NEW.lineNumber);
+		END IF;
+		IF OLD.data_fb != -1 THEN
+			NEW.data_fb := OLD.data_fb +
+				(SELECT Plan.data_fb FROM Lines INNER JOIN Plan 
+					ON Lines.planID = Plan.id WHERE Lines.number = NEW.lineNumber);
+		END IF;
+		IF OLD.data_waze != -1 THEN
+			NEW.data_waze := OLD.data_waze +
+				(SELECT Plan.data_waze FROM Lines INNER JOIN Plan 
+					ON Lines.planID = Plan.id WHERE Lines.number = NEW.lineNumber);
+		END IF;
+		IF OLD.minutes_international != -1 THEN
+			NEW.minutes_international := OLD.minutes_international +
+				(SELECT Plan.minutes_international FROM Lines INNER JOIN Plan 
+					ON Lines.planID = Plan.id WHERE Lines.number = NEW.lineNumber);
+		END IF;
+		IF OLD.data_shared != -1 THEN
+			NEW.data_shared := OLD.data_shared +
+				(SELECT Plan.data_shared FROM Lines INNER JOIN Plan 
+					ON Lines.planID = Plan.id WHERE Lines.number = NEW.lineNumber);
+		END IF;
+	END IF;	
+	RETURN NEW;
+END
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER tr_extend_plan BEFORE UPDATE 
+ON Bill FOR EACH ROW 
+EXECUTE PROCEDURE extend_plan();
+
+
+CREATE FUNCTION generate_all_bills () RETURNS BOOLEAN AS $$
+DECLARE
+	mynumber VARCHAR;
+BEGIN
+	FOR mynumber IN
+		SELECT number FROM Lines
+	LOOP
+		INSERT INTO Bill (lineNumber) VALUES (mynumber);
+	END LOOP;
+	RETURN TRUE;
+END
+$$ LANGUAGE plpgsql;
 -- ******************************************************************
 -- *******************INSERTS PERMANENTES*******************
-INSERT INTO Roles VALUES
-(1, 'Administrador','Descripcion del administrador'),
-(2, 'Gerente','Descripcion del gerente'),
-(3, 'Operador','Descripcion del operador');
+INSERT INTO Roles (name, description) VALUES
+('Administrador','Descripcion del administrador'),
+('Gerente','Descripcion del gerente'),
+('Operador','Descripcion del operador');
 
 INSERT INTO Plan VALUES
-(1,30900,250,1024,100,250,500,250,0,0,0,'...'),
-(2,39900,150,4608,100,250,300,250,0,0,0,'...'),
-(3,49900,300,8704,100,500,600,500,0,0,0,'...'),
-(4,65000,1000,20480,-1,-1,-1,-1,-1,0,0,'...'),
-(5,100000,-1,30720,-1,0,0,0,0,-1,-1,'...');
-
-INSERT INTO Type_IDCustomer VALUES
-(1,'Cedula de Ciudadanía'),
-(2,'NIT'),
-(3,'Cedula de Extrangería');
+(1,30900,250,1024,100,250,500,250,0,0,0,'...',0),
+(2,39900,150,4608,100,250,300,250,0,0,0,'...',0),
+(3,49900,300,8704,100,500,600,500,0,0,0,'...',0),
+(4,65000,1000,20480,-1,-1,-1,-1,-1,0,0,'...',0),
+(5,100000,-1,30720,-1,0,0,0,0,-1,-1,'...',0);
 -- NOTA: EL -1 REPRESENTA ILIMITADO EN EL PLAN
+
+INSERT INTO Type_IDCustomer (name) VALUES
+('Cedula de Ciudadanía'),
+('NIT'),
+('Cedula de Extranjería');
 -- ******************************************************************
 -- ******************INSERTS DE PRUEBAS**********************
+
 INSERT INTO Users (id,name,roleID,password) VALUES
 (123,'Luis',3,'candamil'),
 (234,'Juliana',3,'verapamil'),
@@ -205,28 +332,28 @@ INSERT INTO Users (id,name,roleID,password) VALUES
 (876,'Paola',3,'omeprazol'),
 (765,'Ricardo',1,'noloserick');
 
-INSERT INTO Customer(id, name, type, address, city) 
-VALUES(1007151952, 'Diego Bonilla', 'Natural','Cra 15 # 1 sur 16','Santander de Quilichao');
-INSERT INTO Lines 
-VALUES('3219234114', 1007151952, 1 ,1, 456, true);
-INSERT INTO Bill 
-VALUES(1, 100, 200, 50, 150, 400, 160, 0, 0, 0, 'Bancolombia', 30900, '3219234114', '2020/03/30',123,'1007151952321923411420200330', false);
+INSERT INTO Customer(id, name, type, address, city, email) 
+VALUES('1007151952', 'Diego Bonilla', 'Natural','Cra 15 # 1 sur 16','Santander de Quilichao','lolerjp30@gmail.com');
+INSERT INTO Lines (number,customerID,planID, userID)
+VALUES('3219234114', '1007151952', 1, 456);
+INSERT INTO Bill (lineNumber)
+VALUES ('3219234114');
 
 INSERT INTO Customer(id, name, type, email)  
-VALUES(1007151295, 'Andrés Viáfara', 'Natural','dianbovi@hotmail.com');
-INSERT INTO Lines 
-VALUES('3107356146', 1007151295, 1,4, 456, true);
-INSERT INTO Bill 
-VALUES(2, 10000, 800, 1050, 5000, 200, 8060, 1024, 0, 0, 'Davivienda', 65000, '3107356146', '2020/03/30', 123,'1007151295310735614620200330', false);
+VALUES('1007151295', 'Andrés Viáfara', 'Natural','dianbovi@hotmail.com');
+INSERT INTO Lines (number,customerID,planID, userID)
+VALUES('3107356146', '1007151295',4, 456);
+INSERT INTO Bill (place_payment,lineNumber)
+VALUES('Davivienda','3107356146');
 
-INSERT INTO Customer(id, name, type, address, city)  
-VALUES(1006106575, 'Pablo Esteban', 'Natural','Noc','Piendamó');
-INSERT INTO Lines 
-VALUES('3217219953', 1006106575, 1,5, 456, true);
-INSERT INTO Bill 
-VALUES(3, 25000,8000, 4000,7000,400,10060,2048, 60, 500, 'Davivienda', 100000, '3217219953', '2020/03/30',123,'1006106575321721995320200330', false);
+INSERT INTO Customer(id, name, type, address, city,email)  
+VALUES('1006106575', 'Pablo Esteban', 'Natural','Noc','Piendamó','angelicamunoz1502@gmail.com');
+INSERT INTO Lines (number,customerID,planID, userID)
+VALUES('3217219953', '1006106575',5, 456);
+INSERT INTO Bill (lineNumber)
+VALUES('3217219953');
 
-INSERT INTO Bill 
-VALUES(4, 110, 210, 60, 160, 410, 170, 0, 0, 0, 'Bancolombia', 30900, '3219234114', '2020/02/28',123,'1007151952321923411420200228', false);
-INSERT INTO Bill
-VALUES(5, 120, 230, 150, 280, 490, 190, 0, 0, 0, 'Bancolombia', 30900, '3219234114', '2020/04/30',123,'1007151952321923411420200430', false);
+INSERT INTO Bill (place_payment,lineNumber)
+VALUES('Bancolombia','3219234114');
+INSERT INTO Bill (place_payment,lineNumber)
+VALUES('Bancolombia','3219234114');
