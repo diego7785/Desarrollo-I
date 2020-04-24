@@ -6,12 +6,15 @@ DROP TRIGGER IF EXISTS tr_codificate_role ON Roles;
 DROP TRIGGER IF EXISTS tr_codificate_plan ON Plan;
 DROP TRIGGER IF EXISTS tr_codificate_typeid ON Type_IDCustomer;
 DROP TRIGGER IF EXISTS tr_generate_bill ON Bill;
+DROP TRIGGER IF EXISTS tr_extend_plan ON Bill;
+
 
 DROP FUNCTION IF EXISTS codificate_role;
 DROP FUNCTION IF EXISTS codificate_plan;
 DROP FUNCTION IF EXISTS codificate_typeid;
 DROP FUNCTION IF EXISTS generate_bill;
 DROP FUNCTION IF EXISTS generate_all_bills;
+DROP FUNCTION IF EXISTS extend_plan;
 
 DROP TABLE IF EXISTS Bill;
 DROP TABLE IF EXISTS Lines;
@@ -85,6 +88,8 @@ CREATE TABLE Plan (
 	minutes_international INT NOT NULL,
 	data_shared INT NOT NULL,
 	description VARCHAR(200),
+	additional_minute INT,
+	additional_minutewp INT,
 	CONSTRAINT pk_plan PRIMARY KEY (id)
 );
 CREATE TABLE Lines (
@@ -135,8 +140,6 @@ CREATE TABLE Bill (
 -- **************************VISTAS**********************************
 -- ******************************************************************
 -- ******************PROCEDIMIENTOS ALMACENADOS**********************
-
-
 CREATE FUNCTION codificate_role() RETURNS TRIGGER AS $$
 DECLARE
 BEGIN
@@ -154,6 +157,7 @@ CREATE FUNCTION codificate_plan() RETURNS TRIGGER AS $$
 DECLARE
 BEGIN
 	NEW.id := NEXTVAL('seq_id_plan');
+	NEW.additional_minute := NEW.cost / NEW.minutes;
 	RETURN NEW;
 END
 $$ LANGUAGE plpgsql;
@@ -220,6 +224,68 @@ ON Bill FOR EACH ROW
 EXECUTE PROCEDURE generate_bill();
 
 
+CREATE FUNCTION extend_plan() RETURNS TRIGGER AS $$
+BEGIN
+	IF NEW.plan_ext = 1 THEN
+		NEW.plan_ext := -1;
+		NEW.price := OLD.price +
+			((SELECT Plan.cost FROM Lines INNER JOIN Plan 
+				ON Lines.planID = Plan.id WHERE Lines.number = NEW.lineNumber)*0.5);
+		IF OLD.minutes_consuption != -1 THEN
+			NEW.minutes_consuption := OLD.minutes_consuption + 
+				(SELECT Plan.minutes FROM Lines INNER JOIN Plan 
+					ON Lines.planID = Plan.id WHERE Lines.number = NEW.lineNumber);
+		END IF;
+		IF OLD.data_consuption != -1 THEN
+			NEW.data_consuption := OLD.data_consuption +
+				(SELECT Plan.dataplan FROM Lines INNER JOIN Plan 
+					ON Lines.planID = Plan.id WHERE Lines.number = NEW.lineNumber);
+		END IF;
+		IF OLD.sms_consuption != -1 THEN
+			NEW.sms_consuption := OLD.sms_consuption +
+				(SELECT Plan.messages FROM Lines INNER JOIN Plan 
+					ON Lines.planID = Plan.id WHERE Lines.number = NEW.lineNumber);
+		END IF;
+		IF OLD.data_wpp != -1 THEN
+			NEW.data_wpp := OLD.data_wpp +
+				(SELECT Plan.data_wpp FROM Lines INNER JOIN Plan 
+					ON Lines.planID = Plan.id WHERE Lines.number = NEW.lineNumber);
+		END IF;
+		IF OLD.minutes_wpp != -1 THEN
+			NEW.minutes_wpp := OLD.minutes_wpp + 
+				(SELECT Plan.minutes_wpp FROM Lines INNER JOIN Plan 
+					ON Lines.planID = Plan.id WHERE Lines.number = NEW.lineNumber);
+		END IF;
+		IF OLD.data_fb != -1 THEN
+			NEW.data_fb := OLD.data_fb +
+				(SELECT Plan.data_fb FROM Lines INNER JOIN Plan 
+					ON Lines.planID = Plan.id WHERE Lines.number = NEW.lineNumber);
+		END IF;
+		IF OLD.data_waze != -1 THEN
+			NEW.data_waze := OLD.data_waze +
+				(SELECT Plan.data_waze FROM Lines INNER JOIN Plan 
+					ON Lines.planID = Plan.id WHERE Lines.number = NEW.lineNumber);
+		END IF;
+		IF OLD.minutes_international != -1 THEN
+			NEW.minutes_international := OLD.minutes_international +
+				(SELECT Plan.minutes_international FROM Lines INNER JOIN Plan 
+					ON Lines.planID = Plan.id WHERE Lines.number = NEW.lineNumber);
+		END IF;
+		IF OLD.data_shared != -1 THEN
+			NEW.data_shared := OLD.data_shared +
+				(SELECT Plan.data_shared FROM Lines INNER JOIN Plan 
+					ON Lines.planID = Plan.id WHERE Lines.number = NEW.lineNumber);
+		END IF;
+	END IF;	
+	RETURN NEW;
+END
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER tr_extend_plan BEFORE UPDATE 
+ON Bill FOR EACH ROW 
+EXECUTE PROCEDURE extend_plan();
+
+
 CREATE FUNCTION generate_all_bills () RETURNS BOOLEAN AS $$
 DECLARE
 	mynumber VARCHAR;
@@ -240,11 +306,11 @@ INSERT INTO Roles (name, description) VALUES
 ('Operador','Descripcion del operador');
 
 INSERT INTO Plan VALUES
-(1,30900,250,1024,100,250,500,250,0,0,0,'...'),
-(2,39900,150,4608,100,250,300,250,0,0,0,'...'),
-(3,49900,300,8704,100,500,600,500,0,0,0,'...'),
-(4,65000,1000,20480,-1,-1,-1,-1,-1,0,0,'...'),
-(5,100000,-1,30720,-1,0,0,0,0,-1,-1,'...');
+(1,30900,250,1024,100,250,500,250,0,0,0,'...',0),
+(2,39900,150,4608,100,250,300,250,0,0,0,'...',0),
+(3,49900,300,8704,100,500,600,500,0,0,0,'...',0),
+(4,65000,1000,20480,-1,-1,-1,-1,-1,0,0,'...',0),
+(5,100000,-1,30720,-1,0,0,0,0,-1,-1,'...',0);
 -- NOTA: EL -1 REPRESENTA ILIMITADO EN EL PLAN
 
 INSERT INTO Type_IDCustomer (name) VALUES
