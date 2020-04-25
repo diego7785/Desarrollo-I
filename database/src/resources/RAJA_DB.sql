@@ -345,8 +345,8 @@ VALUES ('3219234114');
 
 INSERT INTO Customer(id, name, type, email)  
 VALUES('1007151295', 'Andrés Viáfara', 'Natural','dianbovi@hotmail.com');
-INSERT INTO Lines (number,customerID,planID, userID)
-VALUES('3107356146', '1007151295',4, 456);
+INSERT INTO Lines (number,customerID,planID, userID, physicalBill)
+VALUES('3107356146', '1007151295',4, 456, true);
 INSERT INTO Bill (place_payment,lineNumber)
 VALUES('Davivienda','3107356146');
 
