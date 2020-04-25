@@ -119,7 +119,7 @@ public class ControllerClientView implements Initializable {
                 if (selectedMonthNumber > cal.get(Calendar.MONTH)) {
                     throw new InvalidMonth();
                 }
-                Vector<String[]> result = this.query("SELECT * FROM Bill WHERE linenumber = '"+number+"' AND EXTRACT(YEAR FROM date) = "+cal.get(Calendar.YEAR)+" AND EXTRACT(MONTH FROM date) = "+(selectedMonthNumber+1)+";");
+                Vector<String[]> result = this.query("SELECT * FROM Bill WHERE linenumber = '"+number+"' AND EXTRACT(YEAR FROM date_pdf) = "+cal.get(Calendar.YEAR)+" AND EXTRACT(MONTH FROM date_pdf) = "+(selectedMonthNumber+1)+";");
 
                 Vector<String[]> infoPlan = this.query("SELECT planid, name FROM Lines, Customer WHERE number= '" + number + "' AND customerid=id;");
 
@@ -134,14 +134,14 @@ public class ControllerClientView implements Initializable {
                     if(finalMonth>cal.get(Calendar.MONTH)){
                         throw new QueryError();
                     }
-                    Vector<String[]> result = this.query("SELECT * FROM Bill WHERE linenumber = '"+number+"' AND date BETWEEN '"+cal.get(Calendar.YEAR)+"/02/28' AND '"+cal.get(Calendar.YEAR)+"/"+(finalMonth+1)+"/30';");
+                    Vector<String[]> result = this.query("SELECT * FROM Bill WHERE linenumber = '"+number+"' AND date_pdf BETWEEN '"+cal.get(Calendar.YEAR)+"/02/28' AND '"+cal.get(Calendar.YEAR)+"/"+(finalMonth+1)+"/30';");
 
                     Vector<String[]> infoPlan = this.query("SELECT planid, name FROM Lines, Customer WHERE number= '" + number + "' AND customerid=id;");
 
                     createTextQuery(result, infoPlan, 2, actionEvent);
 
                 } else if(finalMonth == 1){
-                    Vector<String[]> result = this.query("SELECT * FROM Bill WHERE linenumber = '"+number+"' AND date BETWEEN '"+cal.get(Calendar.YEAR)+"/"+(initialMonth+1)+"/30' AND '"+cal.get(Calendar.YEAR)+"/02/28';");
+                    Vector<String[]> result = this.query("SELECT * FROM Bill WHERE linenumber = '"+number+"' AND date_pdf BETWEEN '"+cal.get(Calendar.YEAR)+"/"+(initialMonth+1)+"/30' AND '"+cal.get(Calendar.YEAR)+"/02/28';");
 
                     Vector<String[]> infoPlan = this.query("SELECT planid, name FROM Lines, Customer WHERE number= '" + number + "' AND customerid=id;");
 
@@ -151,7 +151,7 @@ public class ControllerClientView implements Initializable {
                     if(finalMonth>cal.get(Calendar.MONTH)){
                         throw new QueryError();
                     }
-                    Vector<String[]> result = this.query("SELECT * FROM Bill WHERE linenumber = '"+number+"' AND date BETWEEN '"+cal.get(Calendar.YEAR)+"/"+(initialMonth+1)+"/30' AND '"+cal.get(Calendar.YEAR)+"/"+(finalMonth+1)+"/30';");
+                    Vector<String[]> result = this.query("SELECT * FROM Bill WHERE linenumber = '"+number+"' AND date_pdf BETWEEN '"+cal.get(Calendar.YEAR)+"/"+(initialMonth+1)+"/30' AND '"+cal.get(Calendar.YEAR)+"/"+(finalMonth+1)+"/30';");
                     Vector<String[]> infoPlan = this.query("SELECT planid, name FROM Lines, Customer WHERE number= '" + number + "' AND customerid=id;");
 
                     createTextQuery(result, infoPlan,2, actionEvent);
@@ -175,7 +175,7 @@ public class ControllerClientView implements Initializable {
     }
 
     public void handleButtonSearchGraphic(ActionEvent actionEvent) {
-        JOptionPane.showMessageDialog(null, "Realizando consulta gráfica, por favor espere");
+        JOptionPane.showMessageDialog(null, "Realizando consulta gráfica, por favor espere a que el gráfico aparezca");
         labelError.setText("");
         try{
             String number=(String) textFieldNumber.getText();
@@ -194,7 +194,7 @@ public class ControllerClientView implements Initializable {
                 if (selectedMonthNumber > cal.get(Calendar.MONTH)) {
                     throw new InvalidMonth();
                 }
-                Vector<String[]> result = this.query("SELECT * FROM Bill WHERE linenumber = '"+number+"' AND EXTRACT(YEAR FROM date) = "+cal.get(Calendar.YEAR)+" AND EXTRACT(MONTH FROM date) = "+(selectedMonthNumber+1)+";");
+                Vector<String[]> result = this.query("SELECT * FROM Bill WHERE linenumber = '"+number+"' AND EXTRACT(YEAR FROM date_pdf) = "+cal.get(Calendar.YEAR)+" AND EXTRACT(MONTH FROM date_pdf) = "+(selectedMonthNumber+1)+";");
 
                 Vector<String[]> infoPlan = this.query("SELECT planid, name FROM Lines, Customer WHERE number= '" + number + "' AND customerid=id;");
 
@@ -209,14 +209,14 @@ public class ControllerClientView implements Initializable {
                     if(finalMonth>cal.get(Calendar.MONTH)){
                         throw new QueryError();
                     }
-                    Vector<String[]> result = this.query("SELECT * FROM Bill WHERE linenumber = '"+number+"' AND date BETWEEN '"+cal.get(Calendar.YEAR)+"/02/28' AND '"+cal.get(Calendar.YEAR)+"/"+(finalMonth+1)+"/30';");
+                    Vector<String[]> result = this.query("SELECT * FROM Bill WHERE linenumber = '"+number+"' AND date_pdf BETWEEN '"+cal.get(Calendar.YEAR)+"/02/28' AND '"+cal.get(Calendar.YEAR)+"/"+(finalMonth+1)+"/30';");
 
                     Vector<String[]> infoPlan = this.query("SELECT planid, name FROM Lines, Customer WHERE number= '" + number + "' AND customerid=id;");
 
                     createGraphic(result,infoPlan,2);
 
                 } else if(finalMonth == 1){
-                    Vector<String[]> result = this.query("SELECT * FROM Bill WHERE linenumber = '"+number+"' AND date BETWEEN '"+cal.get(Calendar.YEAR)+"/"+(initialMonth+1)+"/30' AND '"+cal.get(Calendar.YEAR)+"/02/28';");
+                    Vector<String[]> result = this.query("SELECT * FROM Bill WHERE linenumber = '"+number+"' AND date_pdf BETWEEN '"+cal.get(Calendar.YEAR)+"/"+(initialMonth+1)+"/30' AND '"+cal.get(Calendar.YEAR)+"/02/28';");
 
                     Vector<String[]> infoPlan = this.query("SELECT planid, name FROM Lines, Customer WHERE number= '" + number + "' AND customerid=id;");
 
@@ -226,7 +226,7 @@ public class ControllerClientView implements Initializable {
                     if(finalMonth>cal.get(Calendar.MONTH)){
                         throw new QueryError();
                     }
-                    Vector<String[]> result = this.query("SELECT * FROM Bill WHERE linenumber = '"+number+"' AND date BETWEEN '"+cal.get(Calendar.YEAR)+"/"+(initialMonth+1)+"/30' AND '"+cal.get(Calendar.YEAR)+"/"+(finalMonth+1)+"/30';");
+                    Vector<String[]> result = this.query("SELECT * FROM Bill WHERE linenumber = '"+number+"' AND date_pdf BETWEEN '"+cal.get(Calendar.YEAR)+"/"+(initialMonth+1)+"/30' AND '"+cal.get(Calendar.YEAR)+"/"+(finalMonth+1)+"/30';");
 
                     Vector<String[]> infoPlan= this.query("SELECT planid, name FROM Lines, Customer WHERE number= '" + number + "' AND customerid=id;");
 
@@ -273,7 +273,7 @@ public class ControllerClientView implements Initializable {
             if (resultO[0].equals("Error")) {
                 throw new QueryError();
             }
-            result = (Vector) resultO[1];
+            result = (Vector<String[]>) resultO[1];
 
         } catch (QueryError e){
             labelError.setText("La consulta no arrojó resultados");
