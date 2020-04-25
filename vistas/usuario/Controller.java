@@ -914,27 +914,35 @@ public class Controller implements Initializable {
          /*Booleano para representar si el cliente quiere factura en el correo o a la dirección
         Se supone que se debe sacar de la bdd pero aún no está. True si quiere factura electrónica, falso si no*/
 
-            Boolean electronic_bill = true;
-
+            String number = gen_fact_linea_TextField.getText();
             String tipoCliente = cb_gen_fact_tip_cliente.getSelectionModel().getSelectedItem();
+            int document = Integer.parseInt(gen_fact_id_TextField.getText());
+
+            Object[] priceO = connection.read_DB("SELECT cost,minutes,dataplan,messages,data_wpp,minutes_wpp,data_fb,data_waze,minutes_international,data_shared FROM Plan,Lines WHERE planID=id AND number= '"+number+"' ;");
+            Vector<String[]> priceV = (Vector<String[]>) priceO[1];
+            String[] price = priceV.get(0);
+
+            Object[] info = connection.read_DB("SELECT * FROM Bill, Lines, Customer WHERE number=linenumber AND number= '" + number + "' AND customerid=Customer.id AND customerid= '" + document + "' AND EXTRACT(YEAR FROM date_pdf) = " + cal.get(Calendar.YEAR) + " AND EXTRACT(MONTH FROM date_pdf) = " + (cal.get(Calendar.MONTH) + 1) + " AND type = '" + tipoCliente + "' ;");
+            Vector<String[]>result = (Vector<String[]>) info[1];
+
+            Boolean electronic_bill = false;
+            if (result.get(0)[25].equals("t")) {
+                electronic_bill = true;
+            }
+
+
 
             if(gen_fact_id_TextField.getText().isBlank() || gen_fact_linea_TextField.getText().isBlank()){
                 throw new EmptyFieldException("Debe llenar todos los campos");
             }
 
-            int document = Integer.parseInt(gen_fact_id_TextField.getText());
-            String number = gen_fact_linea_TextField.getText();
-
-
-            Object[] info = connection.read_DB("SELECT * FROM Bill, Lines, Customer WHERE number=linenumber AND number='" + number + "' AND customerid=Customer.id AND customerid='" + document + "' AND EXTRACT(YEAR FROM date) = " + cal.get(Calendar.YEAR) + " AND EXTRACT(MONTH FROM date) = " + (cal.get(Calendar.MONTH) + 1) + " AND type = '" + tipoCliente + "';");
-            Vector<String[]> result = (Vector) info[1];
 
             String actualDate = cal.get(Calendar.YEAR) + "/" + months[cal.get(Calendar.MONTH)];
             String cutDate = cal.get(Calendar.YEAR) + "/" + months[cal.get(Calendar.MONTH) + 1] + "/05";
 
             CreateBill bill = new CreateBill();
             String path_file;
-            path_file = bill.WriteBill(result.get(0),actualDate, cutDate, months[Integer.parseInt(result.get(0)[13].substring(5, 7)) - 1]);
+            path_file = bill.WriteBill(result.get(0),actualDate, cutDate, months[Integer.parseInt(result.get(0)[14].substring(5, 7)) - 1], electronic_bill, price);
 
             //Condicional para arrojar un mensaje de como fue enviada la factura del cliente. En este paso, se envia por mail
             if (electronic_bill)
@@ -953,14 +961,15 @@ public class Controller implements Initializable {
         }catch (EmptyFieldException e){
             JOptionPane.showMessageDialog(null, "Debe llenar todos los campos");
         }catch (Exception e){
-            JOptionPane.showMessageDialog(null, "No hay registros para este mes");
+            JOptionPane.showMessageDialog(null, "No hay registros ");
         }
+
     }
 
     public void handleGen_fact_generar_colect_button(ActionEvent actionEvent) throws IOException, MessagingException {
       JOptionPane.showMessageDialog(null, "Generando facturas, por favor espere");
         try {
-            Object[] infoHeaderBill = connection.read_DB("SELECT * FROM Bill, Lines, Customer WHERE number=linenumber AND customerid=Customer.id AND EXTRACT(YEAR FROM date) = " + cal.get(Calendar.YEAR) + " AND EXTRACT(MONTH FROM date) = " + (cal.get(Calendar.MONTH) + 1) + ";");
+            Object[] infoHeaderBill = connection.read_DB("SELECT * FROM Bill, Lines, Customer WHERE number=linenumber AND customerid=Customer.id AND EXTRACT(YEAR FROM date_pdf) = " + cal.get(Calendar.YEAR) + " AND EXTRACT(MONTH FROM date_pdf) = " + (cal.get(Calendar.MONTH) + 1) + ";");
             Vector<String[]> result = (Vector) infoHeaderBill[1];
 
             String actualDate = cal.get(Calendar.YEAR) + "/" + months[cal.get(Calendar.MONTH)];
@@ -969,22 +978,33 @@ public class Controller implements Initializable {
 
             for (int i = 0; i < result.size(); i++) {
 
-                CreateBill bill = new CreateBill();
-                path_name = bill.WriteBill(result.get(i),actualDate, cutDate, months[Integer.parseInt(result.get(0)[13].substring(5, 7)) - 1]);
+                String number = result.get(i)[13];
 
-                String line_number = result.get(i)[12];
+                Object[] priceO = connection.read_DB("SELECT cost,minutes,dataplan,messages,data_wpp,minutes_wpp,data_fb,data_waze,minutes_international,data_shared FROM Plan,Lines WHERE planID=id AND number= '"+number+"' ;");
+                Vector<String[]> priceV = (Vector<String[]>) priceO[1];
+                String[] price = priceV.get(0);
+
+                Boolean electronic_bill = false;
+                if (result.get(0)[25].equals("t")) {
+                    electronic_bill = true;
+                }
+
+                CreateBill bill = new CreateBill();
+                path_name = bill.WriteBill(result.get(i),actualDate, cutDate, months[Integer.parseInt(result.get(0)[14].substring(5, 7)) - 1], electronic_bill,  price);
+
+
 
                 /*Booleano para representar si el cliente quiere factura en el correo o a la dirección
                 Se supone que se debe sacar de la bdd pero aún no está. True si quiere factura electrónica, falso si no*/
 
-                Boolean electronic_bill = true;
+
 
                 if (electronic_bill)
                 {
-                    Object[] customer = connection.read_DB("SELECT email FROM lines INNER JOIN customer ON lines.customerID = customer.id WHERE lines.number = '"+line_number+"';");
+                    Object[] customer = connection.read_DB("SELECT email FROM lines INNER JOIN customer ON lines.customerID = customer.id WHERE lines.number = '"+number+"';");
                     Vector<String[]> resultado = (Vector<String[]>) customer[1];
                     String email = resultado.get(0)[0];
-                    send_bill_by_email(email,path_name+"/bill"+line_number+".pdf");
+                    send_bill_by_email(email,path_name+"/bill"+number+".pdf");
                 }
                 else
                 {

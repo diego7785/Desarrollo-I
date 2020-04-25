@@ -10,19 +10,20 @@ import java.util.Calendar;
 import java.util.Vector;
 
 public class CreateBill {
-    public String WriteBill(String[] info,String actualDate, String cutDate, String month) {
+    public String WriteBill(String[] info,String actualDate, String cutDate, String month, boolean electronicBill, String[] price) {
         Calendar cal = Calendar.getInstance();
         Integer actual_year = cal.get(Calendar.YEAR) ;
-
-        Boolean electronic_bill = false;
+        String address = "";
         File directorio;
 
-        if(electronic_bill)
+        if(electronicBill)
         {
+            address = info[32];
             directorio = new File("./Bills/Bills sended by email/"+actual_year+"/"+month);
         }
         else
         {
+            address = info[30]+ " "+info[31];
             directorio = new File("./Bills/Bills to send home/"+actual_year+"/"+month);
         }
 
@@ -37,16 +38,11 @@ public class CreateBill {
                 System.out.println("Error al crear directorio");
             }
         }
-        String address = "";
-        if (info[29] == null) {
-            address = info[27] + " " + info[28];
-        } else {
-            address = info[29];
-        }
-        int plan = Integer.parseInt(info[20]);
+
+        int plan = Integer.parseInt(info[22]);
 
         try {
-            FileOutputStream file = new FileOutputStream(directorio.getPath()+"/bill" + info[12]+".pdf");
+            FileOutputStream file = new FileOutputStream(directorio.getPath()+"/bill" + info[13]+".pdf");
             Document doc = new Document();
             PdfWriter writer = PdfWriter.getInstance(doc, file);
             Image logotype = Image.getInstance("functionalities/administrador/Bill/src/assets/images/logotype.png");
@@ -64,10 +60,10 @@ public class CreateBill {
             pb.setTextMatrix(20, 730);
             pb.showText("......................................................................................."
                     + "..............................................................................");
-            doc.add(new Paragraph("Cliente: " + info[25]));
+            doc.add(new Paragraph("Cliente: " + info[28]));
             doc.add(new Paragraph("Dirección: " + address));
-            doc.add(new Paragraph("Nit o cédula: " + info[18]));
-            doc.add(new Paragraph("Celular: " + info[12] + "                   Tipo plan: " + info[20]));
+            doc.add(new Paragraph("Nit o cédula: " + info[26]));
+            doc.add(new Paragraph("Celular: " + info[19] + "                   Tipo plan: " + info[22]));
             doc.add(new Paragraph("Fecha expedición: " + actualDate));
             doc.add(new Paragraph("Factura de venta No: " + info[0]));
             pb.setFontAndSize(bf, 7);
@@ -160,7 +156,7 @@ public class CreateBill {
             cell.setBackgroundColor(BaseColor.DARK_GRAY);
             cell.setBorderColor(BaseColor.WHITE);
             tabla.addCell(cell);
-            cell = new PdfPCell(new Phrase(info[15]));
+            cell = new PdfPCell(new Phrase(info[17]));
             cell.setBackgroundColor(BaseColor.DARK_GRAY);
             cell.setBorderColor(BaseColor.WHITE);
             tabla.addCell(cell);
@@ -198,7 +194,7 @@ public class CreateBill {
             table = new Paragraph();
             tabla = new PdfPTable(1);
             cell = new PdfPCell(new Phrase("Estimado cliente, le recomendamos estar al tiempo con sus pagos para evitar el pago por mora "
-                    + "o la suspensión del servicio, su servicio es del plan " + info[20] + " cuyo cobro por mora es de " + (Integer.parseInt(info[11]) * 0.01) + ". Si el pago ya fue realizado "
+                    + "o la suspensión del servicio, su servicio es del plan " + info[22] + " cuyo cobro por mora es de " + (Integer.parseInt(price[0]) * 0.01) + ". Si el pago ya fue realizado "
                     + "haga caso omiso."));
             cell.setBorder(Rectangle.NO_BORDER);
             cell.setBackgroundColor(BaseColor.DARK_GRAY);
@@ -220,7 +216,7 @@ public class CreateBill {
             table.add(tabla);
             doc.add(table);
             pb.setColorFill(BaseColor.BLACK);
-            this.Graphic(info, plan);
+            this.Graphic(info, plan, price);
             Image graphic = Image.getInstance("functionalities/administrador/Bill/src/assets/images/consumoComun.png");
             graphic.setAlignment(Element.ALIGN_LEFT);
             graphic.scaleAbsolute(200, 150);
@@ -257,45 +253,77 @@ public class CreateBill {
             pb.setTextMatrix(20, 720);
             pb.showText("......................................................................................."
                     + "..............................................................................");
+
+            float data_consumption = Float.parseFloat(info[1]);
+            int minutes_consumption = Integer.parseInt(info[2]);
+            int sms_consumption = Integer.parseInt(info[3]);
+            float data_wpp = Float.parseFloat(info[4]);
+            int minutes_wpp = Integer.parseInt(info[5]);
+            float data_fb = Float.parseFloat(info[6]);
+            float data_waze = Float.parseFloat(info[7]);
+            int minutes_international = Integer.parseInt(info[8]);
+            float data_shared = Float.parseFloat(info[9]);
+
+            if(Integer.parseInt(info[12]) != 0){
+                data_consumption = 2 * Integer.parseInt(price[2])-data_consumption;
+                minutes_consumption = 2 * Integer.parseInt(price[1])-minutes_consumption;
+                sms_consumption = 2 * Integer.parseInt(price[3])-sms_consumption;
+                data_wpp = 2 * Integer.parseInt(price[4])-data_wpp;
+                minutes_wpp = 2 * Integer.parseInt(price[5])-minutes_wpp;
+                data_fb = 2 * Integer.parseInt(price[6])-data_fb;
+                data_waze = 2 * Integer.parseInt(price[7])-data_waze;
+                minutes_international = 2 * Integer.parseInt(price[8])-minutes_international;
+                data_shared = 2 * Integer.parseInt(price[9])-data_shared;
+            } else{
+                data_consumption = Integer.parseInt(price[2])-data_consumption;
+                minutes_consumption =Integer.parseInt(price[1])-minutes_consumption;
+                sms_consumption = Integer.parseInt(price[3])-sms_consumption;
+                data_wpp = Integer.parseInt(price[4])-data_wpp;
+                minutes_wpp = Integer.parseInt(price[5])-minutes_wpp;
+                data_fb = Integer.parseInt(price[6])-data_fb;
+                data_waze = Integer.parseInt(price[7])-data_waze;
+                minutes_international = Integer.parseInt(price[8])-minutes_international;
+                data_shared = Integer.parseInt(price[9])-data_shared;
+            }
             doc.add(Chunk.NEWLINE);
             pb.setTextMatrix(30, 700);
             pb.showText("Tabla de consumo: ");
             tabla = new PdfPTable(4);
             cell = new PdfPCell(new Phrase("Consumo datos"));
             tabla.addCell(cell);
-            cell = new PdfPCell(new Phrase(info[1]));
+            cell = new PdfPCell(new Phrase(String.valueOf(data_consumption)));
             tabla.addCell(cell);
             cell = new PdfPCell(new Phrase("Consumo minutos"));
             tabla.addCell(cell);
-            cell = new PdfPCell(new Phrase(info[2]));
+            cell = new PdfPCell(new Phrase(String.valueOf(minutes_consumption)));
             tabla.addCell(cell);
             cell = new PdfPCell(new Phrase("Consumo mensajes"));
             tabla.addCell(cell);
-            cell = new PdfPCell(new Phrase(info[3]));
+            cell = new PdfPCell(new Phrase(String.valueOf(sms_consumption)));
             tabla.addCell(cell);
             cell = new PdfPCell(new Phrase("Consumo datos Whatsapp"));
             tabla.addCell(cell);
-            cell = new PdfPCell(new Phrase(info[4]));
+            cell = new PdfPCell(new Phrase(String.valueOf(data_wpp)));
             tabla.addCell(cell);
             cell = new PdfPCell(new Phrase("Consumo datos Facebook"));
             tabla.addCell(cell);
-            cell = new PdfPCell(new Phrase(info[6]));
+            cell = new PdfPCell(new Phrase(String.valueOf(data_fb)));
             tabla.addCell(cell);
             cell = new PdfPCell(new Phrase("Consumo minutos Whatsapp"));
             tabla.addCell(cell);
-            cell = new PdfPCell(new Phrase(info[5]));
+            cell = new PdfPCell(new Phrase(String.valueOf(minutes_wpp)));
             tabla.addCell(cell);
             cell = new PdfPCell(new Phrase("Consumo datos Waze"));
             tabla.addCell(cell);
-            cell = new PdfPCell(new Phrase(info[7]));
+            cell = new PdfPCell(new Phrase(String.valueOf(data_waze)));
             tabla.addCell(cell);
             cell = new PdfPCell(new Phrase("Consumo minutos internacionales"));
             tabla.addCell(cell);
-            cell = new PdfPCell(new Phrase(info[8]));
+            cell = new PdfPCell(new Phrase(String.valueOf(minutes_international)));
             tabla.addCell(cell);
             cell = new PdfPCell(new Phrase("Consumo datos compartidos"));
             tabla.addCell(cell);
-            cell = new PdfPCell(new Phrase(info[9]));
+            cell = new PdfPCell(new Phrase(String.valueOf(data_shared)));
             tabla.addCell(cell);
             cell = new PdfPCell(new Phrase("        "));
             cell.setBorder(Rectangle.NO_BORDER);
@@ -344,7 +372,7 @@ public class CreateBill {
             doc.add(new Paragraph("Desprenda esta parte para realizar el pago"));
 
             pb.endText();
-            String StringDefault = info[15];
+            String StringDefault = info[17];
             doc.addAuthor("Telefonía Raja");
             doc.addCreationDate();
             doc.addProducer();
@@ -370,7 +398,7 @@ public class CreateBill {
 
             code128Image.scaleAbsolute(400, 85);
             doc.add(code128Image);
-            this.QRCode(info[15]);
+            this.QRCode(info[17]);
             graphic = Image.getInstance("functionalities/administrador/Bill/src/assets/images/QrCode.png");
 
             graphic.setAbsolutePosition(460, 90);
@@ -386,11 +414,11 @@ public class CreateBill {
             tabla = new PdfPTable(6);
             cell = new PdfPCell(new Phrase("Cliente"));
             tabla.addCell(cell);
-            cell = new PdfPCell(new Phrase(info[18]));
+            cell = new PdfPCell(new Phrase(String.valueOf(info[20])));
             tabla.addCell(cell);
             cell = new PdfPCell(new Phrase("Linea"));
             tabla.addCell(cell);
-            cell = new PdfPCell(new Phrase(info[17]));
+            cell = new PdfPCell(new Phrase(info[19]));
             tabla.addCell(cell);
             cell = new PdfPCell(new Phrase("Valor"));
             tabla.addCell(cell);
@@ -406,8 +434,8 @@ public class CreateBill {
         return directorio.getPath();
     }
 
-    public void Graphic(String[] consume, int type) {
-        CreateGraphic chart = new CreateGraphic(consume, type);
+    public void Graphic(String[] consume, int type, String[] price) {
+        CreateGraphic chart = new CreateGraphic(consume, type, price);
     }
 
     public void QRCode(String numeroPagos) {
