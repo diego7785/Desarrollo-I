@@ -44,7 +44,7 @@ import java.util.logging.Logger;
 
 public class Controller implements Initializable {
 
-    //Class Constructor
+    //Class ConstructorP
     public Controller() {}
 
     //Database connection
@@ -985,19 +985,15 @@ public class Controller implements Initializable {
                 String[] price = priceV.get(0);
 
                 Boolean electronic_bill = false;
-                if (result.get(0)[25].equals("t")) {
+
+                if (result.get(i)[25].equals("t")) {
                     electronic_bill = true;
                 }
 
+                System.out.print(electronic_bill+ "---");
+
                 CreateBill bill = new CreateBill();
                 path_name = bill.WriteBill(result.get(i),actualDate, cutDate, months[Integer.parseInt(result.get(0)[14].substring(5, 7)) - 1], electronic_bill,  price);
-
-
-
-                /*Booleano para representar si el cliente quiere factura en el correo o a la dirección
-                Se supone que se debe sacar de la bdd pero aún no está. True si quiere factura electrónica, falso si no*/
-
-
 
                 if (electronic_bill)
                 {
