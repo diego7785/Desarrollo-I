@@ -1,5 +1,6 @@
 import DB_Connection.DBConnection;
 import Exceptions.EmptyFieldException;
+import Exceptions.NaturalCustomerException;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXPasswordField;
@@ -563,7 +564,7 @@ public class Controller implements Initializable {
 
     }
 
-    public void handleGen_registrar_compra_ant(ActionEvent event) {
+    public void handleGen_registrar_compra_ant(ActionEvent event) throws EmptyFieldException {
         try {
             String tipoCliente = cb_ventas_ant_tipo_cliente.getSelectionModel().getSelectedItem();
 
@@ -573,9 +574,19 @@ public class Controller implements Initializable {
             String documentNumber = tf_nombre_identificacion_ant.getText();
             String nuevaLinea = tf_nueva_linea_ant.getText();
 
-            if(tipoCliente.equals("")||tipoID.equals("")||planAsociado.equals("")||documentNumber.equals("")||nuevaLinea.equals("")){
+            Object[] lineasI = connection.read_DB("SELECT * FROM Customer INNER JOIN Lines on Customer.id = Lines.CustomerID WHERE Customer.id = '" + documentNumber + "';");
+            Vector<String[]> lineas = (Vector) lineasI[1];
+            String customer_type = lineas.get(0)[3];
+
+            if(tipoCliente.equals("")||tipoID.equals("")||planAsociado.equals("")||documentNumber.equals("")||nuevaLinea.equals(""))
+            {
                 throw new EmptyFieldException("Debe llenar todos los campos");
-            }else{
+            }
+            if(customer_type.equals("Natural") && lineas.size() ==  3)
+            {
+                throw new NaturalCustomerException("Un cliente natural no puede tener más de tres lineas");
+            }
+            else{
                 int userID = new_user.get_user_id();
 
                 Object[] customer = connection.read_DB("SELECT * FROM customer WHERE id='"+documentNumber+"' AND type='"+tipoCliente+"';");
@@ -605,6 +616,8 @@ public class Controller implements Initializable {
                 tf_nueva_linea_ant.setText("");
             }
         }catch (EmptyFieldException e){
+            JOptionPane.showMessageDialog(null, e.getMessage());
+        }catch (NaturalCustomerException e){
             JOptionPane.showMessageDialog(null, e.getMessage());
         }catch (Exception e){
             JOptionPane.showMessageDialog(null, "Debe llenar todos los campos");
