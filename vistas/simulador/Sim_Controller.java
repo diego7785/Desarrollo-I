@@ -114,12 +114,14 @@ public class Sim_Controller implements Initializable {
         Object[] wpp = connection.read_DB("SELECT data_wpp, data_consuption FROM Bill WHERE lineNumber = '"+number+"' AND EXTRACT(YEAR FROM date) = "+ cal.get(Calendar.YEAR)+" AND EXTRACT(MONTH FROM date) = "+ cal.get((Calendar.MONTH)) +";");
         Vector<String[]> bill = (Vector<String[]>) wpp[1];
         float megasWpp = Float.parseFloat(bill.get(0)[0]);
-        float   megas = Float.parseFloat(bill.get(0)[1]);
-
+        float megas = Float.parseFloat(bill.get(0)[1]);
+        System.out.println("holi3");
         if(megasWpp == 0 && megas == 0){
+            System.out.println("holi");
             JOptionPane.showMessageDialog(null, "Ya consumiste todas tus megas de Whatsapp y del paquete de datos");
-        }else if(megas+megasWpp-megasUsadas >= 0){
-            float megas_sobrantes = (megasWpp - megasUsadas)*-1;
+        }else if(megasWpp < megasUsadas && megas >= megasUsadas){
+            System.out.println("holi2");
+            float megas_sobrantes = (megasUsadas - megasWpp);
             megasWpp = 0;
             megas = megas - megas_sobrantes;
             if(connection.modify_DB("UPDATE Bill SET data_wpp = "+ megasWpp + ", data_consuption = " + megas + " WHERE lineNumber = '" + number + "' AND EXTRACT(YEAR FROM date) = "+ cal.get(Calendar.YEAR)+" AND EXTRACT(MONTH FROM date) = "+ cal.get((Calendar.MONTH)) +";")) {
@@ -128,6 +130,7 @@ public class Sim_Controller implements Initializable {
                 JOptionPane.showMessageDialog(null, "Hubo un error al actualizar la base de datos");
             }
         }else if(megas+megasWpp < megasUsadas){
+
             megas = 0;
             megasWpp = 0;
             if(connection.modify_DB("UPDATE Bill SET data_wpp = "+ megasWpp + ", data_consuption = " + megas + " WHERE lineNumber = '" + number + "' AND EXTRACT(YEAR FROM date) = "+ cal.get(Calendar.YEAR)+" AND EXTRACT(MONTH FROM date) = "+ cal.get((Calendar.MONTH)) +";")) {

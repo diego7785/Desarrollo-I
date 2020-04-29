@@ -4,6 +4,7 @@
     <exclude-output />
     <content url="file://$MODULE_DIR$">
       <sourceFolder url="file://$MODULE_DIR$/usuario" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/simulador" isTestSource="false" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
@@ -13,5 +14,8 @@
     <orderEntry type="module" module-name="functionalities" />
     <orderEntry type="library" name="postgresql-42.2.11" level="project" />
     <orderEntry type="module" module-name="database" />
+    <orderEntry type="library" name="librerias" level="project" />
+    <orderEntry type="library" name="Client_app" level="project" />
+    <orderEntry type="library" name="javafx-sdk-11.0" level="project" />
   </component>
 </module>
