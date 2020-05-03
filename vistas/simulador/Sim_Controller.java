@@ -115,29 +115,30 @@ public class Sim_Controller implements Initializable {
         Vector<String[]> bill = (Vector<String[]>) wpp[1];
         float megasWpp = Float.parseFloat(bill.get(0)[0]);
         float megas = Float.parseFloat(bill.get(0)[1]);
-        System.out.println("holi3");
         if(megasWpp == 0 && megas == 0){
-            System.out.println("holi");
             JOptionPane.showMessageDialog(null, "Ya consumiste todas tus megas de Whatsapp y del paquete de datos");
-        }else if(megasWpp < megasUsadas && megas >= megasUsadas){
-            System.out.println("holi2");
-            float megas_sobrantes = (megasUsadas - megasWpp);
-            megasWpp = 0;
-            megas = megas - megas_sobrantes;
-            if(connection.modify_DB("UPDATE Bill SET data_wpp = "+ megasWpp + ", data_consuption = " + megas + " WHERE lineNumber = '" + number + "' AND EXTRACT(YEAR FROM date) = "+ cal.get(Calendar.YEAR)+" AND EXTRACT(MONTH FROM date) = "+ cal.get((Calendar.MONTH)) +";")) {
-                JOptionPane.showMessageDialog(null, "Consumiste el resto de megas de wpp, se han usado además " + megas_sobrantes + " megas de tu paquete de datos, te quedan " + megas + " megas para navegar");
-            }else{
-                JOptionPane.showMessageDialog(null, "Hubo un error al actualizar la base de datos");
-            }
-        }else if(megas+megasWpp < megasUsadas){
+        }else if(megasWpp < megasUsadas){
 
-            megas = 0;
             megasWpp = 0;
             if(connection.modify_DB("UPDATE Bill SET data_wpp = "+ megasWpp + ", data_consuption = " + megas + " WHERE lineNumber = '" + number + "' AND EXTRACT(YEAR FROM date) = "+ cal.get(Calendar.YEAR)+" AND EXTRACT(MONTH FROM date) = "+ cal.get((Calendar.MONTH)) +";")) {
-                JOptionPane.showMessageDialog(null, "Consumiste todas tus megas. Recuerda que puedes recargar otro plan en la Raja App");
+                JOptionPane.showMessageDialog(null, "Consumiste el resto de megas de wpp, te quedan " + megas + " megas de tu paquete general para navegar");
             }else{
                 JOptionPane.showMessageDialog(null, "Hubo un error al actualizar la base de datos");
             }
+        }else if(megasWpp > megasUsadas){
+            megasWpp -= megasUsadas;
+            if(connection.modify_DB("UPDATE Bill SET data_wpp = "+ megasWpp + ", data_consuption = " + megas + " WHERE lineNumber = '" + number + "' AND EXTRACT(YEAR FROM date) = "+ cal.get(Calendar.YEAR)+" AND EXTRACT(MONTH FROM date) = "+ cal.get((Calendar.MONTH)) +";")) {
+                JOptionPane.showMessageDialog(null, "Consumiste " + megasUsadas + " megas de Whatsapp, te quedan "+megasWpp + " megas");
+            }else{
+                JOptionPane.showMessageDialog(null, "Hubo un error al actualizar la base de datos");
+            }
+        }else if(megasWpp == 0 && megas > 0) {
+            if(connection.modify_DB("UPDATE Bill SET data_wpp = "+ megasWpp + ", data_consuption = " + megas + " WHERE lineNumber = '" + number + "' AND EXTRACT(YEAR FROM date) = "+ cal.get(Calendar.YEAR)+" AND EXTRACT(MONTH FROM date) = "+ cal.get((Calendar.MONTH)) +";")) {
+                JOptionPane.showMessageDialog(null, "No quedaban megas de Whatsapp. Consumiste " + megasUsadas + " megas de tu paquete de datos, te quedan "+megasWpp + " megas");
+            }else{
+                JOptionPane.showMessageDialog(null, "Hubo un error al actualizar la base de datos");
+            }
+
         }
     }
 
