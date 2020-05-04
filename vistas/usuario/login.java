@@ -55,8 +55,8 @@ public class login
                     Parent root = (Parent) loader.load();
                     Stage primaryStage = new Stage();
 
-                    primaryStage.initStyle(StageStyle.TRANSPARENT);
-                    primaryStage.setTitle("");
+                    //primaryStage.initStyle(StageStyle.TRANSPARENT);
+                    primaryStage.setTitle("RAJA S.A.");
 
                     primaryStage.setScene(new Scene(root));
                     primaryStage.show();

@@ -17,5 +17,8 @@
     <orderEntry type="library" name="librerias" level="project" />
     <orderEntry type="library" name="Client_app" level="project" />
     <orderEntry type="library" name="javafx-sdk-11.0" level="project" />
+    <orderEntry type="library" name="mail" level="project" />
+    <orderEntry type="library" name="javax.activation-1.2.01" level="project" />
+
   </component>
 </module>
