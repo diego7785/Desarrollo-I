@@ -17,7 +17,7 @@
       <RowConstraints />
    </rowConstraints>
    <children>
-      <AnchorPane fx:id="main_pane" prefHeight="666.0" prefWidth="398.0" visible="false">
+      <AnchorPane fx:id="main_pane" prefHeight="666.0" prefWidth="398.0">
          <children>
             <ImageView fitHeight="28.0" fitWidth="398.0" pickOnBounds="true" preserveRatio="true">
                <image>
@@ -47,7 +47,7 @@
                         <Image url="@images/wpp_icon.png" />
                      </image>
                   </ImageView>
-                  <ImageView fx:id="fb_icon" fitHeight="111.0" fitWidth="92.0" pickOnBounds="true" preserveRatio="true" GridPane.halignment="CENTER">
+                  <ImageView fx:id="fb_icon" fitHeight="111.0" fitWidth="92.0" onMouseClicked="#fb_app" pickOnBounds="true" preserveRatio="true" GridPane.halignment="CENTER">
                      <image>
                         <Image url="@images/fb_icon.png" />
                      </image>
@@ -62,14 +62,19 @@
                         <Image url="@images/phone_icon.png" />
                      </image>
                   </ImageView>
-                  <ImageView fx:id="waze_icon" fitHeight="78.0" fitWidth="81.0" pickOnBounds="true" preserveRatio="true" GridPane.halignment="CENTER" GridPane.rowIndex="1">
+                  <ImageView fx:id="waze_icon" fitHeight="78.0" fitWidth="81.0" onMouseClicked="#waze_app" pickOnBounds="true" preserveRatio="true" GridPane.halignment="CENTER" GridPane.rowIndex="1">
                      <image>
                         <Image url="@images/waze_icon.png" />
                      </image>
                   </ImageView>
-                  <ImageView fx:id="rajapp_icon" fitHeight="63.0" fitWidth="63.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1">
+                  <ImageView fx:id="rajapp_icon" fitHeight="63.0" fitWidth="63.0" onMouseClicked="#raja_app" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1">
                      <image>
                         <Image url="@images/rajapp.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fx:id="wifi_share_icon" fitHeight="80.0" fitWidth="80.0" onMouseClicked="#share_wifi" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="1">
+                     <image>
+                        <Image url="@images/icons8-hotspot-64.png" />
                      </image>
                   </ImageView>
                </children>
@@ -114,7 +119,7 @@
             </ImageView>
          </children>
       </AnchorPane>
-      <AnchorPane fx:id="phone_pane" layoutX="10.0" layoutY="10.0" prefHeight="716.0" prefWidth="366.0">
+      <AnchorPane fx:id="phone_pane" layoutX="10.0" layoutY="10.0" prefHeight="716.0" prefWidth="366.0" visible="false">
          <children>
             <ImageView fitHeight="28.0" fitWidth="398.0" pickOnBounds="true" preserveRatio="true">
                <image>
