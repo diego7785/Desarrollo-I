@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.text.Font?>
+
+<GridPane fx:id="main_screen" alignment="center" hgap="10" vgap="10" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Sim_Controller">
+   <columnConstraints>
+      <ColumnConstraints />
+   </columnConstraints>
+   <rowConstraints>
+      <RowConstraints />
+   </rowConstraints>
+   <children>
+      <AnchorPane fx:id="main_pane" prefHeight="666.0" prefWidth="398.0">
+         <children>
+            <ImageView fitHeight="28.0" fitWidth="398.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@images/sim_bg.jpg" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="697.0" fitWidth="398.0" layoutY="27.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@images/bg.jpg" />
+               </image>
+            </ImageView>
+            <GridPane layoutX="5.0" layoutY="27.0" prefHeight="313.0" prefWidth="389.0">
+              <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                  <ImageView fx:id="wpp_icon" fitHeight="80.0" fitWidth="80.0" onMouseClicked="#open_wpp" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.halignment="CENTER">
+                     <image>
+                        <Image url="@images/wpp_icon.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fx:id="fb_icon" fitHeight="111.0" fitWidth="92.0" onMouseClicked="#fb_app" pickOnBounds="true" preserveRatio="true" GridPane.halignment="CENTER">
+                     <image>
+                        <Image url="@images/fb_icon.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fx:id="sms_icon" fitHeight="68.0" fitWidth="68.0" onMouseClicked="#send_sms" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.halignment="CENTER">
+                     <image>
+                        <Image url="@images/sms_icon.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fx:id="phone_icon" fitHeight="79.0" fitWidth="76.0" onMouseClicked="#open_phone" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.halignment="CENTER">
+                     <image>
+                        <Image url="@images/phone_icon.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fx:id="waze_icon" fitHeight="78.0" fitWidth="81.0" onMouseClicked="#waze_app" pickOnBounds="true" preserveRatio="true" GridPane.halignment="CENTER" GridPane.rowIndex="1">
+                     <image>
+                        <Image url="@images/waze_icon.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fx:id="rajapp_icon" fitHeight="63.0" fitWidth="63.0" onMouseClicked="#raja_app" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1">
+                     <image>
+                        <Image url="@images/rajapp.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fx:id="wifi_share_icon" fitHeight="80.0" fitWidth="80.0" onMouseClicked="#share_wifi" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="1">
+                     <image>
+                        <Image url="@images/icons8-hotspot-64.png" />
+                     </image>
+                  </ImageView>
+               </children>
+            </GridPane>
+         </children></AnchorPane>
+      <AnchorPane fx:id="wpp_main" prefHeight="716.0" prefWidth="366.0" visible="false">
+         <children>
+            <ImageView fitHeight="28.0" fitWidth="398.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@images/sim_bg.jpg" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="690.0" fitWidth="398.0" layoutY="26.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@images/wpp_bg.jpg" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="llamar_wpp" fitHeight="112.0" fitWidth="149.0" layoutX="59.0" layoutY="289.0" onMouseClicked="#call_wpp" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@images/call_wpp.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="msg_wpp" fitHeight="112.0" fitWidth="149.0" layoutX="226.0" layoutY="302.0" onMouseClicked="#sms_wpp" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@images/msg_wpp.png" />
+               </image>
+            </ImageView>
+            <Label layoutX="63.0" layoutY="446.0" text="Llamar">
+               <font>
+                  <Font name="Noto Sans Regular" size="26.0" />
+               </font>
+            </Label>
+            <Label layoutX="192.0" layoutY="446.0" text="Enviar mensaje">
+               <font>
+                  <Font name="Noto Sans Regular" size="26.0" />
+               </font>
+            </Label>
+            <ImageView fx:id="BTback" fitHeight="68.0" fitWidth="68.0" layoutY="26.0" onMouseClicked="#back_to_main" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@images/back_icon.png" />
+               </image>
+            </ImageView>
+         </children>
+      </AnchorPane>
+      <AnchorPane fx:id="phone_pane" layoutX="10.0" layoutY="10.0" prefHeight="716.0" prefWidth="366.0" visible="false">
+         <children>
+            <ImageView fitHeight="28.0" fitWidth="398.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@images/sim_bg.jpg" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="nat_call" fitHeight="112.0" fitWidth="149.0" layoutX="153.0" layoutY="115.0" onMouseClicked="#national_call" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@images/call_wpp.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="inter_call" fitHeight="92.0" fitWidth="167.0" layoutX="116.0" layoutY="389.0" onMouseClicked="#international_call" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@images/international_call.png" />
+               </image>
+            </ImageView>
+            <Label layoutX="87.0" layoutY="250.0" prefHeight="37.0" prefWidth="225.0" text="Llamada Nacional">
+               <font>
+                  <Font name="Noto Sans Regular" size="26.0" />
+               </font>
+            </Label>
+            <Label layoutX="63.0" layoutY="493.0" text="Llamada Internacional">
+               <font>
+                  <Font name="Noto Sans Regular" size="26.0" />
+               </font>
+            </Label>
+            <ImageView fx:id="BTback_wpp" fitHeight="68.0" fitWidth="68.0" layoutY="26.0" onMouseClicked="#back_to_main" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@images/back_icon.png" />
+               </image>
+            </ImageView>
+         </children>
+      </AnchorPane>
+   </children>
+</GridPane>
+
