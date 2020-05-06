@@ -35,7 +35,6 @@ public class loginController implements Initializable {
         System.out.println(number);
         Object[] objectResult = connection.read_DB("SELECT * from lines " +
                 "WHERE number = '" + number + "';");
-
         if (objectResult[0].equals("Error")) {
             String error = (String) objectResult[1];
             throw new Password_exception(error);

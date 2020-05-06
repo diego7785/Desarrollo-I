@@ -55,7 +55,6 @@ public class Sim_Controller implements Initializable {
     @FXML
     javafx.scene.image.ImageView inter_call;
 
-
     private DBConnection connection= new DBConnection("", "", "", "", "", "");
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
