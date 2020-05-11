@@ -226,6 +226,8 @@ public class Controller implements Initializable {
     @FXML
     private JFXTextField tf_nombres;
     @FXML
+    private JFXTextField tf_gen_rep_id_pnat;
+    @FXML
     private JFXTextField tf_primer_apellido;
     @FXML
     private JFXTextField tf_segundo_apellido;
@@ -317,34 +319,43 @@ public class Controller implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         Platform.runLater(() -> {
-            if (new_user.get_user_rol() == 2) {
-                realizar_pagos.setVisible(false);
-                generar_factura.setVisible(false);
-                agregar_user.setVisible(false);
-                pane_ventas.setVisible(true);
-                cerrar_sesion_vbox.setVisible(false);
-                titulo_label.setText("    Agregar venta");
-                titulo_label.setLayoutX(35);
+            switch (new_user.get_user_rol()) {
+                case 1: {
+                    realizar_venta.setVisible(false);
+                    generar_reporte.setVisible(false);
+                    realizar_pagos.setVisible(false);
+                    cerrar_sesion_vbox.setVisible(false);
+                    pane_generar_facturas.setVisible(true);
+                    titulo_label.setText(" Generar facturas");
+                    titulo_label.setLayoutX(445);
 
-            }
-            else if (new_user.get_user_rol() == 3) {
-                realizar_venta.setVisible(false);
-                generar_reporte.setVisible(false);
-                generar_factura.setVisible(false);
-                agregar_user.setVisible(false);
-                cerrar_sesion_vbox.setVisible(false);
-                pane_pagar.setVisible(true);
-                titulo_label.setText("   Realizar pagos");
-                titulo_label.setLayoutX(311);
-            }
-            else if(new_user.get_user_rol() == 1){
-                realizar_venta.setVisible(false);
-                generar_reporte.setVisible(false);
-                realizar_pagos.setVisible(false);
-                cerrar_sesion_vbox.setVisible(false);
-                pane_generar_facturas.setVisible(true);
-                titulo_label.setText(" Generar facturas");
-                titulo_label.setLayoutX(445);
+                    break;
+                }
+
+                case 2: {
+                    realizar_pagos.setVisible(false);
+                    generar_factura.setVisible(false);
+                    agregar_user.setVisible(false);
+                    pane_ventas.setVisible(true);
+                    cerrar_sesion_vbox.setVisible(false);
+                    titulo_label.setText("    Agregar venta");
+                    titulo_label.setLayoutX(35);
+
+                    break;
+                }
+
+                case 3: {
+                    realizar_venta.setVisible(false);
+                    generar_reporte.setVisible(false);
+                    generar_factura.setVisible(false);
+                    agregar_user.setVisible(false);
+                    cerrar_sesion_vbox.setVisible(false);
+                    pane_pagar.setVisible(true);
+                    titulo_label.setText("   Realizar pagos");
+                    titulo_label.setLayoutX(311);
+
+                    break;
+                }
             }
 
             JFXComboBox<String>[]  tipoCli = new JFXComboBox[]{cb_gen_fact_tip_cliente, cb_ventas_ant_tipo_cliente, cb_ventas_nue_tipo_cliente,pagar_linea_tip_cl,pagar_cliente_tip_cl};
@@ -393,7 +404,7 @@ public class Controller implements Initializable {
 
     @FXML
     public void cambiar_pestana(MouseEvent event) throws Exception {
-        switch(new_user.get_user_id()){
+        switch (new_user.get_user_rol()) {
             case 1: {
                 realizar_venta.setVisible(false);
                 generar_reporte.setVisible(false);
@@ -421,6 +432,7 @@ public class Controller implements Initializable {
                     titulo_label.setText("  Gestión usuarios");
                     titulo_label.setLayoutX(580);
                 }
+                break;
             }
 
             case 2: {
@@ -448,6 +460,7 @@ public class Controller implements Initializable {
                     pane_gen_rep_corp.setVisible(false);
                     cerrar_sesion_vbox.setVisible(false);
                 }
+                break;
             }
 
             case 3: {
@@ -465,6 +478,7 @@ public class Controller implements Initializable {
                     pane_pagar_cliente.setVisible(false);
                     cerrar_sesion_vbox.setVisible(false);
                 }
+                break;
             }
         }
     }
@@ -687,8 +701,15 @@ public class Controller implements Initializable {
             if (lineNumber[0].equals("Error")) {
                 return;
             }
-            //connection.modify_DB("UPDATE bill SET status="+true+" WHERE linenumber='"+lineNumber+"';");
 
+            boolean updateBillStatus = connection.modify_DB("UPDATE bill SET status="+true+" WHERE linenumber='"+lineNumber+"';");
+            if(updateBillStatus) {
+                JOptionPane.showMessageDialog(null, "Pago existoso");
+
+                return;
+            }
+
+            JOptionPane.showMessageDialog(null, "No se pudo realizar el pago");
             tf_pagar_identificacion_cliente.setText("");
         }catch (EmptyFieldException e){
             JOptionPane.showMessageDialog(null, e.getMessage());
@@ -901,6 +922,41 @@ public class Controller implements Initializable {
             pane_ventas_antiguo.setVisible(false);
             pane_ventas_nuevo.setVisible(true);
             cerrar_sesion_vbox.setVisible(false);
+        }
+    }
+
+    public void handleGen_reporte_cliente(ActionEvent actionEvent){
+        try {
+            String tipoID = Integer.toString(cb_gen_rep_tipo_id_pnat.getSelectionModel().getSelectedIndex() + 1);
+            String documentNumber = tf_gen_rep_id_pnat.getText();
+
+            Object[] user = connection.read_DB("SELECT number FROM lines WHERE customerid='" + documentNumber + "';");
+            if(user[0] == "Error") {
+                JOptionPane.showMessageDialog(null, "Usuario no tiene lineas asociadas");
+                tf_gen_rep_id_pnat.setText("");
+
+                return;
+            }
+
+            Vector<String[]> userResult = (Vector<String[]>) user[1];
+            String number = userResult.get(0)[0];
+
+            Object[]  bill = connection.read_DB("SELECT * FROM bill WHERE linenumber='" + number + "';");
+            if(user[0] == "Error") {
+                JOptionPane.showMessageDialog(null, "No hay facturas asociadas a ese numero");
+                tf_gen_rep_id_pnat.setText("");
+
+                return;
+            }
+
+            Vector<String[]> billResult = (Vector<String[]>) bill[1];
+
+            CreateReport report = new CreateReport();
+            report.writeReport(billResult.get(0));
+
+            tf_gen_rep_id_pnat.setText("");
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
         }
     }
 
