@@ -20,24 +20,14 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 
 
 import javax.swing.*;
-import java.awt.*;
-import java.io.EOFException;
-import java.io.File;
-import java.lang.reflect.Array;
 import java.net.URL;
 import java.util.*;
-import java.util.List;
 
-import javax.activation.DataHandler;
-import javax.activation.DataSource;
-import javax.activation.FileDataSource;
 import javax.mail.*;
 import javax.mail.internet.*;
-import javax.swing.JPanel;
 import java.io.IOException;
 import java.util.Properties;
 import java.util.logging.Level;
@@ -403,74 +393,78 @@ public class Controller implements Initializable {
 
     @FXML
     public void cambiar_pestana(MouseEvent event) throws Exception {
-        if (new_user.get_user_rol() == 2) {
-            realizar_pagos.setVisible(false);
-            generar_factura.setVisible(false);
-            agregar_user.setVisible(false);
-            cerrar_sesion_vbox.setVisible(false);
-
-            if (event.getSource().equals(realizar_venta)) {
-                pane_generar_reporte.setVisible(false);
-                pane_ventas.setVisible(true);
-                titulo_label.setText("    Agregar venta");
-                titulo_label.setLayoutX(35);
-                pane_ventas_antiguo.setVisible(false);
-                pane_ventas_nuevo.setVisible(false);
+        switch(new_user.get_user_id()){
+            case 1: {
+                realizar_venta.setVisible(false);
+                generar_reporte.setVisible(false);
+                realizar_pagos.setVisible(false);
                 cerrar_sesion_vbox.setVisible(false);
+
+                if (event.getSource().equals(generar_factura)) {
+                    pane_generar_facturas.setVisible(true);
+                    pane_gestionar_usuarios.setVisible(false);
+                    titulo_label.setText(" Generar facturas");
+                    titulo_label.setLayoutX(445);
+                    pane_gen_fact_individual.setVisible(false);
+                    pane_gen_fact_colectiva.setVisible(false);
+                    pane_gest_usr_agregar.setVisible(false);
+                    pane_gest_usr_editar.setVisible(false);
+                    pane_gest_usr_cambiar_estado.setVisible(false);
+                    pane_gest_usr_listar.setVisible(false);
+                    cerrar_sesion_vbox.setVisible(false);
+                }
+
+                if (event.getSource().equals(agregar_user)) {
+                    pane_generar_facturas.setVisible(false);
+                    pane_gestionar_usuarios.setVisible(true);
+                    cerrar_sesion_vbox.setVisible(false);
+                    titulo_label.setText("  Gestión usuarios");
+                    titulo_label.setLayoutX(580);
+                }
             }
 
-            if (event.getSource().equals(generar_reporte)) {
-                pane_generar_reporte.setVisible(true);
-                pane_gestionar_usuarios.setVisible(false);
-                titulo_label.setText(" Generar reportes");
-                titulo_label.setLayoutX(161);
-                pane_gen_rep_pnat.setVisible(false);
-                pane_gen_rep_corp.setVisible(false);
+            case 2: {
+                realizar_pagos.setVisible(false);
+                generar_factura.setVisible(false);
+                agregar_user.setVisible(false);
                 cerrar_sesion_vbox.setVisible(false);
-            }
-        }
-        else if (new_user.get_user_rol() == 3) {
-            realizar_venta.setVisible(false);
-            generar_reporte.setVisible(false);
-            generar_factura.setVisible(false);
-            agregar_user.setVisible(false);
-            cerrar_sesion_vbox.setVisible(false);
 
-            if (event.getSource().equals(realizar_pagos)) {
-                pane_pagar.setVisible(true);
-                titulo_label.setText("   Realizar pagos");
-                titulo_label.setLayoutX(311);
-                pane_pagar_linea.setVisible(false);
-                pane_pagar_cliente.setVisible(false);
-                cerrar_sesion_vbox.setVisible(false);
-            }
-        }
-        else if(new_user.get_user_rol() == 1){
-            realizar_venta.setVisible(false);
-            generar_reporte.setVisible(false);
-            realizar_pagos.setVisible(false);
-            cerrar_sesion_vbox.setVisible(false);
+                if (event.getSource().equals(realizar_venta)) {
+                    pane_generar_reporte.setVisible(false);
+                    pane_ventas.setVisible(true);
+                    titulo_label.setText("    Agregar venta");
+                    titulo_label.setLayoutX(35);
+                    pane_ventas_antiguo.setVisible(false);
+                    pane_ventas_nuevo.setVisible(false);
+                    cerrar_sesion_vbox.setVisible(false);
+                }
 
-            if (event.getSource().equals(generar_factura)) {
-                pane_generar_facturas.setVisible(true);
-                pane_gestionar_usuarios.setVisible(false);
-                titulo_label.setText(" Generar facturas");
-                titulo_label.setLayoutX(445);
-                pane_gen_fact_individual.setVisible(false);
-                pane_gen_fact_colectiva.setVisible(false);
-                pane_gest_usr_agregar.setVisible(false);
-                pane_gest_usr_editar.setVisible(false);
-                pane_gest_usr_cambiar_estado.setVisible(false);
-                pane_gest_usr_listar.setVisible(false);
-                cerrar_sesion_vbox.setVisible(false);
+                if (event.getSource().equals(generar_reporte)) {
+                    pane_generar_reporte.setVisible(true);
+                    pane_gestionar_usuarios.setVisible(false);
+                    titulo_label.setText(" Generar reportes");
+                    titulo_label.setLayoutX(161);
+                    pane_gen_rep_pnat.setVisible(false);
+                    pane_gen_rep_corp.setVisible(false);
+                    cerrar_sesion_vbox.setVisible(false);
+                }
             }
 
-            if (event.getSource().equals(agregar_user)) {
-                pane_generar_facturas.setVisible(false);
-                pane_gestionar_usuarios.setVisible(true);
+            case 3: {
+                realizar_venta.setVisible(false);
+                generar_reporte.setVisible(false);
+                generar_factura.setVisible(false);
+                agregar_user.setVisible(false);
                 cerrar_sesion_vbox.setVisible(false);
-                titulo_label.setText("  Gestión usuarios");
-                titulo_label.setLayoutX(580);
+
+                if (event.getSource().equals(realizar_pagos)) {
+                    pane_pagar.setVisible(true);
+                    titulo_label.setText("   Realizar pagos");
+                    titulo_label.setLayoutX(311);
+                    pane_pagar_linea.setVisible(false);
+                    pane_pagar_cliente.setVisible(false);
+                    cerrar_sesion_vbox.setVisible(false);
+                }
             }
         }
     }
@@ -478,12 +472,12 @@ public class Controller implements Initializable {
     @FXML
     public void cerrar_sesion(MouseEvent event) throws Exception {
         cerrar_sesion_vbox.setVisible(true);
-        if (event.getSource().equals(cerrar_sesion_label))
-        {
+        if (event.getSource().equals(cerrar_sesion_label)) {
             try {
                 Stage log = (Stage) cerrar_sesion_label.getScene().getWindow();
                 log.close();
-                Parent root = FXMLLoader.load(getClass().getResource("Login.fxml"));
+
+                Parent root = FXMLLoader.load(getClass().getResource("login.fxml"));
                 Stage primaryStage = new Stage();
                 primaryStage.setTitle("Log In");
 
@@ -499,6 +493,7 @@ public class Controller implements Initializable {
     public void log_out(MouseEvent event) {
         if(event.getSource().equals(salir_label)) {
             cerrar_sesion_vbox.setVisible(false);
+
             int user_answer = JOptionPane.showConfirmDialog(null, "¿Desea cerrar el programa?", "¡Alerta!", JOptionPane.YES_NO_OPTION);
             if (user_answer == 0) {
                 System.exit(0);
@@ -507,7 +502,6 @@ public class Controller implements Initializable {
     }
 
     public void handleGen_registrar_compra(ActionEvent event) {
-
         try {
             String tipoCliente = cb_ventas_nue_tipo_cliente.getSelectionModel().getSelectedItem();
 
@@ -525,43 +519,42 @@ public class Controller implements Initializable {
 
             if(tipoCliente.equals("")||tipoID.equals(" ")||planAsociado.equals(" ")||documentNumber.equals(" ")||email.equals("")||nombres.equals("")||primerApellido.equals("")||segundoApellido.equals("")||nuevaLinea.equals("")){
                 throw new EmptyFieldException("Debe llenar todos los campos");
-            }else {
-                int userID = new_user.get_user_id();
-                String name = nombres + " " + primerApellido + " " + segundoApellido;
+            }
 
-                if(connection.modify_DB("INSERT INTO customer(id, name, type, email) " +
-                "VALUES(" + documentNumber + ", '" + name + "', '" + tipoCliente + "', '" + email + "');")) {
-            if(connection.modify_DB("INSERT INTO lines " +
-                    "VALUES("+nuevaLinea+", "+documentNumber+", "+tipoID+", "+planAsociado+", "+userID+", "+true+");")){
-                JOptionPane.showMessageDialog(null,"Compra registrada exitosamente");
+            int userID = new_user.get_user_id();
+            String name = nombres + " " + primerApellido + " " + segundoApellido;
+
+            if(connection.modify_DB("INSERT INTO customer(id, name, type, email) " +
+                    "VALUES(" + documentNumber + ", '" + name + "', '" + tipoCliente + "', '" + email + "');")) {
+                if(connection.modify_DB("INSERT INTO lines " +
+                        "VALUES("+nuevaLinea+", "+documentNumber+", "+tipoID+", "+planAsociado+", "+userID+", "+true+");")){
+                    JOptionPane.showMessageDialog(null,"Compra registrada exitosamente");
+                }
+                else{
+                    boolean deleted = connection.modify_DB("DELETE FROM customer WHERE id = "+documentNumber+" ;");
+                    System.out.println(deleted);
+                    JOptionPane.showMessageDialog(null,"¡ERROR! No se pudo registrar la compra");
+                }
             }
             else{
-                boolean deleted = connection.modify_DB("DELETE FROM customer WHERE id = "+documentNumber+" ;");
-                System.out.println(deleted);
-                JOptionPane.showMessageDialog(null,"¡ERROR! No se pudo registrar la compra");
+                JOptionPane.showMessageDialog(null,"¡ERROR! No se pudo registrar correctamente al cliente");
             }
-        }
-        else{
-            JOptionPane.showMessageDialog(null,"¡ERROR! No se pudo registrar correctamente al cliente");
-        }
 
-                Object[] line = connection.read_DB("INSERT INTO lines VALUES(" + nuevaLinea + ", " + documentNumber + ", " + tipoID + ", " + planAsociado + ", " + userID + ", " + true + ");");
+            Object[] line = connection.read_DB("INSERT INTO lines VALUES(" + nuevaLinea + ", " + documentNumber + ", " + tipoID + ", " + planAsociado + ", " + userID + ", " + true + ");");
 
-                tf_nombre_identificacion.setText("");
-                tf_correo_electronico.setText("");
+            tf_nombre_identificacion.setText("");
+            tf_correo_electronico.setText("");
 
-                tf_nombres.setText("");
-                tf_primer_apellido.setText("");
+            tf_nombres.setText("");
+            tf_primer_apellido.setText("");
 
-                tf_segundo_apellido.setText("");
-                tf_nueva_linea.setText("");
-            }
+            tf_segundo_apellido.setText("");
+            tf_nueva_linea.setText("");
         }catch(EmptyFieldException e){
             JOptionPane.showMessageDialog(null, e.getMessage());
         }catch (Exception e){
             JOptionPane.showMessageDialog(null, "Debe llenar todos los campos");
         }
-
     }
 
     public void handleGen_registrar_compra_ant(ActionEvent event) throws EmptyFieldException {
@@ -578,43 +571,41 @@ public class Controller implements Initializable {
             Vector<String[]> lineas = (Vector) lineasI[1];
             String customer_type = lineas.get(0)[3];
 
-            if(tipoCliente.equals("")||tipoID.equals("")||planAsociado.equals("")||documentNumber.equals("")||nuevaLinea.equals(""))
-            {
+            if(tipoCliente.equals("")||tipoID.equals("")||planAsociado.equals("")||documentNumber.equals("")||nuevaLinea.equals("")) {
                 throw new EmptyFieldException("Debe llenar todos los campos");
             }
-            if(customer_type.equals("Natural") && lineas.size() ==  3)
-            {
+
+            if(customer_type.equals("Natural") && lineas.size() ==  3) {
                 throw new NaturalCustomerException("Un cliente natural no puede tener más de tres lineas");
             }
-            else{
-                int userID = new_user.get_user_id();
 
-                Object[] customer = connection.read_DB("SELECT * FROM customer WHERE id='"+documentNumber+"' AND type='"+tipoCliente+"';");
-                if(connection.modify_DB("INSERT INTO lines " +
-                        "VALUES("+nuevaLinea+", "+documentNumber+", "+tipoID+", "+planAsociado+", "+userID+", "+true+");")){
-                    JOptionPane.showMessageDialog(null,"usuario registrado exitosamente");
-                }
-                else{
-                    JOptionPane.showMessageDialog(null,"¡ERROR! No se pudo registrar al usuario");
-                }
+            int userID = new_user.get_user_id();
 
-                tf_gest_usr_agreg_id.setText("");
-                tf_gest_usr_agreg_primer_apellido.setText("");
-                tf_gest_usr_agreg_segundo_apellido.setText("");
-                tf_gest_usr_agreg_nombre.setText("");
-                tf_gest_usr_agreg_email.setText("");
-
-                if(connection.modify_DB("INSERT INTO lines " +
-                "VALUES("+nuevaLinea+", "+documentNumber+", "+tipoID+", "+planAsociado+", "+userID+", "+true+");")){
-            JOptionPane.showMessageDialog(null,"Compra registrada exitosamente");
-        }
-        else{
-            JOptionPane.showMessageDialog(null,"¡ERROR! No se pudo registrar la compra");
-        }
-
-                tf_nombre_identificacion_ant.setText("");
-                tf_nueva_linea_ant.setText("");
+            Object[] customer = connection.read_DB("SELECT * FROM customer WHERE id='"+documentNumber+"' AND type='"+tipoCliente+"';");
+            if(connection.modify_DB("INSERT INTO lines " +
+                    "VALUES("+nuevaLinea+", "+documentNumber+", "+tipoID+", "+planAsociado+", "+userID+", "+true+");")){
+                JOptionPane.showMessageDialog(null,"usuario registrado exitosamente");
             }
+            else{
+                JOptionPane.showMessageDialog(null,"¡ERROR! No se pudo registrar al usuario");
+            }
+
+            tf_gest_usr_agreg_id.setText("");
+            tf_gest_usr_agreg_primer_apellido.setText("");
+            tf_gest_usr_agreg_segundo_apellido.setText("");
+            tf_gest_usr_agreg_nombre.setText("");
+            tf_gest_usr_agreg_email.setText("");
+
+            if(connection.modify_DB("INSERT INTO lines " +
+                    "VALUES("+nuevaLinea+", "+documentNumber+", "+tipoID+", "+planAsociado+", "+userID+", "+true+");")){
+                JOptionPane.showMessageDialog(null,"Compra registrada exitosamente");
+            }
+            else{
+                JOptionPane.showMessageDialog(null,"¡ERROR! No se pudo registrar la compra");
+            }
+
+            tf_nombre_identificacion_ant.setText("");
+            tf_nueva_linea_ant.setText("");
         }catch (EmptyFieldException e){
             JOptionPane.showMessageDialog(null, e.getMessage());
         }catch (NaturalCustomerException e){
@@ -625,7 +616,6 @@ public class Controller implements Initializable {
     }
 
     public void handleGen_agregar_usuario(ActionEvent event) {
-
         try {
             String rol = Integer.toString(cb_add_user_rol.getSelectionModel().getSelectedIndex() + 1);
 
@@ -643,16 +633,15 @@ public class Controller implements Initializable {
 
             if(documentNumber.isBlank()||email.isBlank()||nombres.isBlank()||primerApellido.isBlank()||segundoApellido.isBlank()||segundoApellido.isBlank()||password.isBlank())
                 throw new EmptyFieldException("Debe llenar todos los campos");
-            else{
-                Object[] user = connection.read_DB("INSERT INTO users VALUES('" + documentNumber + "', '" + name + "', " + rol + ", " + true + ", '" + password + "');");
-            }
 
+            Object[] user = connection.read_DB("INSERT INTO users VALUES('" + documentNumber + "', '" + name + "', " + rol + ", " + true + ", '" + password + "');");
         }catch (EmptyFieldException e){
             JOptionPane.showMessageDialog(null, e.getMessage());
         }catch (Exception e){
             JOptionPane.showMessageDialog(null, "Debe llenar todos los campos");
         }
     }
+
     public void handleGen_pagar_linea(ActionEvent event) {
         //TODO: Use documentType and clientType in the query for line
         try {
@@ -661,23 +650,22 @@ public class Controller implements Initializable {
 
             if(documentNumber.isBlank()||lineNumber.isBlank()){
                 throw new EmptyFieldException("Debe llenar todos los campos");
-            }else {
-
-                Object[] line = connection.read_DB("SELECT * FROM lines WHERE customerid='" + documentNumber + "';");
-                if (line.length != 2) {
-                    return;
-                }
-
-                if(connection.modify_DB("UPDATE bill SET status=" + true + " WHERE linenumber='" + lineNumber + "';")){
-            JOptionPane.showMessageDialog(null,"Pago realizado exitosamente");
-        }
-        else{
-            JOptionPane.showMessageDialog(null,"¡ERROR! No se pudo registrar el pago");
-        }
-
-                tf_pagar_identificacion.setText("");
-                tf_pagar_numero_linea.setText("");
             }
+
+            Object[] line = connection.read_DB("SELECT * FROM lines WHERE customerid='" + documentNumber + "';");
+            if (line.length != 2) {
+                return;
+            }
+
+            if(connection.modify_DB("UPDATE bill SET status=" + true + " WHERE linenumber='" + lineNumber + "';")){
+                JOptionPane.showMessageDialog(null,"Pago realizado exitosamente");
+            }
+            else{
+                JOptionPane.showMessageDialog(null,"¡ERROR! No se pudo registrar el pago");
+            }
+
+            tf_pagar_identificacion.setText("");
+            tf_pagar_numero_linea.setText("");
         }catch (EmptyFieldException e){
             JOptionPane.showMessageDialog(null, e.getMessage());
         }catch (Exception e){
@@ -692,19 +680,16 @@ public class Controller implements Initializable {
 
             if(documentNumber.isBlank()){
                 throw new EmptyFieldException("Debe llenar todos los campos");
-            }else {
-                Object[] lineNumber = connection.read_DB("SELECT number FROM (SELECT * FROM customer, lines " +
-                "WHERE customer.id=lines.customerid) AS result WHERE id='" + documentNumber + "' AND type='" + tipoCliente + "';");
-                if (lineNumber[0].equals("Error")) {
-                    return;
-                }
-                //TODO: lineNumber[1] is needed to update the state in bill table but the read_DB function is returning an object and
-                // i dont now how to parse it
-
-                //connection.modify_DB("UPDATE bill SET status="+true+" WHERE linenumber='"+lineNumber+"';");
-
-                tf_pagar_identificacion_cliente.setText("");
             }
+
+            Object[] lineNumber = connection.read_DB("SELECT number FROM (SELECT * FROM customer, lines " +
+                    "WHERE customer.id=lines.customerid) AS result WHERE id='" + documentNumber + "' AND type='" + tipoCliente + "';");
+            if (lineNumber[0].equals("Error")) {
+                return;
+            }
+            //connection.modify_DB("UPDATE bill SET status="+true+" WHERE linenumber='"+lineNumber+"';");
+
+            tf_pagar_identificacion_cliente.setText("");
         }catch (EmptyFieldException e){
             JOptionPane.showMessageDialog(null, e.getMessage());
         }catch (Exception e){
@@ -818,7 +803,6 @@ public class Controller implements Initializable {
             pane_pagar_cliente.setVisible(false);
             cerrar_sesion_vbox.setVisible(false);
         }
-
     }
 
     public void buscar_edit(ActionEvent event){
@@ -846,24 +830,24 @@ public class Controller implements Initializable {
 
                     if (rol.isBlank() || nombres.isBlank() || primerApellido.isBlank() || segundoApellido.isBlank() || email.isBlank())
                         throw new EmptyFieldException("Debe llenar todos los campos");
-                    else {
 
-                        String name = nombres + " " + primerApellido + " " + segundoApellido;
-                        user = connection.read_DB("UPDATE users SET rolid=" + rol + ", name='" + name + "' WHERE id='" + documentNumber + "';");
-                        name = nombres + " " + primerApellido + " " + segundoApellido;
-                        if (connection.modify_DB("UPDATE users SET rolid=" + rol + ", name='" + name + "' " +
-                                "WHERE id='" + documentNumber + "';")) {
-                            JOptionPane.showMessageDialog(null, "Actualizacion realizada correctamente");
-                        } else {
-                            JOptionPane.showMessageDialog(null, "¡ERROR! No se pudo realizar la actualizacion");
-                        }
+                    String name = nombres + " " + primerApellido + " " + segundoApellido;
+                    user = connection.read_DB("UPDATE users SET rolid=" + rol + ", name='" + name + "' WHERE id='" + documentNumber + "';");
+                    name = nombres + " " + primerApellido + " " + segundoApellido;
 
-                        tf_gest_usr_cambiar_nombre.setText("");
-                        tf_gest_usr_cambiar_nombre.setText("");
-                        tf_gest_usr_editar_primer_apellido.setText("");
-                        tf_gest_usr_editar_segundo_apellido.setText("");
-                        tf_gest_usr_editar_correo.setText("");
+                    if (connection.modify_DB("UPDATE users SET rolid=" + rol + ", name='" + name + "' " +
+                            "WHERE id='" + documentNumber + "';")) {
+                        JOptionPane.showMessageDialog(null, "Actualizacion realizada correctamente");
                     }
+                    else {
+                        JOptionPane.showMessageDialog(null, "¡ERROR! No se pudo realizar la actualizacion");
+                    }
+
+                    tf_gest_usr_cambiar_nombre.setText("");
+                    tf_gest_usr_cambiar_nombre.setText("");
+                    tf_gest_usr_editar_primer_apellido.setText("");
+                    tf_gest_usr_editar_segundo_apellido.setText("");
+                    tf_gest_usr_editar_correo.setText("");
                 }
             }
         }catch (EmptyFieldException e){
@@ -881,21 +865,21 @@ public class Controller implements Initializable {
 
                 if(documentNumber.isBlank()){
                     throw new EmptyFieldException("Debe llenar todos los campos");
-                }else {
+                }
 
-                    Object[] user = connection.read_DB("SELECT * FROM users WHERE id='" + documentNumber + "';");
+                Object[] user = connection.read_DB("SELECT * FROM users WHERE id='" + documentNumber + "';");
 
-                    pane_estado_campos.setVisible(true);
-                    pane_estado_est.setVisible(true);
+                pane_estado_campos.setVisible(true);
+                pane_estado_est.setVisible(true);
 
-                    if (event.getSource().equals("nameButton")) {
-                        cerrar_sesion_vbox.setVisible(false);
-                        String rol = Integer.toString(gest_usr_editar_rol_ComboBox1.getSelectionModel().getSelectedIndex() + 1);
-                        if (connection.modify_DB("UPDATE user SET rolid='" + rol + "' WHERE id='" + documentNumber + "';")) {
-                            JOptionPane.showMessageDialog(null, "Actualizacion realizada correctamente");
-                        } else {
-                            JOptionPane.showMessageDialog(null, "¡ERROR! No se pudo realizar la actualizacion");
-                        }
+                if (event.getSource().equals("nameButton")) {
+                    cerrar_sesion_vbox.setVisible(false);
+                    String rol = Integer.toString(gest_usr_editar_rol_ComboBox1.getSelectionModel().getSelectedIndex() + 1);
+                    if (connection.modify_DB("UPDATE user SET rolid='" + rol + "' WHERE id='" + documentNumber + "';")) {
+                        JOptionPane.showMessageDialog(null, "Actualizacion realizada correctamente");
+                    }
+                    else {
+                        JOptionPane.showMessageDialog(null, "¡ERROR! No se pudo realizar la actualizacion");
                     }
                 }
             }
@@ -924,8 +908,8 @@ public class Controller implements Initializable {
         JOptionPane.showMessageDialog(null, "Generando factura, por favor espere");
       
         try {
-         /*Booleano para representar si el cliente quiere factura en el correo o a la dirección
-        Se supone que se debe sacar de la bdd pero aún no está. True si quiere factura electrónica, falso si no*/
+            /*Booleano para representar si el cliente quiere factura en el correo o a la dirección
+            Se supone que se debe sacar de la bdd pero aún no está. True si quiere factura electrónica, falso si no*/
 
             String number = gen_fact_linea_TextField.getText();
             String tipoCliente = cb_gen_fact_tip_cliente.getSelectionModel().getSelectedItem();
@@ -943,12 +927,9 @@ public class Controller implements Initializable {
                 electronic_bill = true;
             }
 
-
-
             if(gen_fact_id_TextField.getText().isBlank() || gen_fact_linea_TextField.getText().isBlank()){
                 throw new EmptyFieldException("Debe llenar todos los campos");
             }
-
 
             String actualDate = cal.get(Calendar.YEAR) + "/" + months[cal.get(Calendar.MONTH)];
             String cutDate = cal.get(Calendar.YEAR) + "/" + months[cal.get(Calendar.MONTH) + 1] + "/05";
@@ -958,29 +939,28 @@ public class Controller implements Initializable {
             path_file = bill.WriteBill(result.get(0),actualDate, cutDate, months[Integer.parseInt(result.get(0)[14].substring(5, 7)) - 1], electronic_bill, price);
 
             //Condicional para arrojar un mensaje de como fue enviada la factura del cliente. En este paso, se envia por mail
-            if (electronic_bill)
-            {
+            if (electronic_bill) {
                 Object[] customer = connection.read_DB("SELECT email FROM Customer WHERE id = '"+document+"';");
+
                 Vector<String[]> resultado = (Vector<String[]>) customer[1];
                 String email = resultado.get(0)[0];
+
                 String name_bill = path_file+"/bill"+number+".pdf";
                 send_bill_by_email(email,name_bill);
             }
-            else
-            {
+            else {
                 JOptionPane.showMessageDialog(null, "Factura generada. Lista para imprimir");
             }
-
         }catch (EmptyFieldException e){
             JOptionPane.showMessageDialog(null, "Debe llenar todos los campos");
         }catch (Exception e){
             JOptionPane.showMessageDialog(null, "No hay registros ");
         }
-
     }
 
     public void handleGen_fact_generar_colect_button(ActionEvent actionEvent) throws IOException, MessagingException {
-      JOptionPane.showMessageDialog(null, "Generando facturas, por favor espere");
+        JOptionPane.showMessageDialog(null, "Generando facturas, por favor espere");
+
         try {
             Object[] infoHeaderBill = connection.read_DB("SELECT * FROM Bill, Lines, Customer WHERE number=linenumber AND customerid=Customer.id AND EXTRACT(YEAR FROM date_pdf) = " + cal.get(Calendar.YEAR) + " AND EXTRACT(MONTH FROM date_pdf) = " + (cal.get(Calendar.MONTH) + 1) + ";");
             Vector<String[]> result = (Vector) infoHeaderBill[1];
@@ -990,7 +970,6 @@ public class Controller implements Initializable {
             String path_name;
 
             for (int i = 0; i < result.size(); i++) {
-
                 String number = result.get(i)[13];
 
                 Object[] priceO = connection.read_DB("SELECT cost,minutes,dataplan,messages,data_wpp,minutes_wpp,data_fb,data_waze,minutes_international,data_shared FROM Plan,Lines WHERE planID=id AND number= '"+number+"' ;");
@@ -1007,23 +986,20 @@ public class Controller implements Initializable {
 
                 CreateBill bill = new CreateBill();
                 path_name = bill.WriteBill(result.get(i),actualDate, cutDate, months[Integer.parseInt(result.get(0)[14].substring(5, 7)) - 1], electronic_bill,  price);
-
-                if (electronic_bill)
-                {
+                if (electronic_bill) {
                     Object[] customer = connection.read_DB("SELECT email FROM lines INNER JOIN customer ON lines.customerID = customer.id WHERE lines.number = '"+number+"';");
                     Vector<String[]> resultado = (Vector<String[]>) customer[1];
+
                     String email = resultado.get(0)[0];
                     send_bill_by_email(email,path_name+"/bill"+number+".pdf");
                 }
-                else
-                {
+                else {
                     JOptionPane.showMessageDialog(null, "Factura generada. Lista para imprimir");
                 }
             }
         }catch (Exception e) {
             JOptionPane.showMessageDialog(null, e.getMessage());
         }
-
         JOptionPane.showMessageDialog(null, "Facturas generadas");
     }
 
@@ -1033,6 +1009,7 @@ public class Controller implements Initializable {
 
     public void send_bill_by_email (String customer_email,String customer_bill) throws MessagingException, IOException {
         Properties propiedad = new Properties();
+
         propiedad.setProperty("mail.smtp.host", "smtp.gmail.com");
         propiedad.setProperty("mail.smtp.starttls.enable", "true");
         propiedad.setProperty("mail.smtp.port", "587");
@@ -1045,7 +1022,6 @@ public class Controller implements Initializable {
         String destinatario = customer_email;
         String asunto = "Su factura mensual de telefonía RAJA";
         String texto = "Cordial saludo, desde la telefonía RAJA S.A. adjuntamos su factura de este mes";
-
 
         MimeMessage mail = new MimeMessage(sesion);
 
@@ -1061,7 +1037,6 @@ public class Controller implements Initializable {
         Multipart multipart = new MimeMultipart();
         multipart.addBodyPart(mimeBodyPart);
         multipart.addBodyPart(mimeBodyPartAdjunto);
-        //
 
         try {
             mail.setFrom(new InternetAddress (correoEnvia));
@@ -1075,12 +1050,10 @@ public class Controller implements Initializable {
             transporte.close();
 
             JOptionPane.showMessageDialog(null, "Factura generada. Fue enviada al email del cliente");
-
         } catch (AddressException ex) {
             Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
         } catch (MessagingException ex) {
             Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
         }
-
     }
 }
