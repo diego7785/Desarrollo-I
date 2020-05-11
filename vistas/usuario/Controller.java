@@ -929,6 +929,14 @@ public class Controller implements Initializable {
         try {
             String tipoID = Integer.toString(cb_gen_rep_tipo_id_pnat.getSelectionModel().getSelectedIndex() + 1);
             String documentNumber = tf_gen_rep_id_pnat.getText();
+            
+            Object[] customer = connection.read_DB("SELECT name, email, city FROM customer WHERE id='" + documentNumber + "' and typeid='"+ tipoID +"'");
+            if(customer[0] == "Error") {
+                tf_gen_rep_id_pnat.setText("");
+                JOptionPane.showMessageDialog(null, "Usuario no registrado");
+
+                return;
+            }
 
             Object[] user = connection.read_DB("SELECT number FROM lines WHERE customerid='" + documentNumber + "';");
             if(user[0] == "Error") {
@@ -949,10 +957,11 @@ public class Controller implements Initializable {
                 return;
             }
 
-            Vector<String[]> billResult = (Vector<String[]>) bill[1];
+            Vector<String[]> billResult = (Vector<String[]>) bill[1]
+            Vector<String[]> customerInfo = (Vector<String[]>) customer[1];
 
             CreateReport report = new CreateReport();
-            report.writeReport(billResult.get(0));
+            report.writeReport(billResult.get(0), documentNumber, customerInfo.get(0), number);
 
             tf_gen_rep_id_pnat.setText("");
         } catch (Exception e) {

@@ -1,16 +1,14 @@
 import com.google.zxing.WriterException;
 import com.itextpdf.text.*;
 import com.itextpdf.text.pdf.*;
-import org.w3c.dom.css.Rect;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Calendar;
-import java.util.Vector;
 
 public class CreateBill {
-    public String WriteBill(String[] info,String actualDate, String cutDate, String month, boolean electronicBill, String[] price) {
+    public String WriteBill(String[] info, String actualDate, String cutDate, String month, boolean electronicBill, String[] price) {
         Calendar cal = Calendar.getInstance();
         Integer actual_year = cal.get(Calendar.YEAR) ;
         String address = "";
