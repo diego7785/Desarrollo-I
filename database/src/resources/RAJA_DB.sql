@@ -1,7 +1,7 @@
 -- POSTGRESQL VERSION
 -- PostgreSQL 12.2 - 64-bits
 -- ***********************************************************************************
--- ******************************BASE DE DATOS V7*************************************
+-- ******************************BASE DE DATOS V8*************************************
 DROP TRIGGER IF EXISTS tr_codificate_role ON Roles;
 DROP TRIGGER IF EXISTS tr_codificate_plan ON Plan;
 DROP TRIGGER IF EXISTS tr_codificate_typeid ON Type_IDCustomer;
@@ -40,7 +40,7 @@ CREATE TABLE DB_version (
 	version INT,
 	CONSTRAINT pk_db_version PRIMARY KEY (version)
 );
-INSERT INTO DB_version VALUES(7);
+INSERT INTO DB_version VALUES(8);
 
 CREATE TABLE Roles (
 	id INT,
@@ -157,7 +157,11 @@ CREATE FUNCTION codificate_plan() RETURNS TRIGGER AS $$
 DECLARE
 BEGIN
 	NEW.id := NEXTVAL('seq_id_plan');
-	NEW.additional_minute := NEW.cost / NEW.minutes;
+	IF NEW.id = 5 THEN
+	    NEW.additional_minute := 0;
+	 ELSE
+	    NEW.additional_minute := NEW.cost / NEW.minutes;
+	 END IF;
 	RETURN NEW;
 END
 $$ LANGUAGE plpgsql;
@@ -310,13 +314,17 @@ INSERT INTO Plan VALUES
 (2,39900,150,4608,100,250,300,250,0,0,0,'...',0),
 (3,49900,300,8704,100,500,600,500,0,0,0,'...',0),
 (4,65000,1000,20480,-1,-1,-1,-1,-1,0,0,'...',0),
-(5,100000,-1,30720,-1,0,0,0,0,-1,-1,'...',0);
+(5,100000,-1,30720,-1,0,0,0,0,-1,3072,'...',0);
 -- NOTA: EL -1 REPRESENTA ILIMITADO EN EL PLAN
 
 INSERT INTO Type_IDCustomer (name) VALUES
 ('Cedula de Ciudadanía'),
 ('NIT'),
-('Cedula de Extranjería');
+('Cedula de Extranjería'),
+('Pasaporte'),
+('Carne Diplomatico'),
+('Tarjeta de Identidad');
+-- NO SE LES IDICA LAS TILDES PARA EVITAR CONFLICTOS DE CARACTERES EN LA BASE DE DATOS
 -- ******************************************************************
 -- ******************INSERTS DE PRUEBAS**********************
 
@@ -341,8 +349,8 @@ VALUES ('3219234114');
 
 INSERT INTO Customer(id, name, type, email)  
 VALUES('1007151295', 'Andrés Viáfara', 'Natural','dianbovi@hotmail.com');
-INSERT INTO Lines (number,customerID,planID, userID)
-VALUES('3107356146', '1007151295',4, 456);
+INSERT INTO Lines (number,customerID,planID, userID, physicalBill)
+VALUES('3107356146', '1007151295',4, 456, true);
 INSERT INTO Bill (place_payment,lineNumber)
 VALUES('Davivienda','3107356146');
 
@@ -353,7 +361,9 @@ VALUES('3217219953', '1006106575',5, 456);
 INSERT INTO Bill (lineNumber)
 VALUES('3217219953');
 
-INSERT INTO Bill (place_payment,lineNumber)
-VALUES('Bancolombia','3219234114');
-INSERT INTO Bill (place_payment,lineNumber)
-VALUES('Bancolombia','3219234114');
+
+-- Ejemplo con extensión de plan
+
+UPDATE Bill SET plan_ext=1 WHERE id=1;
+UPDATE Bill SET data_consuption=500, minutes_consuption = 150, sms_consuption=50, data_wpp=150, minutes_wpp=300, data_fb=150 WHERE id=1;
+
