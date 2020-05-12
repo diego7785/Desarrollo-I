@@ -134,11 +134,8 @@ public class CreateReport {
             doc.close();
 
             return directorio.getPath();
-
         } catch (Exception e) {
             System.out.println(e.getMessage());
-            System.out.println(e);
-            return e.toString();
         }
     }
 
@@ -214,6 +211,7 @@ public class CreateReport {
                     }
                 }
             }
+
             switch (i) {
                 case 1: {
                     value = Float.parseFloat(price[2]) - Float.parseFloat(consume[1]);
@@ -230,7 +228,6 @@ public class CreateReport {
                     break;
                 }
             }
-
 
             result.setValue(value,types[i-1],"");
         }
