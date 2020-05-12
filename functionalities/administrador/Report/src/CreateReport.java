@@ -15,8 +15,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 
 public class CreateReport {
-    public String writeReport(String[] info, String documentNumber, String[] customerInfo, String number, String month, int plan) {
-        File directorio = new File(".\\Reports\\");
+    public String writeReport(String[] info, String documentNumber, String[] customerInfo, String number, String month, int plan, String[] price) {
+        File directorio = new File("./Reports");
         if (!directorio.exists()) {
             if (directorio.mkdirs()) {
                 System.out.println("Directorio creado");
@@ -24,18 +24,18 @@ public class CreateReport {
         }
 
         try {
-            FileOutputStream file = new FileOutputStream(directorio.getPath()+"\\   reports" + documentNumber +".pdf");
+            FileOutputStream file = new FileOutputStream(directorio.getPath()+"/reports" + documentNumber +".pdf");
             Document doc = new Document();
 
             PdfWriter writer = PdfWriter.getInstance(doc, file);
             doc.open();
 
-            Image logotype = Image.getInstance("functionalities\\administrador\\Bill\\src\\assets\\images\\logotype.png");
+            Image logotype = Image.getInstance("functionalities/administrador/Bill/src/assets/images/logotype.png");
             logotype.setAlignment(Element.ALIGN_LEFT);
             logotype.scaleAbsolute(70, 70);
             doc.add(logotype);
 
-            Image avatar = Image.getInstance("functionalities\\administrador\\Report\\src\\avatar.png");
+            Image avatar = Image.getInstance("functionalities/administrador/Report/src/avatar.png");
             avatar.setAlignment(Element.ALIGN_CENTER);
             avatar.scaleAbsolute(100, 100);
             doc.add(avatar);
@@ -91,8 +91,8 @@ public class CreateReport {
             doc.add(table);
             pb.endText();
 
-            CreateGraphic(info, plan);
-            Image graphic = Image.getInstance("functionalities\\administrador\\Report\\src\\consumoComun.png");
+            CreateGraphic(info, plan, price);
+            Image graphic = Image.getInstance("functionalities/administrador/Report/src/consumoComun.png");
 
             graphic.setAlignment(Element.ALIGN_LEFT);
             graphic.scaleAbsolute(200, 150);
@@ -100,7 +100,7 @@ public class CreateReport {
 
             switch (plan) {
                 case 4: {
-                    graphic = Image.getInstance("functionalities\\administrador\\Report\\src\\consumoAdicionalesplus.png");
+                    graphic = Image.getInstance("functionalities/administrador/Report/src/consumoAdicionalesplus.png");
                     graphic.setAbsolutePosition(310, 285);
                     graphic.scaleAbsolute(200, 150);
                     doc.add(graphic);
@@ -109,12 +109,12 @@ public class CreateReport {
                 }
 
                 case 5: {
-                    graphic = Image.getInstance("functionalities\\administrador\\Report\\src\\consumoAdicionalesplus.png");
+                    graphic = Image.getInstance("functionalities/administrador/Report/src/consumoAdicionalesplus.png");
                     graphic.setAbsolutePosition(310, 285);
                     graphic.scaleAbsolute(200, 150);
                     doc.add(graphic);
 
-                    graphic = Image.getInstance("functionalities\\administrador\\Report\\src\\consumointernacionalycompartido.png");
+                    graphic = Image.getInstance("functionalities/administrador/Report/src/consumointernacionalycompartido.png");
                     graphic.setAlignment(Element.ALIGN_LEFT);
                     graphic.scaleAbsolute(200, 150);
                     doc.add(graphic);
@@ -122,7 +122,7 @@ public class CreateReport {
                 }
 
                 default: {
-                    graphic = Image.getInstance("functionalities\\administrador\\Report\\src\\consumoAdicionales.png");
+                    graphic = Image.getInstance("functionalities/administrador/Report/src/consumoAdicionales.png");
                     graphic.setAbsolutePosition(310, 285);
                     graphic.scaleAbsolute(200, 150);
                     doc.add(graphic);
@@ -142,13 +142,13 @@ public class CreateReport {
         }
     }
 
-    public void CreateGraphic(String[] consume, int idPlan) {
-        DefaultCategoryDataset dataset = createDataset(consume, 1, 3);
+    public void CreateGraphic(String[] consume, int idPlan, String[] price) {
+        DefaultCategoryDataset dataset = createDataset(consume, 1, 3, price);
         JFreeChart chart = createChart(dataset, "Consumo mensual comun", 1);
 
         switch (idPlan) {
             case 4: {
-                dataset = createDataset(consume, 4, 7);
+                dataset = createDataset(consume, 4, 7, price);
                 JFreeChart chart2 = createChart(dataset, "Consumo mensual adicionales", 3);
 
                 ChartPanel chartPanel = new ChartPanel(chart2);
@@ -158,13 +158,13 @@ public class CreateReport {
             }
 
             case 5: {
-                dataset = createDataset(consume, 4, 7);
+                dataset = createDataset(consume, 4, 7, price);
                 JFreeChart chart2 = createChart(dataset, "Consumo mensual adicionales", 3);
 
                 ChartPanel chartPanel = new ChartPanel(chart2);
                 chartPanel.setPreferredSize(new java.awt.Dimension(500, 270));
 
-                dataset = createDataset(consume, 8, 9);
+                dataset = createDataset(consume, 8, 9, price);
                 JFreeChart chart3 = createChart(dataset, "Consumo mensual internacional y compartido", 4);
 
                 chartPanel = new ChartPanel(chart3);
@@ -174,7 +174,7 @@ public class CreateReport {
             }
 
             default: {
-                dataset = createDataset(consume, 4, 6);
+                dataset = createDataset(consume, 4, 6, price);
                 JFreeChart chart1 = createChart(dataset, "Consumo mensual adicionales", 2);
 
                 ChartPanel chartPanel = new ChartPanel(chart1);
@@ -189,32 +189,48 @@ public class CreateReport {
         chartPanel.setPreferredSize(new java.awt.Dimension(500, 270));
     }
 
-    private DefaultCategoryDataset createDataset(String[] consume, int start, int end) {
+    private DefaultCategoryDataset createDataset(String[] consume, int start, int end, String[] price) {
         DefaultCategoryDataset result = new DefaultCategoryDataset();
         String[] types = {"Consumo datos (MB)","Consumo minutos","Consumo mensajes","Consumo datos Whatsapp", "Consumo minutos Whatsapp",
                 "Consumo datos Facebook","Consumo datos Waze","Consumo minutos internaciones","Consumo datos compartidos"};
 
         for(int i=start; i<= end; i++){
             float value=0;
+            if(Integer.parseInt(consume[12]) != 0){
+                switch (i) {
+                    case 1: {
+                        value = 2 * Float.parseFloat(price[2]) - Float.parseFloat(consume[1]);
+                        break;
+                    }
+
+                    case 2: {
+                        value = 2 * Float.parseFloat(price[1]) - Float.parseFloat(consume[2]);
+                        break;
+                    }
+
+                    default: {
+                        value = 2 * Float.parseFloat(price[i]) - Float.parseFloat(consume[i]);
+                        break;
+                    }
+                }
+            }
             switch (i) {
                 case 1: {
-                    //value = 2 * Float.parseFloat(price[2]) - Float.parseFloat(consume[1]);
-                    value = 2 * 2 - 1;
+                    value = Float.parseFloat(price[2]) - Float.parseFloat(consume[1]);
                     break;
                 }
 
                 case 2: {
-                    //value = 2 * Float.parseFloat(price[1]) - Float.parseFloat(consume[2]);
-                    value = 2 * 1 - 2;
+                    value = Float.parseFloat(price[1]) - Float.parseFloat(consume[2]);
                     break;
                 }
 
                 default: {
-                    //value = 2 * Float.parseFloat(price[i]) - Float.parseFloat(consume[i]);
-                    value = 2 * i - i;
+                    value = Float.parseFloat(price[i]) - Float.parseFloat(consume[i]);
                     break;
                 }
             }
+
 
             result.setValue(value,types[i-1],"");
         }
@@ -248,7 +264,7 @@ public class CreateReport {
         xAxis.setCategoryLabelPositions(CategoryLabelPositions.UP_45);
         plot.setBackgroundAlpha(0.5f);
         try {
-            ChartUtilities.saveChartAsPNG(new File("functionalities\\administrador\\Report\\src\\consumo" + tipo + ".png"), chart, 400, 300);
+            ChartUtilities.saveChartAsPNG(new File("functionalities/administrador/Report/src/consumo" + tipo + ".png"), chart, 400, 300);
         } catch (IOException e) {
             System.out.println("Can't generate bill");
         }

@@ -938,7 +938,7 @@ public class Controller implements Initializable {
                 return;
             }
 
-            Object[] user = connection.read_DB("SELECT number FROM lines WHERE customerid='" + documentNumber + "';");
+            Object[] user = connection.read_DB("SELECT number, planid FROM lines WHERE customerid='" + documentNumber + "';");
             if(user[0] == "Error") {
                 JOptionPane.showMessageDialog(null, "Usuario no tiene lineas asociadas");
                 tf_gen_rep_id_pnat.setText("");
@@ -947,21 +947,34 @@ public class Controller implements Initializable {
             }
 
             Vector<String[]> userResult = (Vector<String[]>) user[1];
-            String number = userResult.get(0)[0];
+            for (int i = 0; i < userResult.size(); i++) {
+                String number = userResult.get(i)[0];
+                int plan = Integer.parseInt(userResult.get(i)[1]);
 
-            Object[]  bill = connection.read_DB("SELECT * FROM bill WHERE linenumber='" + number + "';");
-            if(user[0] == "Error") {
-                JOptionPane.showMessageDialog(null, "No hay facturas asociadas a ese numero");
-                tf_gen_rep_id_pnat.setText("");
+                Object[]  bill = connection.read_DB("SELECT * FROM bill WHERE linenumber='" + number + "';");
+                if(bill[0] == "Error") {
+                    JOptionPane.showMessageDialog(null, "No hay facturas asociadas a ese numero");
+                    tf_gen_rep_id_pnat.setText("");
 
-                return;
+                    return;
+                }
+
+                Object[] priceQuery = connection.read_DB("SELECT cost,minutes,dataplan,messages,data_wpp,minutes_wpp,data_fb,data_waze,minutes_international,data_shared FROM Plan,Lines WHERE planID=id AND number= '"+number+"' ;");
+                if(priceQuery[0] == "Error") {
+                    JOptionPane.showMessageDialog(null, "Error al cargar informacion del plan");
+                    tf_gen_rep_id_pnat.setText("");
+
+                    return;
+                }
+                Vector<String[]> priceVector = (Vector<String[]>) priceQuery[1];
+                String[] price = priceVector.get(0);
+
+                Vector<String[]> billResult = (Vector<String[]>) bill[1];
+                Vector<String[]> customerInfo = (Vector<String[]>) customer[1];
+
+                CreateReport report = new CreateReport();
+                report.writeReport(billResult.get(i), documentNumber, customerInfo.get(0), number, months[Integer.parseInt(billResult.get(i)[14].substring(5, 7)) - 1], plan, price);
             }
-
-            Vector<String[]> billResult = (Vector<String[]>) bill[1]
-            Vector<String[]> customerInfo = (Vector<String[]>) customer[1];
-
-            CreateReport report = new CreateReport();
-            report.writeReport(billResult.get(0), documentNumber, customerInfo.get(0), number);
 
             tf_gen_rep_id_pnat.setText("");
         } catch (Exception e) {
