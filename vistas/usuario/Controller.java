@@ -34,7 +34,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class Controller implements Initializable {
-
     //Class ConstructorP
     public Controller() {}
 
@@ -527,31 +526,17 @@ public class Controller implements Initializable {
 
     @FXML
     public void choose(ActionEvent event) {
-        switch(event.getSource()) {
-            case cb_ventas_ant_tipo_cliente: {
-                choose_user_type(cb_ventas_ant_tipo_cliente, cb_ventas_ant_tipo_id, label_agregar_cliente_antiguo_id);
-                break;
-            }
-
-            case cb_ventas_nue_tipo_cliente: {
-                choose_user_type(cb_ventas_nue_tipo_cliente, cb_ventas_nue_tipo_id,label_agregar_compra_nuevo);
-                break;
-            }
-
-            case pagar_linea_tip_cl: {
-                choose_user_type(pagar_linea_tip_cl,pagar_linea_tip_id,pagar_id_label);
-                break;
-            }
-
-            case pagar_cliente_tip_cl: {
-                choose_user_type(pagar_cliente_tip_cl, pagar_cliente_tip_id,pagar_id_label2);
-                break;
-            }
-
-            case cb_gen_fact_tip_cliente: {
-                choose_user_type(cb_gen_fact_tip_cliente,cb_gen_fact_tip_id,gen_fact_id_label);
-                break;
-            }
+        Object source = event.getSource();
+        if (cb_ventas_ant_tipo_cliente.equals(source)) {
+            choose_user_type(cb_ventas_ant_tipo_cliente, cb_ventas_ant_tipo_id, label_agregar_cliente_antiguo_id);
+        } else if (cb_ventas_nue_tipo_cliente.equals(source)) {
+            choose_user_type(cb_ventas_nue_tipo_cliente, cb_ventas_nue_tipo_id, label_agregar_compra_nuevo);
+        } else if (pagar_linea_tip_cl.equals(source)) {
+            choose_user_type(pagar_linea_tip_cl, pagar_linea_tip_id, pagar_id_label);
+        } else if (pagar_cliente_tip_cl.equals(source)) {
+            choose_user_type(pagar_cliente_tip_cl, pagar_cliente_tip_id, pagar_id_label2);
+        } else if (cb_gen_fact_tip_cliente.equals(source)) {
+            choose_user_type(cb_gen_fact_tip_cliente, cb_gen_fact_tip_id, gen_fact_id_label);
         }
     }
 
