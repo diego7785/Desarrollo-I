@@ -315,6 +315,14 @@ public class Controller implements Initializable {
     private Label cerrar_sesion_label;
     @FXML
     private Label salir_label;
+    @FXML
+    private Label label_agregar_cliente_antiguo_id;
+    @FXML
+    private Label label_agregar_compra_nuevo;
+    @FXML
+    private Label pagar_id_label;
+    @FXML
+    private Label pagar_id_label2;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -514,7 +522,48 @@ public class Controller implements Initializable {
             }
         }
     }
+    @FXML
+    public void choose(ActionEvent event)
+    {
+        if (event.getSource().equals(cb_ventas_ant_tipo_cliente))
+        {
+            choose_user_type(cb_ventas_ant_tipo_cliente, cb_ventas_ant_tipo_id, label_agregar_cliente_antiguo_id);
+        }
+        else if(event.getSource().equals(cb_ventas_nue_tipo_cliente))
+        {
+            choose_user_type(cb_ventas_nue_tipo_cliente, cb_ventas_nue_tipo_id,label_agregar_compra_nuevo);
+        }
+        else if(event.getSource().equals(pagar_linea_tip_cl))
+        {
+            choose_user_type(pagar_linea_tip_cl,pagar_linea_tip_id,pagar_id_label);
+        }
+        else if(event.getSource().equals(pagar_cliente_tip_cl))
+        {
+            choose_user_type(pagar_cliente_tip_cl, pagar_cliente_tip_id,pagar_id_label2);
+        }
+        else if(event.getSource().equals(cb_gen_fact_tip_cliente))
+        {
+            choose_user_type(cb_gen_fact_tip_cliente,cb_gen_fact_tip_id,gen_fact_id_label);
+        }
+    }
 
+    @FXML
+    public void choose_user_type(JFXComboBox cb__tipo_cliente, JFXComboBox cb_tipo_id, Label nombre)
+    {
+        String tipo = (String) cb__tipo_cliente.getSelectionModel().getSelectedItem();
+        if(tipo == "Corporativo")
+        {
+            cb_tipo_id.setDisable(true);
+            cb_tipo_id.setPromptText("NIT");
+            nombre.setText("NIT:");
+        }
+        else
+        {
+            cb_tipo_id.setDisable(false);
+            cb_tipo_id.setPromptText("");
+            nombre.setText("Identificación:");
+        }
+    }
     public void handleGen_registrar_compra(ActionEvent event) {
         try {
             String tipoCliente = cb_ventas_nue_tipo_cliente.getSelectionModel().getSelectedItem();
@@ -992,6 +1041,7 @@ public class Controller implements Initializable {
             String number = gen_fact_linea_TextField.getText();
             String tipoCliente = cb_gen_fact_tip_cliente.getSelectionModel().getSelectedItem();
             int document = Integer.parseInt(gen_fact_id_TextField.getText());
+            String tipo_id= cb_gen_fact_tip_id.getSelectionModel().getSelectedItem();
 
             Object[] priceO = connection.read_DB("SELECT cost,minutes,dataplan,messages,data_wpp,minutes_wpp,data_fb,data_waze,minutes_international,data_shared FROM Plan,Lines WHERE planID=id AND number= '"+number+"' ;");
             Vector<String[]> priceV = (Vector<String[]>) priceO[1];

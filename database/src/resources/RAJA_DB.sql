@@ -1,7 +1,7 @@
 -- POSTGRESQL VERSION
 -- PostgreSQL 12.2 - 64-bits
 -- ***********************************************************************************
--- ******************************BASE DE DATOS V7*************************************
+-- ******************************BASE DE DATOS V8*************************************
 DROP TRIGGER IF EXISTS tr_codificate_role ON Roles;
 DROP TRIGGER IF EXISTS tr_codificate_plan ON Plan;
 DROP TRIGGER IF EXISTS tr_codificate_typeid ON Type_IDCustomer;
@@ -40,7 +40,7 @@ CREATE TABLE DB_version (
 	version INT,
 	CONSTRAINT pk_db_version PRIMARY KEY (version)
 );
-INSERT INTO DB_version VALUES(7);
+INSERT INTO DB_version VALUES(8);
 
 CREATE TABLE Roles (
 	id INT,
@@ -320,7 +320,11 @@ INSERT INTO Plan VALUES
 INSERT INTO Type_IDCustomer (name) VALUES
 ('Cedula de Ciudadanía'),
 ('NIT'),
-('Cedula de Extranjería');
+('Cedula de Extranjería'),
+('Pasaporte'),
+('Carne Diplomatico'),
+('Tarjeta de Identidad');
+-- NO SE LES IDICA LAS TILDES PARA EVITAR CONFLICTOS DE CARACTERES EN LA BASE DE DATOS
 -- ******************************************************************
 -- ******************INSERTS DE PRUEBAS**********************
 
