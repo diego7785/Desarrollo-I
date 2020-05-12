@@ -9,7 +9,7 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws Exception{
         //--module-path ${PATH_TO_FX} --add-modules javafx.controls,javafx.fxml
 
-        Parent root = FXMLLoader.load(getClass().getResource("Login.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("login.fxml"));
 
         Scene login = new Scene(root);
 

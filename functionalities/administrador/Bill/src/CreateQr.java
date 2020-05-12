@@ -8,7 +8,6 @@ import java.io.IOException;
 import java.nio.file.FileSystems;
 import java.nio.file.Path;
 
-
 public class CreateQr {
     public CreateQr(String text, int width, int height, String filePath) throws WriterException, IOException {
         QRCodeWriter qrCodeWriter = new QRCodeWriter();
