@@ -400,8 +400,7 @@ public class Controller implements Initializable {
         });
     }
 
-    public void set_user_role (int NR)
-    {
+    public void set_user_role (int NR) {
         new_user.set_user_rol(NR);
     }
 
@@ -440,6 +439,7 @@ public class Controller implements Initializable {
                     titulo_label.setText("  Gestión usuarios");
                     titulo_label.setLayoutX(580);
                 }
+
                 break;
             }
 
@@ -468,6 +468,7 @@ public class Controller implements Initializable {
                     pane_gen_rep_corp.setVisible(false);
                     cerrar_sesion_vbox.setVisible(false);
                 }
+
                 break;
             }
 
@@ -486,6 +487,7 @@ public class Controller implements Initializable {
                     pane_pagar_cliente.setVisible(false);
                     cerrar_sesion_vbox.setVisible(false);
                 }
+
                 break;
             }
         }
@@ -522,48 +524,52 @@ public class Controller implements Initializable {
             }
         }
     }
+
     @FXML
-    public void choose(ActionEvent event)
-    {
-        if (event.getSource().equals(cb_ventas_ant_tipo_cliente))
-        {
-            choose_user_type(cb_ventas_ant_tipo_cliente, cb_ventas_ant_tipo_id, label_agregar_cliente_antiguo_id);
-        }
-        else if(event.getSource().equals(cb_ventas_nue_tipo_cliente))
-        {
-            choose_user_type(cb_ventas_nue_tipo_cliente, cb_ventas_nue_tipo_id,label_agregar_compra_nuevo);
-        }
-        else if(event.getSource().equals(pagar_linea_tip_cl))
-        {
-            choose_user_type(pagar_linea_tip_cl,pagar_linea_tip_id,pagar_id_label);
-        }
-        else if(event.getSource().equals(pagar_cliente_tip_cl))
-        {
-            choose_user_type(pagar_cliente_tip_cl, pagar_cliente_tip_id,pagar_id_label2);
-        }
-        else if(event.getSource().equals(cb_gen_fact_tip_cliente))
-        {
-            choose_user_type(cb_gen_fact_tip_cliente,cb_gen_fact_tip_id,gen_fact_id_label);
+    public void choose(ActionEvent event) {
+        switch(event.getSource()) {
+            case cb_ventas_ant_tipo_cliente: {
+                choose_user_type(cb_ventas_ant_tipo_cliente, cb_ventas_ant_tipo_id, label_agregar_cliente_antiguo_id);
+                break;
+            }
+
+            case cb_ventas_nue_tipo_cliente: {
+                choose_user_type(cb_ventas_nue_tipo_cliente, cb_ventas_nue_tipo_id,label_agregar_compra_nuevo);
+                break;
+            }
+
+            case pagar_linea_tip_cl: {
+                choose_user_type(pagar_linea_tip_cl,pagar_linea_tip_id,pagar_id_label);
+                break;
+            }
+
+            case pagar_cliente_tip_cl: {
+                choose_user_type(pagar_cliente_tip_cl, pagar_cliente_tip_id,pagar_id_label2);
+                break;
+            }
+
+            case cb_gen_fact_tip_cliente: {
+                choose_user_type(cb_gen_fact_tip_cliente,cb_gen_fact_tip_id,gen_fact_id_label);
+                break;
+            }
         }
     }
 
     @FXML
-    public void choose_user_type(JFXComboBox cb__tipo_cliente, JFXComboBox cb_tipo_id, Label nombre)
-    {
+    public void choose_user_type(JFXComboBox cb__tipo_cliente, JFXComboBox cb_tipo_id, Label nombre) {
         String tipo = (String) cb__tipo_cliente.getSelectionModel().getSelectedItem();
-        if(tipo == "Corporativo")
-        {
+        if(tipo == "Corporativo") {
             cb_tipo_id.setDisable(true);
             cb_tipo_id.setPromptText("NIT");
             nombre.setText("NIT:");
         }
-        else
-        {
+        else {
             cb_tipo_id.setDisable(false);
             cb_tipo_id.setPromptText("");
             nombre.setText("Identificación:");
         }
     }
+    
     public void handleGen_registrar_compra(ActionEvent event) {
         try {
             String tipoCliente = cb_ventas_nue_tipo_cliente.getSelectionModel().getSelectedItem();
