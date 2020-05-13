@@ -991,7 +991,7 @@
             </HBox>
          </children>
       </AnchorPane>
-      <AnchorPane fx:id="pane_gest_usr_cambiar_estado" layoutX="10.0" layoutY="102.0" onMouseClicked="#cambiar_pestana" prefHeight="509.0" prefWidth="900.0" style="-fx-background-color: #202642;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+      <AnchorPane fx:id="pane_gest_usr_cambiar_estado" layoutX="10.0" layoutY="102.0" onMouseClicked="#cambiar_pestana" prefHeight="509.0" prefWidth="900.0" style="-fx-background-color: #202642;" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
          <children>
             <ImageView fx:id="gest_usr_cambiar_estado_retroceder_Image" fitHeight="35.0" fitWidth="41.0" layoutX="14.0" layoutY="14.0" onMouseClicked="#user_gest" pickOnBounds="true" preserveRatio="true">
                <image>
