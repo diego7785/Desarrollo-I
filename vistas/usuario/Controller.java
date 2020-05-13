@@ -328,6 +328,7 @@ public class Controller implements Initializable {
     @FXML
     private Label pagar_id_label2;
 
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         Platform.runLater(() -> {
@@ -1113,13 +1114,36 @@ public class Controller implements Initializable {
         JOptionPane.showMessageDialog(null, "Generando factura, por favor espere");
       
         try {
-            /*Booleano para representar si el cliente quiere factura en el correo o a la dirección
-            Se supone que se debe sacar de la bdd pero aún no está. True si quiere factura electrónica, falso si no*/
-
             String number = gen_fact_linea_TextField.getText();
             String tipoCliente = cb_gen_fact_tip_cliente.getSelectionModel().getSelectedItem();
             int document = Integer.parseInt(gen_fact_id_TextField.getText());
             String tipo_id= cb_gen_fact_tip_id.getSelectionModel().getSelectedItem();
+            int tipo = 0;
+
+            if (tipo_id == "Cédula Ciudadanía")
+            {
+                tipo = 1;
+            }
+            else if (tipo_id == "NIT")
+            {
+                tipo = 2;
+            }
+            else if (tipo_id == "Cédula Extrajería")
+            {
+                tipo = 3;
+            }
+            else if (tipo_id == "Pasaporte")
+            {
+                tipo = 4;
+            }
+            else if (tipo_id == "Carné Diplomático")
+            {
+                tipo = 5;
+            }
+            else
+            {
+                tipo = 6;
+            }
 
             Object[] priceO = connection.read_DB("SELECT cost,minutes,dataplan,messages,data_wpp,minutes_wpp,data_fb,data_waze,minutes_international,data_shared FROM Plan,Lines WHERE planID=id AND number= '"+number+"' ;");
             Vector<String[]> priceV = (Vector<String[]>) priceO[1];
@@ -1128,9 +1152,9 @@ public class Controller implements Initializable {
             Object[] info = connection.read_DB("SELECT * FROM Bill, Lines, Customer WHERE number=linenumber AND number= '" + number + "' AND customerid=Customer.id AND customerid= '" + document + "' AND EXTRACT(YEAR FROM date_pdf) = " + cal.get(Calendar.YEAR) + " AND EXTRACT(MONTH FROM date_pdf) = " + (cal.get(Calendar.MONTH) + 1) + " AND type = '" + tipoCliente + "' ;");
             Vector<String[]>result = (Vector<String[]>) info[1];
 
-            Boolean electronic_bill = false;
+            Boolean physical_bill = false;
             if (result.get(0)[25].equals("t")) {
-                electronic_bill = true;
+                physical_bill = true;
             }
 
             if(gen_fact_id_TextField.getText().isBlank() || gen_fact_linea_TextField.getText().isBlank()){
@@ -1142,11 +1166,11 @@ public class Controller implements Initializable {
 
             CreateBill bill = new CreateBill();
             String path_file;
-            path_file = bill.WriteBill(result.get(0),actualDate, cutDate, months[Integer.parseInt(result.get(0)[14].substring(5, 7)) - 1], electronic_bill, price);
+            path_file = bill.WriteBill(result.get(0),actualDate, cutDate, months[Integer.parseInt(result.get(0)[14].substring(5, 7)) - 1], physical_bill, price);
 
             //Condicional para arrojar un mensaje de como fue enviada la factura del cliente. En este paso, se envia por mail
-            if (electronic_bill) {
-                Object[] customer = connection.read_DB("SELECT email FROM Customer WHERE id = '"+document+"';");
+            if (physical_bill == false) {
+                Object[] customer = connection.read_DB("SELECT email FROM Customer WHERE id = '"+document+"' AND typeID="+tipo+";");
 
                 Vector<String[]> resultado = (Vector<String[]>) customer[1];
                 String email = resultado.get(0)[0];
