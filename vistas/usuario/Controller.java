@@ -930,7 +930,7 @@ public class Controller implements Initializable {
                     throw new EmptyFieldException("Debe llenar todos los campos");
                 }
 
-                Object[] user = connection.read_DB("SELECT * FROM users WHERE id='" + documentNumber + "' AND typeid='" + documentType + "';");
+                Object[] user = connection.read_DB("SELECT name, civil_status, gender, email  FROM users WHERE id='" + documentNumber + "' AND typeid='" + documentType + "';");
                 if (user[0] == "Error") {
                     JOptionPane.showMessageDialog(null, "Usuario no registrado");
                     tf_gest_usr_cambiar_nombre.setText("");
@@ -941,6 +941,37 @@ public class Controller implements Initializable {
                     return;
                 }
                 pane_edit_campos.setVisible(true);
+
+                Vector<String[]> info = (Vector<String[]>) user[1];
+                String[] partsName = info.get(0)[0].split(" ");
+                switch (partsName.length) {
+                    case 1: {
+                        tf_gest_usr_cambiar_nombre.setText(partsName[0]);
+                        break;
+                    }
+
+                    case 2: {
+                        tf_gest_usr_cambiar_nombre.setText(partsName[0]);
+                        tf_gest_usr_editar_primer_apellido.setText(partsName[1]);
+                        break;
+                    }
+
+                    case 3: {
+                        tf_gest_usr_cambiar_nombre.setText(partsName[0]);
+                        tf_gest_usr_editar_primer_apellido.setText(partsName[1]);
+                        tf_gest_usr_editar_segundo_apellido.setText(partsName[2]);
+                        break;
+                    }
+
+                    default: {
+                        tf_gest_usr_cambiar_nombre.setText(partsName[0]+ " " +partsName[1]);
+                        tf_gest_usr_editar_primer_apellido.setText(partsName[2]);
+                        tf_gest_usr_editar_segundo_apellido.setText(partsName[3]);
+                        break;
+                    }
+                }
+
+                tf_gest_usr_editar_correo.setText(info.get(0)[3]);
             }
 
             if (event.getSource().equals(gest_usr_editar_usuario_guardar)) {
