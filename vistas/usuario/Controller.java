@@ -21,7 +21,6 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
-
 import javax.swing.*;
 import java.net.URL;
 import java.util.*;
@@ -226,6 +225,8 @@ public class Controller implements Initializable {
     private JFXTextField tf_nombres;
     @FXML
     private JFXTextField tf_gen_rep_id_pnat;
+    @FXML
+    private JFXTextField tf_gen_rep_nit_corp;
     @FXML
     private JFXTextField tf_primer_apellido;
     @FXML
@@ -969,7 +970,11 @@ public class Controller implements Initializable {
         try {
             String tipoID = Integer.toString(cb_gen_rep_tipo_id_pnat.getSelectionModel().getSelectedIndex() + 1);
             String documentNumber = tf_gen_rep_id_pnat.getText();
-            
+
+            if(documentNumber.isBlank()){
+                throw new EmptyFieldException("Debe llenar todos los campos");
+            }
+
             Object[] customer = connection.read_DB("SELECT name, email, city FROM customer WHERE id='" + documentNumber + "' and typeid='"+ tipoID +"'");
             if(customer[0] == "Error") {
                 tf_gen_rep_id_pnat.setText("");
@@ -1016,7 +1021,60 @@ public class Controller implements Initializable {
                 report.writeReport(billResult.get(i), documentNumber, customerInfo.get(0), number, months[Integer.parseInt(billResult.get(i)[14].substring(5, 7)) - 1], plan, price);
             }
 
+            JOptionPane.showMessageDialog(null, "Reporte generado");
             tf_gen_rep_id_pnat.setText("");
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    public void handleGen_reporte_empresa(ActionEvent actionEvent) {
+        try {
+            String nit = tf_gen_rep_nit_corp.getText();
+
+            if(nit.isBlank()){
+                throw new EmptyFieldException("Nit vacio");
+            }
+
+            Object[] customer = connection.read_DB("SELECT name, email, city FROM customer WHERE id='" + nit + "' and typeid=2;");
+            if (customer[0] == "Error") {
+                JOptionPane.showMessageDialog(null, "Empesa no registrada");
+                tf_gen_rep_nit_corp.setText("");
+
+                return;
+            }
+
+            Object[] lines = connection.read_DB("SELECT number, planid, status FROM lines WHERE customerid='" + nit + "';");
+            if (lines[0] == "Error") {
+                JOptionPane.showMessageDialog(null, "Empesa no tiene lineas asociadas");
+                tf_gen_rep_nit_corp.setText("");
+
+                return;
+            }
+
+            Vector<String[]> customerInfo = (Vector<String[]>) customer[1];
+            Vector<String[]> linesInfo = (Vector<String[]>) lines[1];
+
+            for (int i = 0; i < linesInfo.size(); i++) {
+                String number = linesInfo.get(i)[0];
+
+                int index = linesInfo.get(i).length - 1;
+
+                Object[] bill = connection.read_DB("SELECT price, status FROM bill WHERE linenumber='" + number + "';");
+                if (bill[0] == "Error") {
+                    linesInfo.get(i)[index] += "/ /";
+                }
+                else {
+                    Vector<String[]> queryResult = (Vector<String[]>) bill[1];
+                    linesInfo.get(i)[index] += "/" + queryResult.get(0)[0] + "/" + queryResult.get(0)[1];
+                }
+            }
+
+            reportEmpresa report = new reportEmpresa();
+            report.writeReport(nit, customerInfo.get(0), linesInfo);
+
+            JOptionPane.showMessageDialog(null, "Reporte generado");
+            tf_gen_rep_nit_corp.setText("");
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
