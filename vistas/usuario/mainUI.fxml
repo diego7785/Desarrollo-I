@@ -980,7 +980,7 @@
             </HBox>
          </children>
       </AnchorPane>
-      <AnchorPane fx:id="pane_gest_usr_cambiar_estado" layoutX="10.0" layoutY="102.0" onMouseClicked="#cambiar_pestana" prefHeight="509.0" prefWidth="900.0" style="-fx-background-color: #202642;" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+      <AnchorPane fx:id="pane_gest_usr_cambiar_estado" layoutX="10.0" layoutY="102.0" onMouseClicked="#cambiar_pestana" prefHeight="509.0" prefWidth="900.0" style="-fx-background-color: #202642;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
          <children>
             <ImageView fx:id="gest_usr_cambiar_estado_retroceder_Image" fitHeight="35.0" fitWidth="41.0" layoutX="14.0" layoutY="14.0" onMouseClicked="#user_gest" pickOnBounds="true" preserveRatio="true">
                <image>
@@ -1020,7 +1020,7 @@
                               <Font size="18.0" />
                            </font>
                         </Label>
-                        <JFXTextField fx:id="gest_usr_cambiar_estadoII" focusColor="#fa8628" prefHeight="25.0" prefWidth="227.0" style="-fx-text-inner-color: WHITE;" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                        <JFXTextField fx:id="gest_usr_cambiar_estado_nombres" focusColor="#fa8628" prefHeight="25.0" prefWidth="227.0" style="-fx-text-inner-color: WHITE;" GridPane.columnIndex="1" GridPane.rowIndex="1">
                            <font>
                               <Font size="18.0" />
                            </font>
@@ -1030,7 +1030,7 @@
                               <Font size="18.0" />
                            </font>
                         </Label>
-                        <JFXTextField fx:id="gest_usr_editar_apellidoII_tf1" focusColor="#fa8628" prefHeight="25.0" prefWidth="227.0" style="-fx-text-inner-color: WHITE;" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                        <JFXTextField fx:id="gest_usr_editar_estado_primer_apellido" focusColor="#fa8628" prefHeight="25.0" prefWidth="227.0" style="-fx-text-inner-color: WHITE;" GridPane.columnIndex="1" GridPane.rowIndex="2">
                            <font>
                               <Font size="18.0" />
                            </font>
@@ -1040,7 +1040,7 @@
                               <Font size="18.0" />
                            </font>
                         </Label>
-                        <JFXTextField fx:id="gest_usr_editar_nombre_tf1" focusColor="#fa8628" prefHeight="25.0" prefWidth="227.0" style="-fx-text-inner-color: WHITE;" GridPane.columnIndex="1" GridPane.rowIndex="3">
+                        <JFXTextField fx:id="gest_usr_editar_estado_segundo_apellido" focusColor="#fa8628" prefHeight="25.0" prefWidth="227.0" style="-fx-text-inner-color: WHITE;" GridPane.columnIndex="1" GridPane.rowIndex="3">
                            <font>
                               <Font size="18.0" />
                            </font>
@@ -1050,7 +1050,7 @@
                               <Font size="18.0" />
                            </font>
                         </Label>
-                        <JFXTextField fx:id="gest_usr_editar_correo_tf1" focusColor="#fa8628" prefHeight="25.0" prefWidth="227.0" style="-fx-text-inner-color: WHITE;" GridPane.columnIndex="1" GridPane.rowIndex="4">
+                        <JFXTextField fx:id="gest_usr_editar_estado_correo" focusColor="#fa8628" prefHeight="25.0" prefWidth="227.0" style="-fx-text-inner-color: WHITE;" GridPane.columnIndex="1" GridPane.rowIndex="4">
                            <font>
                               <Font size="18.0" />
                            </font>
