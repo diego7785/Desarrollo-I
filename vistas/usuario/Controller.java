@@ -56,7 +56,7 @@ public class Controller implements Initializable {
     ObservableList<String> estado_civil = FXCollections.observableArrayList( "Casado", "Soltero", "Viudo", "Divorciado");
 
     ObservableList<String> rol = FXCollections.observableArrayList( "Administrador", "Gerente", "Operador");
-    ObservableList<String> estado = FXCollections.observableArrayList( "I", "II");
+    ObservableList<String> estado = FXCollections.observableArrayList( "true", "flase");
 
     ObservableList<String> plan_asociado = FXCollections.observableArrayList( "Plan Conéctate", "Plan Conéctate Plus", "Plan Conectados Somos Más", "Plan Redes Sin Límites", "Plan Uno Es Más");
     //Login interface
@@ -68,6 +68,8 @@ public class Controller implements Initializable {
     private JFXPasswordField tf_pass;
     @FXML
     private JFXComboBox<String> cb_rol;
+    @FXML
+    private JFXComboBox<String> gest_usr_cambiar_estado_cb2;
     @FXML
     private JFXComboBox<String> cb_rol2;
     @FXML
@@ -298,6 +300,8 @@ public class Controller implements Initializable {
     private JFXTextField tf_gest_usr_editar_correo;
     @FXML
     private JFXButton gest_usr_editar_btn_guardar;
+    @FXML
+    private JFXButton gest_usr_editar_estado_buscar;
     //cambiar estado
     @FXML
     private JFXComboBox <String> set_est;
@@ -396,7 +400,10 @@ public class Controller implements Initializable {
                 roles[i].getItems().addAll(rol);
             }
 
-            set_est.getItems().addAll(estado);
+            JFXComboBox<String>[] estados = new JFXComboBox[]{gest_usr_cambiar_estado_cb2, set_est};
+            for(int i=0; i<= (estados.length-1); i++) {
+                estados[i].getItems().addAll(estado);
+            }
         });
     }
 
@@ -901,14 +908,17 @@ public class Controller implements Initializable {
                     String primerApellido = tf_gest_usr_editar_primer_apellido.getText();
 
                     String segundoApellido = tf_gest_usr_editar_segundo_apellido.getText();
+                    String estadoCivil = edit_user_est_civil.getSelectionModel().getSelectedItem();
+                    String genero = edit_user_genero.getSelectionModel().getSelectedItem();
+
                     String email = tf_gest_usr_editar_correo.getText();
 
                     if (rol.isBlank() || nombres.isBlank() || primerApellido.isBlank() || segundoApellido.isBlank() || email.isBlank())
                         throw new EmptyFieldException("Debe llenar todos los campos");
 
                     String name = nombres + " " + primerApellido + " " + segundoApellido;
-                    if (connection.modify_DB("UPDATE users SET rolid=" + rol + ", name='" + name + "' " +
-                            "WHERE id='" + documentNumber + "';")) {
+                    if (connection.modify_DB("UPDATE user SET rolid=" + rol + ", name='" + name + "' " + ", email='"+ email + "' " +
+                            ", civil_stade='" + estadoCivil +"' " + ", gender='" + genero +"' " +"WHERE id='" + documentNumber + "';")) {
                         JOptionPane.showMessageDialog(null, "Actualizacion realizada correctamente");
                     }
                     else {
@@ -930,35 +940,44 @@ public class Controller implements Initializable {
     }
 
     public void buscar_estado(ActionEvent event){
+        String documentNumber = tf_gest_usr_editar_estado_numero.getText();
         try {
-            if (event.getSource().equals(gest_usr_estado_btn_buscar)) {
-                cerrar_sesion_vbox.setVisible(false);
-                String documentNumber = tf_gest_usr_editar_estado_numero.getText();
-
-                if(documentNumber.isBlank()){
-                    throw new EmptyFieldException("Debe llenar todos los campos");
-                }
-
-                Object[] user = connection.read_DB("SELECT * FROM users WHERE id='" + documentNumber + "';");
-
-                pane_estado_campos.setVisible(true);
-                pane_estado_est.setVisible(true);
-
-                if (event.getSource().equals("nameButton")) {
-                    cerrar_sesion_vbox.setVisible(false);
-                    String rol = Integer.toString(gest_usr_editar_rol_ComboBox1.getSelectionModel().getSelectedIndex() + 1);
-                    if (connection.modify_DB("UPDATE user SET rolid='" + rol + "' WHERE id='" + documentNumber + "';")) {
-                        JOptionPane.showMessageDialog(null, "Actualizacion realizada correctamente");
-                    }
-                    else {
-                        JOptionPane.showMessageDialog(null, "¡ERROR! No se pudo realizar la actualizacion");
-                    }
-                }
+            if (documentNumber.isBlank()) {
+                throw new EmptyFieldException("Debe llenar todos los campos");
             }
+
+            Object[] user = connection.read_DB("SELECT * FROM users WHERE id='" + documentNumber + "';");
+            if (user[0] == "Error") {
+                JOptionPane.showMessageDialog(null, "Usuario no registrado");
+                tf_gest_usr_editar_estado_numero.setText("");
+
+                return;
+            }
+
+            pane_estado_campos.setVisible(true);
+            pane_estado_est.setVisible(true);
+
         }catch (EmptyFieldException e){
             JOptionPane.showMessageDialog(null, e.getMessage());
         }catch (Exception e){
             JOptionPane.showMessageDialog(null, "Debe llenar todos los campos");
+        }
+    }
+
+    public void modificar_estado(ActionEvent actionEvent) {
+        try {
+            String documentNumber = tf_gest_usr_editar_estado_numero.getText();
+            String estado = gest_usr_cambiar_estado_cb2.getSelectionModel().getSelectedItem();
+            System.out.println(estado);
+
+            if (connection.modify_DB("UPDATE user SET status='" + estado + "' WHERE id='" + documentNumber + "';")) {
+                JOptionPane.showMessageDialog(null, "Actualizacion realizada correctamente");
+            }
+            else {
+                JOptionPane.showMessageDialog(null, "¡ERROR! No se pudo realizar la actualizacion");
+            }
+        } catch (Exception e) {
+
         }
     }
 
