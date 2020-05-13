@@ -1,7 +1,7 @@
 -- POSTGRESQL VERSION
 -- PostgreSQL 12.2 - 64-bits
 -- ***********************************************************************************
--- ******************************BASE DE DATOS V9*************************************
+-- ******************************BASE DE DATOS V10*************************************
 DROP TRIGGER IF EXISTS tr_codificate_role ON Roles;
 DROP TRIGGER IF EXISTS tr_codificate_plan ON Plan;
 DROP TRIGGER IF EXISTS tr_codificate_typeid ON Type_IDCustomer;
@@ -40,13 +40,18 @@ CREATE TABLE DB_version (
 	version INT,
 	CONSTRAINT pk_db_version PRIMARY KEY (version)
 );
-INSERT INTO DB_version VALUES(8);
+INSERT INTO DB_version VALUES(10);
 
 CREATE TABLE Roles (
 	id INT,
 	name VARCHAR(25) NOT NULL,
 	description VARCHAR(200),
 	CONSTRAINT pk_role PRIMARY KEY (id)
+);
+CREATE TABLE Type_IDCustomer(
+	id INT,
+	name VARCHAR(25) NOT NULL,
+	CONSTRAINT pk_type_user PRIMARY KEY (id)
 );
 CREATE TABLE Users (
 	id VARCHAR (20) NOT NULL,
@@ -64,11 +69,6 @@ CREATE TABLE Users (
 		REFERENCES Roles(id) ON UPDATE CASCADE ON DELETE RESTRICT,
 	CONSTRAINT fk_usertypeid FOREIGN KEY (typeID) 
 		REFERENCES Type_IDCustomer(id) ON UPDATE CASCADE ON DELETE RESTRICT
-);
-CREATE TABLE Type_IDCustomer(
-	id INT,
-	name VARCHAR(25) NOT NULL,
-	CONSTRAINT pk_type_user PRIMARY KEY (id)
 );
 CREATE TABLE Customer (
 	id VARCHAR(20),
