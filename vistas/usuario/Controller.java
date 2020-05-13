@@ -930,7 +930,7 @@ public class Controller implements Initializable {
                     throw new EmptyFieldException("Debe llenar todos los campos");
                 }
 
-                Object[] user = connection.read_DB("SELECT name, civil_status, gender, email  FROM users WHERE id='" + documentNumber + "' AND typeid='" + documentType + "';");
+                Object[] user = connection.read_DB("SELECT name, civil_status, gender, email, roleid  FROM users WHERE id='" + documentNumber + "' AND typeid='" + documentType + "';");
                 if (user[0] == "Error") {
                     JOptionPane.showMessageDialog(null, "Usuario no registrado");
                     tf_gest_usr_cambiar_nombre.setText("");
@@ -971,7 +971,10 @@ public class Controller implements Initializable {
                     }
                 }
 
+                edit_user_est_civil.setPromptText(info.get(0)[1]);
+                edit_user_genero.setPromptText(info.get(0)[2]);
                 tf_gest_usr_editar_correo.setText(info.get(0)[3]);
+                cb_edit_user_rol.setPromptText(info.get(0)[4]);
             }
 
             if (event.getSource().equals(gest_usr_editar_usuario_guardar)) {
@@ -1061,7 +1064,7 @@ public class Controller implements Initializable {
                         break;
                     }
                 }
-                gest_usr_editar_rol_ComboBox1.setId(info.get(0)[2]);
+                gest_usr_editar_rol_ComboBox1.setPromptText(info.get(0)[2]);
                 gest_usr_editar_estado_correo.setText(info.get(0)[1]);
             }
 
