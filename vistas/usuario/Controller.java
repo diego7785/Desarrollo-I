@@ -970,11 +970,28 @@ public class Controller implements Initializable {
                         break;
                     }
                 }
+                String rol = "";
+                switch (info.get(0)[4]) {
+                    case "1": {
+                        rol = "Administrador";
+                        break;
+                    }
+
+                    case "2": {
+                        rol = "Gerente";
+                        break;
+                    }
+
+                    case "3": {
+                        rol = "Operador";
+                        break;
+                    }
+                }
 
                 edit_user_est_civil.setPromptText(info.get(0)[1]);
                 edit_user_genero.setPromptText(info.get(0)[2]);
                 tf_gest_usr_editar_correo.setText(info.get(0)[3]);
-                cb_edit_user_rol.setPromptText(info.get(0)[4]);
+                cb_edit_user_rol.setPromptText(rol);
             }
 
             if (event.getSource().equals(gest_usr_editar_usuario_guardar)) {
@@ -1064,7 +1081,25 @@ public class Controller implements Initializable {
                         break;
                     }
                 }
-                gest_usr_editar_rol_ComboBox1.setPromptText(info.get(0)[2]);
+
+                String rol = "";
+                switch (info.get(0)[2]) {
+                    case "1": {
+                        rol = "Administrador";
+                        break;
+                    }
+
+                    case "2": {
+                        rol = "Gerente";
+                        break;
+                    }
+
+                    case "3": {
+                        rol = "Operador";
+                        break;
+                    }
+                }
+                gest_usr_editar_rol_ComboBox1.setPromptText(rol);
                 gest_usr_editar_estado_correo.setText(info.get(0)[1]);
             }
 
