@@ -1115,54 +1115,54 @@
                </image>
             </ImageView>
             <Label fx:id="pagar_linea_label11111111" layoutX="57.0" layoutY="24.0" text="Atrás" textFill="WHITE" />
-            <JFXButton fx:id="gest_usr_editar_btn_buscar111" layoutX="353.0" layoutY="437.0" onAction="#buscar_edit" prefHeight="48.0" prefWidth="168.0" text="Listar" textFill="WHITE">
+            <JFXButton fx:id="gest_usr_editar_btn_buscar111" layoutX="353.0" layoutY="437.0" onAction="#handleGen_listar_usuarios" prefHeight="48.0" prefWidth="168.0" text="Listar" textFill="WHITE">
                <font>
                   <Font size="18.0" />
                </font>
             </JFXButton>
             <VBox layoutX="210.0" layoutY="210.0" prefHeight="200.0" prefWidth="453.0">
                <children>
-                  <JFXRadioButton text="Tipo de Documento de Identificación" textFill="WHITE">
+                  <JFXRadioButton fx:id="listar_document_type" text="Tipo de Documento de Identificación" textFill="WHITE">
                      <font>
                         <Font size="18.0" />
                      </font>
                   </JFXRadioButton>
-                  <JFXRadioButton text="Número de Identificación" textFill="WHITE">
+                  <JFXRadioButton fx:id="listar_document_number" text="Número de Identificación" textFill="WHITE">
                      <font>
                         <Font size="18.0" />
                      </font>
                   </JFXRadioButton>
-                  <JFXRadioButton text="Nombre" textFill="WHITE">
+                  <JFXRadioButton fx:id="listar_primer_apellido" text="Primer apellido" textFill="WHITE">
                      <font>
                         <Font size="18.0" />
                      </font>
                   </JFXRadioButton>
-                  <JFXRadioButton text="Primer apellido" textFill="WHITE">
+                  <JFXRadioButton fx:id="listar_nombre" text="Nombre" textFill="WHITE">
                      <font>
                         <Font size="18.0" />
                      </font>
                   </JFXRadioButton>
-                  <JFXRadioButton text="Segundo Apellido" textFill="WHITE">
+                  <JFXRadioButton fx:id="listar_segundo_apellido" text="Segundo Apellido" textFill="WHITE">
                      <font>
                         <Font size="18.0" />
                      </font>
                   </JFXRadioButton>
-                  <JFXRadioButton text="Fecha de nacimiento" textFill="WHITE">
+                  <JFXRadioButton fx:id="listar_fecha_nacimiento" text="Fecha de nacimiento" textFill="WHITE">
                      <font>
                         <Font size="18.0" />
                      </font>
                   </JFXRadioButton>
-                  <JFXRadioButton text="Género" textFill="WHITE">
+                  <JFXRadioButton fx:id="listar_genero" text="Género" textFill="WHITE">
                      <font>
                         <Font size="18.0" />
                      </font>
                   </JFXRadioButton>
-                  <JFXRadioButton text="Estado civil" textFill="WHITE">
+                  <JFXRadioButton fx:id="listar_estado_civil" text="Estado civil" textFill="WHITE">
                      <font>
                         <Font size="18.0" />
                      </font>
                   </JFXRadioButton>
-                  <JFXRadioButton text="Correo electrónico" textFill="WHITE">
+                  <JFXRadioButton fx:id="listar_email" text="Correo electrónico" textFill="WHITE">
                      <font>
                         <Font size="18.0" />
                      </font>
