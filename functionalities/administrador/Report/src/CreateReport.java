@@ -15,7 +15,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 
 public class CreateReport {
-    public String writeReport(String[] info, String documentNumber, String[] customerInfo, String number, String month, int plan, String[] price) {
+    public void writeReport(String[] info, String documentNumber, String[] customerInfo, String number, String month, int plan, String[] price) {
         File directorio = new File("./Reports");
         if (!directorio.exists()) {
             if (directorio.mkdirs()) {
@@ -135,7 +135,6 @@ public class CreateReport {
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
-        return directorio.getPath();
     }
 
     public void CreateGraphic(String[] consume, int idPlan, String[] price) {
