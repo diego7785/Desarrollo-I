@@ -227,6 +227,8 @@ public class Controller implements Initializable {
     @FXML
     private JFXTextField tf_gen_rep_id_pnat;
     @FXML
+    private JFXTextField tf_gen_rep_nit_corp;
+    @FXML
     private JFXTextField tf_primer_apellido;
     @FXML
     private JFXTextField tf_segundo_apellido;
@@ -969,7 +971,11 @@ public class Controller implements Initializable {
         try {
             String tipoID = Integer.toString(cb_gen_rep_tipo_id_pnat.getSelectionModel().getSelectedIndex() + 1);
             String documentNumber = tf_gen_rep_id_pnat.getText();
-            
+
+            if(documentNumber.isBlank()){
+                throw new EmptyFieldException("Debe llenar todos los campos");
+            }
+
             Object[] customer = connection.read_DB("SELECT name, email, city FROM customer WHERE id='" + documentNumber + "' and typeid='"+ tipoID +"'");
             if(customer[0] == "Error") {
                 tf_gen_rep_id_pnat.setText("");
@@ -1017,6 +1023,50 @@ public class Controller implements Initializable {
             }
 
             tf_gen_rep_id_pnat.setText("");
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    public void handleGen_reporte_empresa(ActionEvent actionEvent) {
+        try {
+            String nit = tf_gen_rep_nit_corp.getText();
+
+            if(nit.isBlank()){
+                throw new EmptyFieldException("Nit vacio");
+            }
+
+            Object[] customer = connection.read_DB("SELECT name, email, city FROM customer WHERE id='" + nit + "' and typeid=2;");
+            if (customer[0] == "Error") {
+                JOptionPane.showMessageDialog(null, "Empesa no registrada");
+
+                return;
+            }
+
+            Object[] lines = connection.read_DB("SELECT number, planid, status FROM lines WHERE customerid='" + nit + "';");
+            if (lines[0] == "Error") {
+                JOptionPane.showMessageDialog(null, "Empesa no tiene lineas asociadas");
+
+                return;
+            }
+
+            Vector<String[]> customerInfo = (Vector<String[]>) customer[1];
+            Vector<String[]> linesInfo = (Vector<String[]>) lines[1];
+            String[] billInfo = new String[linesInfo.size()];
+
+            for (int i = 0; i < linesInfo.size(); i++) {
+                String number = linesInfo.get(i)[0];
+
+                Object[] bill = connection.read_DB("SELECT price, status FROM bill WHERE linenumber='" + number + "';");
+                if (bill[0] == "Error") {
+                    billInfo[i] = " | ";
+                }
+                else {
+                    Vector<String[]> queryResult = (Vector<String[]>) bill[1];
+                    billInfo[i] = queryResult.get(0)[0] + "|" + queryResult.get(0)[1];
+                }
+            }
+
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
