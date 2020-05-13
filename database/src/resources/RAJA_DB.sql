@@ -1,7 +1,7 @@
 -- POSTGRESQL VERSION
 -- PostgreSQL 12.2 - 64-bits
 -- ***********************************************************************************
--- ******************************BASE DE DATOS V10*************************************
+-- ******************************BASE DE DATOS V11*************************************
 DROP TRIGGER IF EXISTS tr_codificate_role ON Roles;
 DROP TRIGGER IF EXISTS tr_codificate_plan ON Plan;
 DROP TRIGGER IF EXISTS tr_codificate_typeid ON Type_IDCustomer;
@@ -20,8 +20,8 @@ DROP TABLE IF EXISTS Bill;
 DROP TABLE IF EXISTS Lines;
 DROP TABLE IF EXISTS Plan;
 DROP TABLE IF EXISTS Customer;
-DROP TABLE IF EXISTS Type_IDCustomer;
 DROP TABLE IF EXISTS Users;
+DROP TABLE IF EXISTS Type_IDCustomer;
 DROP TABLE IF EXISTS Roles;
 DROP TABLE IF EXISTS DB_version;
 
@@ -40,7 +40,7 @@ CREATE TABLE DB_version (
 	version INT,
 	CONSTRAINT pk_db_version PRIMARY KEY (version)
 );
-INSERT INTO DB_version VALUES(10);
+INSERT INTO DB_version VALUES(11);
 
 CREATE TABLE Roles (
 	id INT,
