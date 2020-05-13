@@ -119,13 +119,13 @@
                               <Font size="18.0" />
                            </font>
                         </Label>
-                        <JFXComboBox fx:id="cb_ventas_ant_tipo_cliente" focusColor="#fa8628" onAction="#choose" prefHeight="26.0" prefWidth="275.0" style="-fx-text-inner-color: BLACK;" GridPane.columnIndex="1" />
+                        <JFXComboBox fx:id="cb_ventas_ant_tipo_cliente" focusColor="#fa8628" onAction="#choose" prefHeight="26.0" prefWidth="275.0" style="-fx-text-inner-color: BLACK;" stylesheets="@styles.css" GridPane.columnIndex="1" />
                         <Label text="Tipo de identificación:" textFill="WHITE" GridPane.rowIndex="1">
                            <font>
                               <Font size="18.0" />
                            </font>
                         </Label>
-                        <JFXComboBox fx:id="cb_ventas_ant_tipo_id" focusColor="#fa8628" prefHeight="26.0" prefWidth="109.0" style="-fx-text-inner-color: BLACK;" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                        <JFXComboBox fx:id="cb_ventas_ant_tipo_id" focusColor="#fa8628" prefHeight="26.0" prefWidth="109.0" style="-fx-text-inner-color: BLACK;" stylesheets="@styles.css" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                         <Label fx:id="label_agregar_cliente_antiguo_id" text="Identificación:" textFill="WHITE" GridPane.rowIndex="2">
                            <font>
                               <Font size="18.0" />
@@ -151,7 +151,7 @@
                               <Font size="18.0" />
                            </font>
                         </Label>
-                        <JFXComboBox fx:id="cb_ventas_ant_plan_asociado" focusColor="#fa8628" prefHeight="26.0" prefWidth="268.0" style="-fx-text-inner-color: BLACK;" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                        <JFXComboBox fx:id="cb_ventas_ant_plan_asociado" focusColor="#fa8628" prefHeight="26.0" prefWidth="268.0" style="-fx-text-inner-color: BLACK;" stylesheets="@styles.css" GridPane.columnIndex="1" GridPane.rowIndex="4" />
                      </children>
                   </GridPane>
                </children>
@@ -188,7 +188,7 @@
                               <Insets left="10.0" />
                            </GridPane.margin>
                         </Label>
-                        <JFXComboBox fx:id="cb_ventas_nue_tipo_cliente" focusColor="#fa8628" onAction="#choose" prefHeight="25.0" prefWidth="135.0" style="-fx-text-inner-color: BLACK;" GridPane.columnIndex="1" />
+                        <JFXComboBox fx:id="cb_ventas_nue_tipo_cliente" focusColor="#fa8628" onAction="#choose" prefHeight="25.0" prefWidth="135.0" style="-fx-text-inner-color: BLACK;" stylesheets="@styles.css" GridPane.columnIndex="1" />
                         <Label text="Fecha de nacimiento:" textFill="WHITE" GridPane.columnIndex="2">
                            <font>
                               <Font size="18.0" />
@@ -206,7 +206,7 @@
                               <Insets left="10.0" />
                            </GridPane.margin>
                         </Label>
-                        <JFXComboBox fx:id="cb_ventas_nue_tipo_id" focusColor="#fa8628" prefHeight="25.0" prefWidth="135.0" style="-fx-text-inner-color: BLACK;" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                        <JFXComboBox fx:id="cb_ventas_nue_tipo_id" focusColor="#fa8628" prefHeight="25.0" prefWidth="135.0" style="-fx-text-inner-color: BLACK;" stylesheets="@styles.css" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                         <Label text="Género:" textFill="WHITE" GridPane.columnIndex="2" GridPane.rowIndex="1">
                            <font>
                               <Font size="18.0" />
@@ -215,7 +215,7 @@
                               <Insets left="10.0" />
                            </GridPane.margin>
                         </Label>
-                        <JFXComboBox fx:id="cb_ventas_nue_genero" focusColor="#fa8628" prefHeight="25.0" prefWidth="135.0" style="-fx-text-inner-color: BLACK;" GridPane.columnIndex="3" GridPane.rowIndex="1" />
+                        <JFXComboBox fx:id="cb_ventas_nue_genero" focusColor="#fa8628" prefHeight="25.0" prefWidth="135.0" style="-fx-text-inner-color: BLACK;" stylesheets="@styles.css" GridPane.columnIndex="3" GridPane.rowIndex="1" />
                         <Label fx:id="label_agregar_compra_nuevo" text="Identificación:" textFill="WHITE" GridPane.rowIndex="2">
                            <font>
                               <Font size="18.0" />
@@ -233,7 +233,7 @@
                               <Insets left="10.0" />
                            </GridPane.margin>
                         </Label>
-                        <JFXComboBox fx:id="cb_ventas_nue_estado_civil" focusColor="#fa8628" prefHeight="25.0" prefWidth="135.0" style="-fx-text-inner-color: BLACK;" GridPane.columnIndex="3" GridPane.rowIndex="2" />
+                        <JFXComboBox fx:id="cb_ventas_nue_estado_civil" focusColor="#fa8628" prefHeight="25.0" prefWidth="135.0" style="-fx-text-inner-color: BLACK;" stylesheets="@styles.css" GridPane.columnIndex="3" GridPane.rowIndex="2" />
                         <Label text="Nombres:" textFill="WHITE" GridPane.rowIndex="3">
                            <font>
                               <Font size="18.0" />
@@ -287,7 +287,7 @@
                               <Insets left="10.0" />
                            </GridPane.margin>
                         </Label>
-                        <JFXComboBox fx:id="cb_ventas_nue_plan_asociado" focusColor="#fa8628" prefHeight="25.0" prefWidth="135.0" style="-fx-text-inner-color: BLACK;" GridPane.columnIndex="3" GridPane.rowIndex="5" />
+                        <JFXComboBox fx:id="cb_ventas_nue_plan_asociado" focusColor="#fa8628" prefHeight="25.0" prefWidth="135.0" style="-fx-text-inner-color: BLACK;" stylesheets="@styles.css" GridPane.columnIndex="3" GridPane.rowIndex="5" />
                      </children>
                   </GridPane>
                </children>
@@ -323,13 +323,13 @@
                               <Font size="18.0" />
                            </font>
                         </Label>
-                        <JFXComboBox fx:id="cb_gen_rep_tipo_id_pnat" prefHeight="25.0" prefWidth="221.0" style="-fx-text-inner-color: BLACK;" GridPane.columnIndex="1" />
+                        <JFXComboBox fx:id="cb_gen_rep_tipo_id_pnat" focusColor="#fa8628" prefHeight="25.0" prefWidth="221.0" style="-fx-text-inner-color: BLACK;" stylesheets="@styles.css" GridPane.columnIndex="1" />
                         <Label fx:id="gen_rep_id_label" text="Documento de identificación:" textFill="WHITE" GridPane.rowIndex="1">
                            <font>
                               <Font size="18.0" />
                            </font>
                         </Label>
-                        <JFXTextField fx:id="tf_gen_rep_id_pnat" prefHeight="33.0" prefWidth="276.0" style="-fx-text-inner-color: WHITE;" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                        <JFXTextField fx:id="tf_gen_rep_id_pnat" focusColor="#fa8628" prefHeight="33.0" prefWidth="276.0" style="-fx-text-inner-color: WHITE;" GridPane.columnIndex="1" GridPane.rowIndex="1">
                            <font>
                               <Font size="18.0" />
                            </font>
@@ -360,7 +360,7 @@
                               <Font size="18.0" />
                            </font>
                         </Label>
-                        <JFXTextField fx:id="tf_gen_rep_nit_corp" prefHeight="25.0" prefWidth="227.0" style="-fx-text-inner-color: WHITE;" GridPane.columnIndex="1">
+                        <JFXTextField fx:id="tf_gen_rep_nit_corp" focusColor="#fa8628" prefHeight="25.0" prefWidth="227.0" style="-fx-text-inner-color: WHITE;" GridPane.columnIndex="1">
                            <font>
                               <Font size="18.0" />
                            </font>
@@ -505,19 +505,19 @@
                               <Font size="18.0" />
                            </font>
                         </Label>
-                        <JFXComboBox fx:id="cb_gen_fact_tip_cliente" onAction="#choose" prefHeight="25.0" prefWidth="227.0" style="-fx-text-inner-color: BLACK;" GridPane.columnIndex="1" />
+                        <JFXComboBox fx:id="cb_gen_fact_tip_cliente" focusColor="#fa8628" onAction="#choose" prefHeight="25.0" prefWidth="227.0" style="-fx-text-inner-color: BLACK;" stylesheets="@styles.css" GridPane.columnIndex="1" />
                         <Label fx:id="gen_fact_id_label1" text="Tipo de Documento de identificación:" textFill="WHITE" GridPane.rowIndex="1">
                            <font>
                               <Font size="18.0" />
                            </font>
                         </Label>
-                        <JFXComboBox fx:id="cb_gen_fact_tip_id" prefHeight="25.0" prefWidth="227.0" style="-fx-text-inner-color: BLACK;" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                        <JFXComboBox fx:id="cb_gen_fact_tip_id" focusColor="#fa8628" prefHeight="25.0" prefWidth="227.0" style="-fx-text-inner-color: BLACK;" stylesheets="@styles.css" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                         <Label fx:id="gen_fact_id_label" text="Identificación:" textFill="WHITE" GridPane.rowIndex="2">
                            <font>
                               <Font size="18.0" />
                            </font>
                         </Label>
-                        <JFXTextField fx:id="gen_fact_id_TextField" prefHeight="25.0" prefWidth="227.0" style="-fx-text-inner-color: WHITE;" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                        <JFXTextField fx:id="gen_fact_id_TextField" focusColor="#fa8628" prefHeight="25.0" prefWidth="227.0" style="-fx-text-inner-color: WHITE;" GridPane.columnIndex="1" GridPane.rowIndex="2">
                            <font>
                               <Font size="18.0" />
                            </font>
@@ -527,7 +527,7 @@
                               <Font size="18.0" />
                            </font>
                         </Label>
-                        <JFXTextField fx:id="gen_fact_linea_TextField" prefHeight="25.0" prefWidth="227.0" style="-fx-text-inner-color: WHITE;" GridPane.columnIndex="1" GridPane.rowIndex="3">
+                        <JFXTextField fx:id="gen_fact_linea_TextField" focusColor="#fa8628" prefHeight="25.0" prefWidth="227.0" style="-fx-text-inner-color: WHITE;" GridPane.columnIndex="1" GridPane.rowIndex="3">
                            <font>
                               <Font size="18.0" />
                            </font>
@@ -622,19 +622,19 @@
                               <Font size="18.0" />
                            </font>
                         </Label>
-                        <JFXComboBox fx:id="pagar_linea_tip_cl" onAction="#choose" prefHeight="25.0" prefWidth="214.0" style="-fx-text-inner-color: BLACK;" GridPane.columnIndex="1" />
+                        <JFXComboBox fx:id="pagar_linea_tip_cl" focusColor="#fa8628" onAction="#choose" prefHeight="25.0" prefWidth="214.0" style="-fx-text-inner-color: BLACK;" stylesheets="@styles.css" GridPane.columnIndex="1" />
                         <Label fx:id="pagar_tipo_cliente_label2" prefHeight="21.0" prefWidth="354.0" text="Tipo de Documento de Identificación:" textFill="WHITE" GridPane.rowIndex="1">
                            <font>
                               <Font size="18.0" />
                            </font>
                         </Label>
-                        <JFXComboBox fx:id="pagar_linea_tip_id" prefHeight="25.0" prefWidth="214.0" style="-fx-text-inner-color: BLACK;" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                        <JFXComboBox fx:id="pagar_linea_tip_id" focusColor="#fa8628" prefHeight="25.0" prefWidth="214.0" style="-fx-text-inner-color: BLACK;" stylesheets="@styles.css" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                         <Label fx:id="pagar_id_label" text="Identificación:" textFill="WHITE" GridPane.rowIndex="2">
                            <font>
                               <Font size="18.0" />
                            </font>
                         </Label>
-                        <JFXTextField fx:id="tf_pagar_identificacion" prefHeight="33.0" prefWidth="311.0" style="-fx-text-inner-color: WHITE;" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                        <JFXTextField fx:id="tf_pagar_identificacion" focusColor="#fa8628" prefHeight="33.0" prefWidth="311.0" style="-fx-text-inner-color: WHITE;" GridPane.columnIndex="1" GridPane.rowIndex="2">
                            <font>
                               <Font size="18.0" />
                            </font>
@@ -644,7 +644,7 @@
                               <Font size="18.0" />
                            </font>
                         </Label>
-                        <JFXTextField fx:id="tf_pagar_numero_linea" prefHeight="25.0" prefWidth="214.0" style="-fx-text-inner-color: WHITE;" GridPane.columnIndex="1" GridPane.rowIndex="3">
+                        <JFXTextField fx:id="tf_pagar_numero_linea" focusColor="#fa8628" prefHeight="25.0" prefWidth="214.0" style="-fx-text-inner-color: WHITE;" GridPane.columnIndex="1" GridPane.rowIndex="3">
                            <font>
                               <Font size="18.0" />
                            </font>
@@ -682,19 +682,19 @@
                               <Font size="18.0" />
                            </font>
                         </Label>
-                        <JFXComboBox fx:id="pagar_cliente_tip_cl" onAction="#choose" prefHeight="25.0" prefWidth="214.0" style="-fx-text-inner-color: BLACK;" GridPane.columnIndex="1" />
+                        <JFXComboBox fx:id="pagar_cliente_tip_cl" focusColor="#fa8628" onAction="#choose" prefHeight="25.0" prefWidth="214.0" style="-fx-text-inner-color: BLACK;" stylesheets="@styles.css" GridPane.columnIndex="1" />
                         <Label fx:id="pagar_tipo_cliente_label21" text="Tipo de Documento de Identificación:" textFill="WHITE" GridPane.rowIndex="1">
                            <font>
                               <Font size="18.0" />
                            </font>
                         </Label>
-                        <JFXComboBox fx:id="pagar_cliente_tip_id" prefHeight="25.0" prefWidth="214.0" style="-fx-text-inner-color: BLACK;" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                        <JFXComboBox fx:id="pagar_cliente_tip_id" focusColor="#fa8628" prefHeight="25.0" prefWidth="214.0" style="-fx-text-inner-color: BLACK;" stylesheets="@styles.css" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                         <Label fx:id="pagar_id_label2" text="Identificación:" textFill="WHITE" GridPane.rowIndex="2">
                            <font>
                               <Font size="18.0" />
                            </font>
                         </Label>
-                        <JFXTextField fx:id="tf_pagar_identificacion_cliente" prefHeight="25.0" prefWidth="214.0" style="-fx-text-inner-color: WHITE;" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                        <JFXTextField fx:id="tf_pagar_identificacion_cliente" focusColor="#fa8628" prefHeight="25.0" prefWidth="214.0" style="-fx-text-inner-color: WHITE;" GridPane.columnIndex="1" GridPane.rowIndex="2">
                            <font>
                               <Font size="18.0" />
                            </font>
@@ -774,13 +774,13 @@
                         <Font size="18.0" />
                      </font>
                   </Label>
-                  <JFXComboBox fx:id="cb_add_user_tipo_id" prefHeight="26.0" prefWidth="127.0" style="-fx-text-inner-color: BLACK;" GridPane.columnIndex="1" />
+                  <JFXComboBox fx:id="cb_add_user_tipo_id" focusColor="#fa8628" prefHeight="26.0" prefWidth="127.0" style="-fx-text-inner-color: BLACK;" stylesheets="@styles.css" GridPane.columnIndex="1" />
                   <Label fx:id="pagar_id_label1" text="Documento de identificación:" textFill="WHITE" GridPane.rowIndex="1">
                      <font>
                         <Font size="18.0" />
                      </font>
                   </Label>
-                  <JFXTextField fx:id="tf_gest_usr_agreg_id" prefHeight="25.0" prefWidth="227.0" style="-fx-text-inner-color: WHITE;" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                  <JFXTextField fx:id="tf_gest_usr_agreg_id" focusColor="#fa8628" prefHeight="25.0" prefWidth="227.0" style="-fx-text-inner-color: WHITE;" GridPane.columnIndex="1" GridPane.rowIndex="1">
                      <font>
                         <Font size="18.0" />
                      </font>
@@ -790,13 +790,13 @@
                         <Font size="18.0" />
                      </font>
                   </Label>
-                  <JFXComboBox fx:id="cb_add_user_rol" prefHeight="25.0" prefWidth="227.0" style="-fx-text-inner-color: BLACK;" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                  <JFXComboBox fx:id="cb_add_user_rol" focusColor="#fa8628" prefHeight="25.0" prefWidth="227.0" style="-fx-text-inner-color: BLACK;" stylesheets="@styles.css" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                   <Label fx:id="pagar_id_label11" text="Nombres:" textFill="WHITE" GridPane.rowIndex="3">
                      <font>
                         <Font size="18.0" />
                      </font>
                   </Label>
-                  <JFXTextField fx:id="tf_gest_usr_agreg_nombre" prefHeight="25.0" prefWidth="227.0" style="-fx-text-inner-color: WHITE;" GridPane.columnIndex="1" GridPane.rowIndex="3">
+                  <JFXTextField fx:id="tf_gest_usr_agreg_nombre" focusColor="#fa8628" prefHeight="25.0" prefWidth="227.0" style="-fx-text-inner-color: WHITE;" GridPane.columnIndex="1" GridPane.rowIndex="3">
                      <font>
                         <Font size="18.0" />
                      </font>
@@ -806,7 +806,7 @@
                         <Font size="18.0" />
                      </font>
                   </Label>
-                  <JFXTextField fx:id="tf_gest_usr_agreg_primer_apellido" prefHeight="25.0" prefWidth="227.0" style="-fx-text-inner-color: WHITE;" GridPane.columnIndex="1" GridPane.rowIndex="4">
+                  <JFXTextField fx:id="tf_gest_usr_agreg_primer_apellido" focusColor="#fa8628" prefHeight="25.0" prefWidth="227.0" style="-fx-text-inner-color: WHITE;" GridPane.columnIndex="1" GridPane.rowIndex="4">
                      <font>
                         <Font size="18.0" />
                      </font>
@@ -816,7 +816,7 @@
                         <Font size="18.0" />
                      </font>
                   </Label>
-                  <JFXTextField fx:id="tf_gest_usr_agreg_segundo_apellido" prefHeight="25.0" prefWidth="227.0" style="-fx-text-inner-color: WHITE;" GridPane.columnIndex="1" GridPane.rowIndex="5">
+                  <JFXTextField fx:id="tf_gest_usr_agreg_segundo_apellido" focusColor="#fa8628" prefHeight="25.0" prefWidth="227.0" style="-fx-text-inner-color: WHITE;" GridPane.columnIndex="1" GridPane.rowIndex="5">
                      <font>
                         <Font size="18.0" />
                      </font>
@@ -836,19 +836,19 @@
                         <Font size="18.0" />
                      </font>
                   </Label>
-                  <JFXComboBox fx:id="cb_add_user_genero" prefHeight="26.0" prefWidth="163.0" style="-fx-text-inner-color: BLACK;" GridPane.columnIndex="1" GridPane.rowIndex="7" />
+                  <JFXComboBox fx:id="cb_add_user_genero" focusColor="#fa8628" prefHeight="26.0" prefWidth="163.0" style="-fx-text-inner-color: BLACK;" stylesheets="@styles.css" GridPane.columnIndex="1" GridPane.rowIndex="7" />
                   <Label fx:id="pagar_linea_label111" text="Estado civil:" textFill="WHITE" GridPane.rowIndex="8">
                      <font>
                         <Font size="18.0" />
                      </font>
                   </Label>
-                  <JFXComboBox fx:id="add_user_est_civil" prefHeight="26.0" prefWidth="163.0" style="-fx-text-inner-color: BLACK;" GridPane.columnIndex="1" GridPane.rowIndex="8" />
+                  <JFXComboBox fx:id="add_user_est_civil" focusColor="#fa8628" prefHeight="26.0" prefWidth="163.0" style="-fx-text-inner-color: BLACK;" stylesheets="@styles.css" GridPane.columnIndex="1" GridPane.rowIndex="8" />
                   <Label fx:id="pagar_linea_label1111" text="Correo electrónico:" textFill="WHITE" GridPane.rowIndex="9">
                      <font>
                         <Font size="18.0" />
                      </font>
                   </Label>
-                  <JFXTextField fx:id="tf_gest_usr_agreg_email" prefHeight="25.0" prefWidth="227.0" style="-fx-text-inner-color: WHITE;" GridPane.columnIndex="1" GridPane.rowIndex="9">
+                  <JFXTextField fx:id="tf_gest_usr_agreg_email" focusColor="#fa8628" prefHeight="25.0" prefWidth="227.0" style="-fx-text-inner-color: WHITE;" GridPane.columnIndex="1" GridPane.rowIndex="9">
                      <font>
                         <Font size="18.0" />
                      </font>
@@ -899,13 +899,13 @@
                               <Font size="18.0" />
                            </font>
                         </Label>
-                        <JFXComboBox fx:id="cb_edit_user_rol" prefHeight="25.0" prefWidth="227.0" style="-fx-text-inner-color: BLACK;" GridPane.columnIndex="1" />
+                        <JFXComboBox fx:id="cb_edit_user_rol" prefHeight="25.0" prefWidth="227.0" style="-fx-text-inner-color: BLACK;" stylesheets="@styles.css" GridPane.columnIndex="1" />
                         <Label fx:id="pagar_id_label211111" text="Nombres:" textFill="WHITE" GridPane.rowIndex="1">
                            <font>
                               <Font size="18.0" />
                            </font>
                         </Label>
-                        <JFXTextField fx:id="tf_gest_usr_cambiar_nombre" prefHeight="25.0" prefWidth="227.0" style="-fx-text-inner-color: WHITE;" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                        <JFXTextField fx:id="tf_gest_usr_cambiar_nombre" focusColor="#fa8628" prefHeight="25.0" prefWidth="227.0" style="-fx-text-inner-color: WHITE;" GridPane.columnIndex="1" GridPane.rowIndex="1">
                            <font>
                               <Font size="18.0" />
                            </font>
@@ -915,7 +915,7 @@
                               <Font size="18.0" />
                            </font>
                         </Label>
-                        <JFXTextField fx:id="tf_gest_usr_editar_primer_apellido" prefHeight="25.0" prefWidth="227.0" style="-fx-text-inner-color: WHITE;" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                        <JFXTextField fx:id="tf_gest_usr_editar_primer_apellido" focusColor="#fa8628" prefHeight="25.0" prefWidth="227.0" style="-fx-text-inner-color: WHITE;" GridPane.columnIndex="1" GridPane.rowIndex="2">
                            <font>
                               <Font size="18.0" />
                            </font>
@@ -925,7 +925,7 @@
                               <Font size="18.0" />
                            </font>
                         </Label>
-                        <JFXTextField fx:id="tf_gest_usr_editar_segundo_apellido" prefHeight="25.0" prefWidth="227.0" style="-fx-text-inner-color: WHITE;" GridPane.columnIndex="1" GridPane.rowIndex="3">
+                        <JFXTextField fx:id="tf_gest_usr_editar_segundo_apellido" focusColor="#fa8628" prefHeight="25.0" prefWidth="227.0" style="-fx-text-inner-color: WHITE;" GridPane.columnIndex="1" GridPane.rowIndex="3">
                            <font>
                               <Font size="18.0" />
                            </font>
@@ -941,19 +941,19 @@
                               <Font size="18.0" />
                            </font>
                         </Label>
-                        <JFXComboBox fx:id="edit_user_genero" prefHeight="25.0" prefWidth="227.0" style="-fx-text-inner-color: BLACK;" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+                        <JFXComboBox fx:id="edit_user_genero" prefHeight="25.0" prefWidth="227.0" style="-fx-text-inner-color: BLACK;" stylesheets="@styles.css" GridPane.columnIndex="1" GridPane.rowIndex="5" />
                         <Label fx:id="pagar_id_label11111123" text="Estado civil:" textFill="WHITE" GridPane.rowIndex="6">
                            <font>
                               <Font size="18.0" />
                            </font>
                         </Label>
-                        <JFXComboBox fx:id="edit_user_est_civil" prefHeight="25.0" prefWidth="227.0" style="-fx-text-inner-color: BLACK;" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+                        <JFXComboBox fx:id="edit_user_est_civil" focusColor="#fa8628" prefHeight="25.0" prefWidth="227.0" style="-fx-text-inner-color: BLACK;" stylesheets="@styles.css" GridPane.columnIndex="1" GridPane.rowIndex="6" />
                         <Label fx:id="pagar_linea_label22" text="Correo electrónico:" textFill="WHITE" GridPane.rowIndex="7">
                            <font>
                               <Font size="18.0" />
                            </font>
                         </Label>
-                        <JFXTextField fx:id="tf_gest_usr_editar_correo" prefHeight="25.0" prefWidth="227.0" style="-fx-text-inner-color: WHITE;" GridPane.columnIndex="1" GridPane.rowIndex="7">
+                        <JFXTextField fx:id="tf_gest_usr_editar_correo" focusColor="#fa8628" prefHeight="25.0" prefWidth="227.0" style="-fx-text-inner-color: WHITE;" GridPane.columnIndex="1" GridPane.rowIndex="7">
                            <font>
                               <Font size="18.0" />
                            </font>
@@ -967,7 +967,7 @@
                   <Font size="18.0" />
                </font>
             </Label>
-            <JFXComboBox fx:id="gest_usr_cambiar_estado_cb2" layoutX="223.0" layoutY="402.0" prefHeight="25.0" prefWidth="227.0" visible="false" />
+            <JFXComboBox fx:id="gest_usr_cambiar_estado_cb2" layoutX="223.0" layoutY="402.0" prefHeight="25.0" prefWidth="227.0" stylesheets="@styles.css" visible="false" />
             <HBox layoutX="15.0" layoutY="60.0" prefHeight="48.0" prefWidth="872.0">
                <children>
                   <Label fx:id="pagar_tipo_cliente_label11112" text="Tipo de documento de identificación:" textFill="WHITE">
@@ -975,14 +975,14 @@
                         <Font size="18.0" />
                      </font>
                   </Label>
-                  <JFXComboBox fx:id="cb_edit_user_tipo_id" prefHeight="10.0" prefWidth="168.0" style="-fx-text-inner-color: BLACK;" />
+                  <JFXComboBox fx:id="cb_edit_user_tipo_id" prefHeight="10.0" prefWidth="168.0" style="-fx-text-inner-color: BLACK;" stylesheets="@styles.css" />
                   <Separator prefHeight="0.0" prefWidth="42.0" visible="false" />
                   <Label fx:id="pagar_id_label221111" text="Número:" textFill="WHITE">
                      <font>
                         <Font size="18.0" />
                      </font>
                   </Label>
-                  <JFXTextField fx:id="tf_gest_usr_editar_numero" prefHeight="0.0" prefWidth="227.0" style="-fx-text-inner-color: WHITE;">
+                  <JFXTextField fx:id="tf_gest_usr_editar_numero" focusColor="#fa8628" prefHeight="0.0" prefWidth="227.0" style="-fx-text-inner-color: WHITE;">
                      <font>
                         <Font size="18.0" />
                      </font>
@@ -991,7 +991,7 @@
             </HBox>
          </children>
       </AnchorPane>
-      <AnchorPane fx:id="pane_gest_usr_cambiar_estado" layoutX="10.0" layoutY="102.0" onMouseClicked="#cambiar_pestana" prefHeight="509.0" prefWidth="900.0" style="-fx-background-color: #202642;" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+      <AnchorPane fx:id="pane_gest_usr_cambiar_estado" layoutX="10.0" layoutY="102.0" onMouseClicked="#cambiar_pestana" prefHeight="509.0" prefWidth="900.0" style="-fx-background-color: #202642;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
          <children>
             <ImageView fx:id="gest_usr_cambiar_estado_retroceder_Image" fitHeight="35.0" fitWidth="41.0" layoutX="14.0" layoutY="14.0" onMouseClicked="#user_gest" pickOnBounds="true" preserveRatio="true">
                <image>
@@ -1004,7 +1004,7 @@
                   <Font size="18.0" />
                </font>
             </JFXButton>
-            <AnchorPane fx:id="pane_estado_campos" disable="true" layoutX="23.0" layoutY="139.0" prefHeight="253.0" prefWidth="507.0" visible="false">
+            <AnchorPane fx:id="pane_estado_campos" disable="true" layoutX="23.0" layoutY="139.0" prefHeight="253.0" prefWidth="507.0">
                <children>
                   <GridPane layoutX="-3.0" prefHeight="253.0" prefWidth="507.0">
                     <columnConstraints>
@@ -1025,13 +1025,13 @@
                               <Font size="18.0" />
                            </font>
                         </Label>
-                        <JFXComboBox fx:id="gest_usr_editar_rol_ComboBox1" prefHeight="25.0" prefWidth="227.0" style="-fx-text-inner-color: BLACK;" GridPane.columnIndex="1" />
+                        <JFXComboBox fx:id="gest_usr_editar_rol_ComboBox1" focusColor="#fa8628" prefHeight="25.0" prefWidth="227.0" style="-fx-text-inner-color: BLACK;" stylesheets="@styles.css" GridPane.columnIndex="1" />
                         <Label fx:id="pagar_id_label1111" text="Nombres:" textFill="WHITE" GridPane.rowIndex="1">
                            <font>
                               <Font size="18.0" />
                            </font>
                         </Label>
-                        <JFXTextField fx:id="gest_usr_cambiar_estadoII" prefHeight="25.0" prefWidth="227.0" style="-fx-text-inner-color: WHITE;" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                        <JFXTextField fx:id="gest_usr_cambiar_estadoII" focusColor="#fa8628" prefHeight="25.0" prefWidth="227.0" style="-fx-text-inner-color: WHITE;" GridPane.columnIndex="1" GridPane.rowIndex="1">
                            <font>
                               <Font size="18.0" />
                            </font>
@@ -1041,7 +1041,7 @@
                               <Font size="18.0" />
                            </font>
                         </Label>
-                        <JFXTextField fx:id="gest_usr_editar_apellidoII_tf1" prefHeight="25.0" prefWidth="227.0" style="-fx-text-inner-color: WHITE;" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                        <JFXTextField fx:id="gest_usr_editar_apellidoII_tf1" focusColor="#fa8628" prefHeight="25.0" prefWidth="227.0" style="-fx-text-inner-color: WHITE;" GridPane.columnIndex="1" GridPane.rowIndex="2">
                            <font>
                               <Font size="18.0" />
                            </font>
@@ -1051,7 +1051,7 @@
                               <Font size="18.0" />
                            </font>
                         </Label>
-                        <JFXTextField fx:id="gest_usr_editar_nombre_tf1" prefHeight="25.0" prefWidth="227.0" style="-fx-text-inner-color: WHITE;" GridPane.columnIndex="1" GridPane.rowIndex="3">
+                        <JFXTextField fx:id="gest_usr_editar_nombre_tf1" focusColor="#fa8628" prefHeight="25.0" prefWidth="227.0" style="-fx-text-inner-color: WHITE;" GridPane.columnIndex="1" GridPane.rowIndex="3">
                            <font>
                               <Font size="18.0" />
                            </font>
@@ -1061,7 +1061,7 @@
                               <Font size="18.0" />
                            </font>
                         </Label>
-                        <JFXTextField fx:id="gest_usr_editar_correo_tf1" prefHeight="25.0" prefWidth="227.0" style="-fx-text-inner-color: WHITE;" GridPane.columnIndex="1" GridPane.rowIndex="4">
+                        <JFXTextField fx:id="gest_usr_editar_correo_tf1" focusColor="#fa8628" prefHeight="25.0" prefWidth="227.0" style="-fx-text-inner-color: WHITE;" GridPane.columnIndex="1" GridPane.rowIndex="4">
                            <font>
                               <Font size="18.0" />
                            </font>
@@ -1070,7 +1070,7 @@
                   </GridPane>
                </children>
             </AnchorPane>
-            <AnchorPane fx:id="pane_estado_est" layoutX="23.0" layoutY="365.0" prefHeight="102.0" prefWidth="524.0" visible="false">
+            <AnchorPane fx:id="pane_estado_est" layoutX="23.0" layoutY="365.0" prefHeight="102.0" prefWidth="524.0">
                <children>
                   <JFXButton fx:id="gest_usr_editar_btn_guardar" layoutX="324.0" layoutY="51.0" onAction="#buscar_edit" prefHeight="48.0" prefWidth="188.0" text="Guardar cambios" textFill="WHITE">
                      <font>
@@ -1085,7 +1085,7 @@
                            </font>
                         </Label>
                         <Separator prefHeight="3.0" prefWidth="189.0" visible="false" />
-                        <JFXComboBox fx:id="set_est" prefHeight="26.0" prefWidth="241.0" style="-fx-text-inner-color: BLACK;" />
+                        <JFXComboBox fx:id="set_est" focusColor="#fa8628" prefHeight="26.0" prefWidth="241.0" style="-fx-text-inner-color: BLACK; -fx-prompt-text-fill: white;" stylesheets="@styles.css" />
                      </children>
                   </HBox>
                </children>
@@ -1097,14 +1097,14 @@
                         <Font size="18.0" />
                      </font>
                   </Label>
-                  <JFXComboBox fx:id="set_est_tipo_id" prefHeight="25.0" prefWidth="168.0" style="-fx-text-inner-color: BLACK;" />
+                  <JFXComboBox fx:id="set_est_tipo_id" focusColor="#fa8628" prefHeight="25.0" prefWidth="168.0" style="-fx-text-inner-color: #FFFFFF; -fx-text-fill: FFF;" stylesheets="@styles.css" />
                   <Separator prefHeight="3.0" prefWidth="57.0" visible="false" />
                   <Label fx:id="pagar_id_label111" text="Número:" textFill="WHITE">
                      <font>
                         <Font size="18.0" />
                      </font>
                   </Label>
-                  <JFXTextField fx:id="tf_gest_usr_editar_estado_numero" prefHeight="25.0" prefWidth="227.0" style="-fx-text-inner-color: WHITE;">
+                  <JFXTextField fx:id="tf_gest_usr_editar_estado_numero" focusColor="#fa8628" prefHeight="25.0" prefWidth="227.0" style="-fx-text-inner-color: WHITE;">
                      <font>
                         <Font size="18.0" />
                      </font>
