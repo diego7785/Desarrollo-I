@@ -1021,6 +1021,7 @@ public class Controller implements Initializable {
                 report.writeReport(billResult.get(i), documentNumber, customerInfo.get(0), number, months[Integer.parseInt(billResult.get(i)[14].substring(5, 7)) - 1], plan, price);
             }
 
+            JOptionPane.showMessageDialog(null, "Reporte generado");
             tf_gen_rep_id_pnat.setText("");
         } catch (Exception e) {
             System.out.println(e.getMessage());
