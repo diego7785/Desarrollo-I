@@ -960,7 +960,7 @@ public class Controller implements Initializable {
                     throw new EmptyFieldException("Debe llenar todos los campos");
 
                 String name = nombres + " " + primerApellido + " " + segundoApellido;
-                if (connection.modify_DB("UPDATE user SET rolid=" + rol + ", name='" + name + "' " + ", email='"+ email + "' " +
+                if (connection.modify_DB("UPDATE users SET rolid=" + rol + ", name='" + name + "' " + ", email='"+ email + "' " +
                         ", civil_status='" + estadoCivil +"' " + ", gender='" + genero +"' " +"WHERE id='" + documentNumber + "';")) {
                     JOptionPane.showMessageDialog(null, "Actualizacion realizada correctamente");
                 }
