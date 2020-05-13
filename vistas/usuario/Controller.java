@@ -54,7 +54,7 @@ public class Controller implements Initializable {
     ObservableList<String> estado_civil = FXCollections.observableArrayList( "Casado", "Soltero", "Viudo", "Divorciado");
 
     ObservableList<String> rol = FXCollections.observableArrayList( "Administrador", "Gerente", "Operador");
-    ObservableList<String> estado = FXCollections.observableArrayList( "true", "false");
+    ObservableList<String> estado = FXCollections.observableArrayList( "Activo", "Inactivo");
 
     ObservableList<String> plan_asociado = FXCollections.observableArrayList( "Plan Conéctate", "Plan Conéctate Plus", "Plan Conectados Somos Más", "Plan Redes Sin Límites", "Plan Uno Es Más");
     //Login interface
@@ -956,11 +956,11 @@ public class Controller implements Initializable {
 
                 String email = tf_gest_usr_editar_correo.getText();
 
-                if (rol.isBlank() || nombres.isBlank() || primerApellido.isBlank() || segundoApellido.isBlank() || email.isBlank())
+                if (rol.isBlank() || nombres.isBlank()  || email.isBlank())
                     throw new EmptyFieldException("Debe llenar todos los campos");
 
                 String name = nombres + " " + primerApellido + " " + segundoApellido;
-                if (connection.modify_DB("UPDATE users SET rolid=" + rol + ", name='" + name + "' " + ", email='"+ email + "' " +
+                if (connection.modify_DB("UPDATE users SET roleid=" + rol + ", name='" + name + "' " + ", email='"+ email + "' " +
                         ", civil_status='" + estadoCivil +"' " + ", gender='" + genero +"' " +"WHERE id='" + documentNumber + "';")) {
                     JOptionPane.showMessageDialog(null, "Actualizacion realizada correctamente");
                 }
@@ -1030,6 +1030,7 @@ public class Controller implements Initializable {
                         break;
                     }
                 }
+                gest_usr_editar_rol_ComboBox1.setId(info.get(0)[2]);
                 gest_usr_editar_estado_correo.setText(info.get(0)[1]);
             }
 
@@ -1037,8 +1038,10 @@ public class Controller implements Initializable {
                 cerrar_sesion_vbox.setVisible(false);
 
                 String estado = gest_usr_cambiar_estado_cb2.getSelectionModel().getSelectedItem();
+                String state = "false";
+                if (estado  == "Activo") state="true";
 
-                if (connection.modify_DB("UPDATE user SET status='" + estado + "' WHERE id='" + documentNumber + "';")) {
+                if (connection.modify_DB("UPDATE users SET status='" + state + "' WHERE id='" + documentNumber + "';")) {
                     JOptionPane.showMessageDialog(null, "Actualizacion realizada correctamente");
                 } else {
                     JOptionPane.showMessageDialog(null, "¡ERROR! No se pudo realizar la actualizacion");
