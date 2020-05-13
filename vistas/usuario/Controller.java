@@ -1019,6 +1019,9 @@ public class Controller implements Initializable {
                     JOptionPane.showMessageDialog(null, "¡ERROR! No se pudo realizar la actualizacion");
                 }
 
+                edit_user_est_civil.setPromptText("");
+                edit_user_genero.setPromptText("");
+                cb_edit_user_rol.setPromptText("");
                 tf_gest_usr_cambiar_nombre.setText("");
                 tf_gest_usr_cambiar_nombre.setText("");
                 tf_gest_usr_editar_primer_apellido.setText("");
