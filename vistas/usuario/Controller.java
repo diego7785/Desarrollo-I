@@ -707,7 +707,11 @@ public class Controller implements Initializable {
             }
 
             Object[] line = connection.read_DB("SELECT * FROM lines WHERE customerid='" + documentNumber + "';");
-            if (line.length != 2) {
+            if (line[0] == "Error") {
+                JOptionPane.showMessageDialog(null,"No hay lineas asociadas a ese documento");
+
+                tf_pagar_identificacion.setText("");
+                tf_pagar_numero_linea.setText("");
                 return;
             }
 
@@ -877,6 +881,15 @@ public class Controller implements Initializable {
                 }
 
                 Object[] user = connection.read_DB("SELECT * FROM users WHERE id='" + documentNumber + "';");
+                if (user[0] == "Error") {
+                    JOptionPane.showMessageDialog(null, "Usuario no registrado");
+                    tf_gest_usr_cambiar_nombre.setText("");
+                    tf_gest_usr_editar_primer_apellido.setText("");
+                    tf_gest_usr_editar_segundo_apellido.setText("");
+                    tf_gest_usr_editar_correo.setText("");
+
+                    return;
+                }
                 pane_edit_campos.setVisible(true);
 
                 if (event.getSource().equals(gest_usr_editar_btn_guardar)) {
@@ -893,9 +906,6 @@ public class Controller implements Initializable {
                         throw new EmptyFieldException("Debe llenar todos los campos");
 
                     String name = nombres + " " + primerApellido + " " + segundoApellido;
-                    user = connection.read_DB("UPDATE users SET rolid=" + rol + ", name='" + name + "' WHERE id='" + documentNumber + "';");
-                    name = nombres + " " + primerApellido + " " + segundoApellido;
-
                     if (connection.modify_DB("UPDATE users SET rolid=" + rol + ", name='" + name + "' " +
                             "WHERE id='" + documentNumber + "';")) {
                         JOptionPane.showMessageDialog(null, "Actualizacion realizada correctamente");
