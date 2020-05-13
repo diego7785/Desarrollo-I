@@ -132,11 +132,10 @@ public class CreateReport {
             }
 
             doc.close();
-
-            return directorio.getPath();
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
+        return directorio.getPath();
     }
 
     public void CreateGraphic(String[] consume, int idPlan, String[] price) {

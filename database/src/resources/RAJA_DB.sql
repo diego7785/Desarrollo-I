@@ -1,7 +1,7 @@
 -- POSTGRESQL VERSION
 -- PostgreSQL 12.2 - 64-bits
 -- ***********************************************************************************
--- ******************************BASE DE DATOS V8*************************************
+-- ******************************BASE DE DATOS V10*************************************
 DROP TRIGGER IF EXISTS tr_codificate_role ON Roles;
 DROP TRIGGER IF EXISTS tr_codificate_plan ON Plan;
 DROP TRIGGER IF EXISTS tr_codificate_typeid ON Type_IDCustomer;
@@ -40,7 +40,7 @@ CREATE TABLE DB_version (
 	version INT,
 	CONSTRAINT pk_db_version PRIMARY KEY (version)
 );
-INSERT INTO DB_version VALUES(8);
+INSERT INTO DB_version VALUES(10);
 
 CREATE TABLE Roles (
 	id INT,
@@ -48,20 +48,27 @@ CREATE TABLE Roles (
 	description VARCHAR(200),
 	CONSTRAINT pk_role PRIMARY KEY (id)
 );
-CREATE TABLE Users (
-	id VARCHAR (20) NOT NULL,
-	name VARCHAR(50) NOT NULL,
-	roleID INT NOT NULL,
-	status BOOLEAN NOT NULL DEFAULT TRUE,
-	password VARCHAR(20) NOT NULL,
-	CONSTRAINT pk_user PRIMARY KEY (id),
-	CONSTRAINT fk_userrole FOREIGN KEY (roleID) 
-		REFERENCES Roles(id) ON UPDATE CASCADE ON DELETE RESTRICT
-);
 CREATE TABLE Type_IDCustomer(
 	id INT,
 	name VARCHAR(25) NOT NULL,
 	CONSTRAINT pk_type_user PRIMARY KEY (id)
+);
+CREATE TABLE Users (
+	id VARCHAR (20) NOT NULL,
+	typeID INT DEFAULT 1,
+	name VARCHAR(50) NOT NULL,
+	roleID INT NOT NULL,
+	status BOOLEAN NOT NULL DEFAULT TRUE,
+	birthday DATE,
+	gender VARCHAR (40),
+	civil_status VARCHAR(40),
+	email VARCHAR (40),
+	password VARCHAR(20) NOT NULL,
+	CONSTRAINT pk_user PRIMARY KEY (id),
+	CONSTRAINT fk_userrole FOREIGN KEY (roleID) 
+		REFERENCES Roles(id) ON UPDATE CASCADE ON DELETE RESTRICT,
+	CONSTRAINT fk_usertypeid FOREIGN KEY (typeID) 
+		REFERENCES Type_IDCustomer(id) ON UPDATE CASCADE ON DELETE RESTRICT
 );
 CREATE TABLE Customer (
 	id VARCHAR(20),
