@@ -54,7 +54,7 @@ public class Controller implements Initializable {
     ObservableList<String> estado_civil = FXCollections.observableArrayList( "Casado", "Soltero", "Viudo", "Divorciado");
 
     ObservableList<String> rol = FXCollections.observableArrayList( "Administrador", "Gerente", "Operador");
-    ObservableList<String> estado = FXCollections.observableArrayList( "I", "II");
+    ObservableList<String> estado = FXCollections.observableArrayList( "Activo", "Inactivo");
 
     ObservableList<String> plan_asociado = FXCollections.observableArrayList( "Plan Conéctate", "Plan Conéctate Plus", "Plan Conectados Somos Más", "Plan Redes Sin Límites", "Plan Uno Es Más");
     //Login interface
@@ -66,6 +66,8 @@ public class Controller implements Initializable {
     private JFXPasswordField tf_pass;
     @FXML
     private JFXComboBox<String> cb_rol;
+    @FXML
+    private JFXComboBox<String> gest_usr_cambiar_estado_cb2;
     @FXML
     private JFXComboBox<String> cb_rol2;
     @FXML
@@ -274,6 +276,14 @@ public class Controller implements Initializable {
     @FXML
     private JFXTextField tf_gest_usr_agreg_segundo_apellido;
     @FXML
+    private JFXTextField gest_usr_cambiar_estado_nombres;
+    @FXML
+    private JFXTextField gest_usr_editar_estado_primer_apellido;
+    @FXML
+    private JFXTextField gest_usr_editar_estado_segundo_apellido;
+    @FXML
+    private JFXTextField gest_usr_editar_estado_correo;
+    @FXML
     private JFXTextField tf_gest_usr_agreg_email;
     //editar user
     @FXML
@@ -295,7 +305,9 @@ public class Controller implements Initializable {
     @FXML
     private JFXTextField tf_gest_usr_editar_correo;
     @FXML
-    private JFXButton gest_usr_editar_btn_guardar;
+    private JFXButton gest_usr_editar_usuario_guardar;
+    @FXML
+    private JFXButton gest_usr_editar_estado_btn_guardar;
     //cambiar estado
     @FXML
     private JFXComboBox <String> set_est;
@@ -412,7 +424,10 @@ public class Controller implements Initializable {
                 roles[i].getItems().addAll(rol);
             }
 
-            set_est.getItems().addAll(estado);
+            JFXComboBox<String>[] estados = new JFXComboBox[]{gest_usr_cambiar_estado_cb2, set_est};
+            for(int i=0; i<= (estados.length-1); i++) {
+                estados[i].getItems().addAll(estado);
+            }
         });
     }
 
@@ -688,7 +703,10 @@ public class Controller implements Initializable {
 
     public void handleGen_agregar_usuario(ActionEvent event) {
         try {
+            String documentType = Integer.toString(cb_add_user_tipo_id.getSelectionModel().getSelectedIndex() + 1);
             String rol = Integer.toString(cb_add_user_rol.getSelectionModel().getSelectedIndex() + 1);
+            String gender = cb_add_user_genero.getSelectionModel().getSelectedItem();
+            String estadoCivil = add_user_est_civil.getSelectionModel().getSelectedItem();
 
             String documentNumber = tf_gest_usr_agreg_id.getText();
             String email = tf_gest_usr_agreg_email.getText();
@@ -705,7 +723,20 @@ public class Controller implements Initializable {
             if(documentNumber.isBlank()||email.isBlank()||nombres.isBlank()||primerApellido.isBlank()||segundoApellido.isBlank()||segundoApellido.isBlank()||password.isBlank())
                 throw new EmptyFieldException("Debe llenar todos los campos");
 
-            Object[] user = connection.read_DB("INSERT INTO users VALUES('" + documentNumber + "', '" + name + "', " + rol + ", " + true + ", '" + password + "');");
+            boolean result  = connection.modify_DB("INSERT INTO users VALUES('" + documentNumber + "', '" + documentType + "', '"
+                    + name + "', '" + rol + "', " + true + ", "+ null +", '" + gender + "', '" + estadoCivil + "', '" + email + "', '" + password + "');");
+            if (result) {
+                JOptionPane.showMessageDialog(null, "No se pudo registrar el usuario");
+            }
+            else JOptionPane.showMessageDialog(null, "Registro exitoso");
+
+            tf_gest_usr_agreg_id.setText("");
+            tf_gest_usr_agreg_email.setText("");
+
+            tf_gest_usr_agreg_nombre.setText("");
+            tf_gest_usr_agreg_primer_apellido.setText("");
+
+            tf_gest_usr_agreg_segundo_apellido.setText("");
         }catch (EmptyFieldException e){
             JOptionPane.showMessageDialog(null, e.getMessage());
         }catch (Exception e){
@@ -724,7 +755,11 @@ public class Controller implements Initializable {
             }
 
             Object[] line = connection.read_DB("SELECT * FROM lines WHERE customerid='" + documentNumber + "';");
-            if (line.length != 2) {
+            if (line[0] == "Error") {
+                JOptionPane.showMessageDialog(null,"No hay lineas asociadas a ese documento");
+
+                tf_pagar_identificacion.setText("");
+                tf_pagar_numero_linea.setText("");
                 return;
             }
 
@@ -885,50 +920,112 @@ public class Controller implements Initializable {
 
     public void buscar_edit(ActionEvent event){
         try {
+            String documentType = Integer.toString(cb_edit_user_tipo_id.getSelectionModel().getSelectedIndex() + 1);
+            String documentNumber = tf_gest_usr_editar_numero.getText();
+
             if (event.getSource().equals(gest_usr_editar_btn_buscar)) {
                 cerrar_sesion_vbox.setVisible(false);
-                String documentNumber = tf_gest_usr_editar_numero.getText();
 
                 if (documentNumber.isBlank()) {
                     throw new EmptyFieldException("Debe llenar todos los campos");
                 }
 
-                Object[] user = connection.read_DB("SELECT * FROM users WHERE id='" + documentNumber + "';");
-                pane_edit_campos.setVisible(true);
-
-                if (event.getSource().equals(gest_usr_editar_btn_guardar)) {
-                    cerrar_sesion_vbox.setVisible(false);
-                    String rol = Integer.toString(cb_edit_user_rol.getSelectionModel().getSelectedIndex() + 1);
-
-                    String nombres = tf_gest_usr_cambiar_nombre.getText();
-                    String primerApellido = tf_gest_usr_editar_primer_apellido.getText();
-
-                    String segundoApellido = tf_gest_usr_editar_segundo_apellido.getText();
-                    String email = tf_gest_usr_editar_correo.getText();
-
-                    if (rol.isBlank() || nombres.isBlank() || primerApellido.isBlank() || segundoApellido.isBlank() || email.isBlank())
-                        throw new EmptyFieldException("Debe llenar todos los campos");
-
-                    String name = nombres + " " + primerApellido + " " + segundoApellido;
-                    user = connection.read_DB("UPDATE users SET rolid=" + rol + ", name='" + name + "' WHERE id='" + documentNumber + "';");
-                    name = nombres + " " + primerApellido + " " + segundoApellido;
-
-                    if (connection.modify_DB("UPDATE users SET rolid=" + rol + ", name='" + name + "' " +
-                            "WHERE id='" + documentNumber + "';")) {
-                        JOptionPane.showMessageDialog(null, "Actualizacion realizada correctamente");
-                    }
-                    else {
-                        JOptionPane.showMessageDialog(null, "¡ERROR! No se pudo realizar la actualizacion");
-                    }
-
-                    tf_gest_usr_cambiar_nombre.setText("");
+                Object[] user = connection.read_DB("SELECT name, civil_status, gender, email, roleid  FROM users WHERE id='" + documentNumber + "' AND typeid='" + documentType + "';");
+                if (user[0] == "Error") {
+                    JOptionPane.showMessageDialog(null, "Usuario no registrado");
                     tf_gest_usr_cambiar_nombre.setText("");
                     tf_gest_usr_editar_primer_apellido.setText("");
                     tf_gest_usr_editar_segundo_apellido.setText("");
                     tf_gest_usr_editar_correo.setText("");
+
+                    return;
                 }
+                pane_edit_campos.setVisible(true);
+
+                Vector<String[]> info = (Vector<String[]>) user[1];
+                String[] partsName = info.get(0)[0].split(" ");
+                switch (partsName.length) {
+                    case 1: {
+                        tf_gest_usr_cambiar_nombre.setText(partsName[0]);
+                        break;
+                    }
+
+                    case 2: {
+                        tf_gest_usr_cambiar_nombre.setText(partsName[0]);
+                        tf_gest_usr_editar_primer_apellido.setText(partsName[1]);
+                        break;
+                    }
+
+                    case 3: {
+                        tf_gest_usr_cambiar_nombre.setText(partsName[0]);
+                        tf_gest_usr_editar_primer_apellido.setText(partsName[1]);
+                        tf_gest_usr_editar_segundo_apellido.setText(partsName[2]);
+                        break;
+                    }
+
+                    default: {
+                        tf_gest_usr_cambiar_nombre.setText(partsName[0]+ " " +partsName[1]);
+                        tf_gest_usr_editar_primer_apellido.setText(partsName[2]);
+                        tf_gest_usr_editar_segundo_apellido.setText(partsName[3]);
+                        break;
+                    }
+                }
+                String rol = "";
+                switch (info.get(0)[4]) {
+                    case "1": {
+                        rol = "Administrador";
+                        break;
+                    }
+
+                    case "2": {
+                        rol = "Gerente";
+                        break;
+                    }
+
+                    case "3": {
+                        rol = "Operador";
+                        break;
+                    }
+                }
+
+                edit_user_est_civil.setPromptText(info.get(0)[1]);
+                edit_user_genero.setPromptText(info.get(0)[2]);
+                tf_gest_usr_editar_correo.setText(info.get(0)[3]);
+                cb_edit_user_rol.setPromptText(rol);
             }
-        }catch (EmptyFieldException e){
+
+            if (event.getSource().equals(gest_usr_editar_usuario_guardar)) {
+                cerrar_sesion_vbox.setVisible(false);
+                String rol = Integer.toString(cb_edit_user_rol.getSelectionModel().getSelectedIndex() + 1);
+
+                String nombres = tf_gest_usr_cambiar_nombre.getText();
+                String primerApellido = tf_gest_usr_editar_primer_apellido.getText();
+
+                String segundoApellido = tf_gest_usr_editar_segundo_apellido.getText();
+                String estadoCivil = edit_user_est_civil.getSelectionModel().getSelectedItem();
+                String genero = edit_user_genero.getSelectionModel().getSelectedItem();
+
+                String email = tf_gest_usr_editar_correo.getText();
+
+                if (rol.isBlank() || nombres.isBlank()  || email.isBlank())
+                    throw new EmptyFieldException("Debe llenar todos los campos");
+
+                String name = nombres + " " + primerApellido + " " + segundoApellido;
+                if (connection.modify_DB("UPDATE users SET roleid=" + rol + ", name='" + name + "' " + ", email='"+ email + "' " +
+                        ", civil_status='" + estadoCivil +"' " + ", gender='" + genero +"' " +"WHERE id='" + documentNumber + "';")) {
+                    JOptionPane.showMessageDialog(null, "Actualizacion realizada correctamente");
+                }
+                else {
+                    JOptionPane.showMessageDialog(null, "¡ERROR! No se pudo realizar la actualizacion");
+                }
+
+                tf_gest_usr_cambiar_nombre.setText("");
+                tf_gest_usr_cambiar_nombre.setText("");
+                tf_gest_usr_editar_primer_apellido.setText("");
+                tf_gest_usr_editar_segundo_apellido.setText("");
+                tf_gest_usr_editar_correo.setText("");
+            }
+        } catch (EmptyFieldException e){
             JOptionPane.showMessageDialog(null, e.getMessage());
         }catch (Exception e){
             JOptionPane.showMessageDialog(null, "Debe llenar todos los campos");
@@ -937,33 +1034,91 @@ public class Controller implements Initializable {
 
     public void buscar_estado(ActionEvent event){
         try {
+            String documentNumber = tf_gest_usr_editar_estado_numero.getText();
+            String documentType = Integer.toString(set_est_tipo_id.getSelectionModel().getSelectedIndex() + 1);
             if (event.getSource().equals(gest_usr_estado_btn_buscar)) {
                 cerrar_sesion_vbox.setVisible(false);
-                String documentNumber = tf_gest_usr_editar_estado_numero.getText();
 
-                if(documentNumber.isBlank()){
+                if (documentNumber.isBlank()) {
                     throw new EmptyFieldException("Debe llenar todos los campos");
                 }
 
-                Object[] user = connection.read_DB("SELECT * FROM users WHERE id='" + documentNumber + "';");
+                Object[] user = connection.read_DB("SELECT name, email, roleid FROM users WHERE id='" + documentNumber + "' AND typeid='" + documentType + "';");
+                if (user[0] == "Error") {
+                    JOptionPane.showMessageDialog(null, "Usuario no registrado");
+                    tf_gest_usr_editar_estado_numero.setText("");
 
+                    return;
+                }
+                Vector<String[]> info = (Vector<String[]>) user[1];
                 pane_estado_campos.setVisible(true);
                 pane_estado_est.setVisible(true);
 
-                if (event.getSource().equals("nameButton")) {
-                    cerrar_sesion_vbox.setVisible(false);
-                    String rol = Integer.toString(gest_usr_editar_rol_ComboBox1.getSelectionModel().getSelectedIndex() + 1);
-                    if (connection.modify_DB("UPDATE user SET rolid='" + rol + "' WHERE id='" + documentNumber + "';")) {
-                        JOptionPane.showMessageDialog(null, "Actualizacion realizada correctamente");
+                String[] partsName = info.get(0)[0].split(" ");
+                switch (partsName.length) {
+                    case 1: {
+                        gest_usr_cambiar_estado_nombres.setText(partsName[0]);
+                        break;
                     }
-                    else {
-                        JOptionPane.showMessageDialog(null, "¡ERROR! No se pudo realizar la actualizacion");
+
+                    case 2: {
+                        gest_usr_cambiar_estado_nombres.setText(partsName[0]);
+                        gest_usr_editar_estado_primer_apellido.setText(partsName[1]);
+                        break;
+                    }
+
+                    case 3: {
+                        gest_usr_cambiar_estado_nombres.setText(partsName[0]);
+                        gest_usr_editar_estado_primer_apellido.setText(partsName[1]);
+                        gest_usr_editar_estado_segundo_apellido.setText(partsName[2]);
+                        break;
+                    }
+
+                    default: {
+                        gest_usr_cambiar_estado_nombres.setText(partsName[0]+ " " +partsName[1]);
+                        gest_usr_editar_estado_primer_apellido.setText(partsName[2]);
+                        gest_usr_editar_estado_segundo_apellido.setText(partsName[3]);
+                        break;
                     }
                 }
+
+                String rol = "";
+                switch (info.get(0)[2]) {
+                    case "1": {
+                        rol = "Administrador";
+                        break;
+                    }
+
+                    case "2": {
+                        rol = "Gerente";
+                        break;
+                    }
+
+                    case "3": {
+                        rol = "Operador";
+                        break;
+                    }
+                }
+                gest_usr_editar_rol_ComboBox1.setPromptText(rol);
+                gest_usr_editar_estado_correo.setText(info.get(0)[1]);
             }
-        }catch (EmptyFieldException e){
+
+            if (event.getSource().equals(gest_usr_editar_estado_btn_guardar)) {
+                cerrar_sesion_vbox.setVisible(false);
+
+                String estado = gest_usr_cambiar_estado_cb2.getSelectionModel().getSelectedItem();
+                String state = "false";
+                if (estado  == "Activo") state="true";
+
+                if (connection.modify_DB("UPDATE users SET status='" + state + "' WHERE id='" + documentNumber + "';")) {
+                    JOptionPane.showMessageDialog(null, "Actualizacion realizada correctamente");
+                } else {
+                    JOptionPane.showMessageDialog(null, "¡ERROR! No se pudo realizar la actualizacion");
+                }
+            }
+        } catch (EmptyFieldException e){
             JOptionPane.showMessageDialog(null, e.getMessage());
-        }catch (Exception e){
+        } catch (Exception e){
             JOptionPane.showMessageDialog(null, "Debe llenar todos los campos");
         }
     }
