@@ -56,7 +56,7 @@ public class Controller implements Initializable {
     ObservableList<String> estado_civil = FXCollections.observableArrayList( "Casado", "Soltero", "Viudo", "Divorciado");
 
     ObservableList<String> rol = FXCollections.observableArrayList( "Administrador", "Gerente", "Operador");
-    ObservableList<String> estado = FXCollections.observableArrayList( "true", "flase");
+    ObservableList<String> estado = FXCollections.observableArrayList( "true", "false");
 
     ObservableList<String> plan_asociado = FXCollections.observableArrayList( "Plan Conéctate", "Plan Conéctate Plus", "Plan Conectados Somos Más", "Plan Redes Sin Límites", "Plan Uno Es Más");
     //Login interface
@@ -299,9 +299,9 @@ public class Controller implements Initializable {
     @FXML
     private JFXTextField tf_gest_usr_editar_correo;
     @FXML
-    private JFXButton gest_usr_editar_btn_guardar;
+    private JFXButton gest_usr_editar_usuario_guardar;
     @FXML
-    private JFXButton gest_usr_editar_estado_buscar;
+    private JFXButton gest_usr_editar_estado_btn_guardar;
     //cambiar estado
     @FXML
     private JFXComboBox <String> set_est;
@@ -918,7 +918,7 @@ public class Controller implements Initializable {
                 }
                 pane_edit_campos.setVisible(true);
 
-                if (event.getSource().equals(gest_usr_editar_btn_guardar)) {
+                if (event.getSource().equals(gest_usr_editar_usuario_guardar)) {
                     cerrar_sesion_vbox.setVisible(false);
                     String rol = Integer.toString(cb_edit_user_rol.getSelectionModel().getSelectedIndex() + 1);
 
@@ -968,11 +968,17 @@ public class Controller implements Initializable {
                 }
 
                 Object[] user = connection.read_DB("SELECT * FROM users WHERE id='" + documentNumber + "';");
+                if (user[0] == "Error") {
+                    JOptionPane.showMessageDialog(null, "Usuario no registrado");
+                    tf_gest_usr_editar_estado_numero.setText("");
+
+                    return;
+                }
 
                 pane_estado_campos.setVisible(true);
                 pane_estado_est.setVisible(true);
 
-                if (event.getSource().equals(gest_usr_editar_estado_buscar)) {
+                if (event.getSource().equals(gest_usr_editar_estado_btn_guardar)) {
                     cerrar_sesion_vbox.setVisible(false);
                     String estado = gest_usr_cambiar_estado_cb2.getSelectionModel().getSelectedItem();
 
