@@ -985,7 +985,6 @@ public class Controller implements Initializable {
         try {
             String documentNumber = tf_gest_usr_editar_estado_numero.getText();
             String documentType = Integer.toString(set_est_tipo_id.getSelectionModel().getSelectedIndex() + 1);
-            String[] userInfo = new String[3];
             if (event.getSource().equals(gest_usr_estado_btn_buscar)) {
                 cerrar_sesion_vbox.setVisible(false);
 
@@ -993,7 +992,7 @@ public class Controller implements Initializable {
                     throw new EmptyFieldException("Debe llenar todos los campos");
                 }
 
-                Object[] user = connection.read_DB("SELECT name, correo, roleid FROM users WHERE id='" + documentNumber + "' AND typeid='" + documentType + "';");
+                Object[] user = connection.read_DB("SELECT name, email, roleid FROM users WHERE id='" + documentNumber + "' AND typeid='" + documentType + "';");
                 if (user[0] == "Error") {
                     JOptionPane.showMessageDialog(null, "Usuario no registrado");
                     tf_gest_usr_editar_estado_numero.setText("");
@@ -1001,15 +1000,10 @@ public class Controller implements Initializable {
                     return;
                 }
                 Vector<String[]> info = (Vector<String[]>) user[1];
-                userInfo =  info.get(0);
-
                 pane_estado_campos.setVisible(true);
                 pane_estado_est.setVisible(true);
-            }
 
-            if (event.getSource().equals(gest_usr_editar_estado_btn_guardar)) {
-                cerrar_sesion_vbox.setVisible(false);
-                String[] partsName = userInfo[0].split(" ");
+                String[] partsName = info.get(0)[0].split(" ");
                 switch (partsName.length) {
                     case 1: {
                         gest_usr_cambiar_estado_nombres.setText(partsName[0]);
@@ -1036,7 +1030,12 @@ public class Controller implements Initializable {
                         break;
                     }
                 }
-                
+                gest_usr_editar_estado_correo.setText(info.get(0)[1]);
+            }
+
+            if (event.getSource().equals(gest_usr_editar_estado_btn_guardar)) {
+                cerrar_sesion_vbox.setVisible(false);
+
                 String estado = gest_usr_cambiar_estado_cb2.getSelectionModel().getSelectedItem();
 
                 if (connection.modify_DB("UPDATE user SET status='" + estado + "' WHERE id='" + documentNumber + "';")) {
