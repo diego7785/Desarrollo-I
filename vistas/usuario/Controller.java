@@ -1058,17 +1058,14 @@ public class Controller implements Initializable {
                 String number = linesInfo.get(i)[0];
 
                 int index = linesInfo.get(i).length - 1;
-                String aux = linesInfo.get(i)[index];
 
                 Object[] bill = connection.read_DB("SELECT price, status FROM bill WHERE linenumber='" + number + "';");
                 if (bill[0] == "Error") {
-                    aux += "/ /";
-                    linesInfo.get(i)[index] = aux;
+                    linesInfo.get(i)[index] += "/ /";
                 }
                 else {
                     Vector<String[]> queryResult = (Vector<String[]>) bill[1];
-                    aux += "/" + queryResult.get(0)[0] + "/" + queryResult.get(0)[1];
-                    linesInfo.get(i)[index] = aux;
+                    linesInfo.get(i)[index] += "/" + queryResult.get(0)[0] + "/" + queryResult.get(0)[1];
                 }
             }
 
