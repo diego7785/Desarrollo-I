@@ -21,7 +21,6 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
-
 import javax.swing.*;
 import java.net.URL;
 import java.util.*;
@@ -1039,6 +1038,7 @@ public class Controller implements Initializable {
             Object[] customer = connection.read_DB("SELECT name, email, city FROM customer WHERE id='" + nit + "' and typeid=2;");
             if (customer[0] == "Error") {
                 JOptionPane.showMessageDialog(null, "Empesa no registrada");
+                tf_gen_rep_nit_corp.setText("");
 
                 return;
             }
@@ -1046,27 +1046,37 @@ public class Controller implements Initializable {
             Object[] lines = connection.read_DB("SELECT number, planid, status FROM lines WHERE customerid='" + nit + "';");
             if (lines[0] == "Error") {
                 JOptionPane.showMessageDialog(null, "Empesa no tiene lineas asociadas");
+                tf_gen_rep_nit_corp.setText("");
 
                 return;
             }
 
             Vector<String[]> customerInfo = (Vector<String[]>) customer[1];
             Vector<String[]> linesInfo = (Vector<String[]>) lines[1];
-            String[] billInfo = new String[linesInfo.size()];
 
             for (int i = 0; i < linesInfo.size(); i++) {
                 String number = linesInfo.get(i)[0];
 
+                int index = linesInfo.get(i).length - 1;
+                String aux = linesInfo.get(i)[index];
+
                 Object[] bill = connection.read_DB("SELECT price, status FROM bill WHERE linenumber='" + number + "';");
                 if (bill[0] == "Error") {
-                    billInfo[i] = " | ";
+                    aux += "/ /";
+                    linesInfo.get(i)[index] = aux;
                 }
                 else {
                     Vector<String[]> queryResult = (Vector<String[]>) bill[1];
-                    billInfo[i] = queryResult.get(0)[0] + "|" + queryResult.get(0)[1];
+                    aux += "/" + queryResult.get(0)[0] + "/" + queryResult.get(0)[1];
+                    linesInfo.get(i)[index] = aux;
                 }
             }
 
+            reportEmpresa report = new reportEmpresa();
+            report.writeReport(nit, customerInfo.get(0), linesInfo);
+
+            JOptionPane.showMessageDialog(null, "Reporte generado");
+            tf_gen_rep_nit_corp.setText("");
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
