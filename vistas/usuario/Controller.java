@@ -1,10 +1,7 @@
 import DB_Connection.DBConnection;
 import Exceptions.EmptyFieldException;
 import Exceptions.NaturalCustomerException;
-import com.jfoenix.controls.JFXButton;
-import com.jfoenix.controls.JFXComboBox;
-import com.jfoenix.controls.JFXPasswordField;
-import com.jfoenix.controls.JFXTextField;
+import com.jfoenix.controls.*;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -15,6 +12,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.scene.control.RadioButton;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
@@ -323,7 +321,24 @@ public class Controller implements Initializable {
     private Label pagar_id_label;
     @FXML
     private Label pagar_id_label2;
-
+    @FXML
+    private RadioButton listar_email;
+    @FXML
+    private RadioButton listar_estado_civil;
+    @FXML
+    private RadioButton listar_genero;
+    @FXML
+    private RadioButton listar_fecha_nacimiento;
+    @FXML
+    private RadioButton listar_segundo_apellido;
+    @FXML
+    private RadioButton listar_primer_apellido;
+    @FXML
+    private RadioButton listar_nombre;
+    @FXML
+    private RadioButton listar_document_number;
+    @FXML
+    private RadioButton listar_document_type;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -965,6 +980,29 @@ public class Controller implements Initializable {
             pane_ventas_nuevo.setVisible(true);
             cerrar_sesion_vbox.setVisible(false);
         }
+    }
+
+    public void handleGen_listar_usuarios(ActionEvent actionEvent) {
+        String query = "SELECT ";
+        if (listar_document_number.isSelected()) query += ", id";
+        if (listar_document_type.isSelected()) query += ", typeid";
+        if (listar_email.isSelected()) query += ", email";
+        if (listar_estado_civil.isSelected()) query += ", civil_status";
+        if (listar_genero.isSelected()) query += ", gender";
+        if (listar_fecha_nacimiento.isSelected()) query += ", birthday";
+        if (listar_nombre.isSelected() || listar_primer_apellido.isSelected() || listar_segundo_apellido.isSelected()) query += ", name";
+
+        Object[] users = connection.read_DB(query + " roleid, status FROM users;");
+        if (users[0] == "Error") {
+            JOptionPane.showMessageDialog(null, "Ocurrio un error al leer los usuarios");
+            return;
+        }
+
+        Vector<String[]> usersInfo = (Vector<String[]>) users[1];
+
+        listUsers list = new listUsers();
+        list.writeUsers(usersInfo);
+        JOptionPane.showMessageDialog(null, "Lista de usuarios cread con exito");
     }
 
     public void handleGen_reporte_cliente(ActionEvent actionEvent){
